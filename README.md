@@ -16,7 +16,7 @@ NPM, already bundle with Node.js
 ```
 ## Branches
 
-* [Deliverable #1](https://github.com/leonplondon/tdea_NodeJS/tree/Primera-entrega)
+* [Deliverable #1](https://github.com/edcalderon/tdea_NodeJS/tree/Primera-entrega)
 ### Installing
 
 install dependencies like:
@@ -40,7 +40,7 @@ camelCase for methods and lower_lower for atributes.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://gist.github.com) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
