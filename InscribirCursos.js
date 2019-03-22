@@ -1,4 +1,4 @@
-const exportedcourses = require ('./primera');
+const exportedcourses = require ('./Cursos');
 const fs = require('fs');
 
 const options = {
@@ -26,11 +26,8 @@ let createArchivo = () =>{
            " se a matriculado en el curso  "+ infoCurso.nombre + " que tiene una duracion de "+infoCurso.duracion+
            " horas y un valor de "+infoCurso.valor + " pesos";
   fs.appendFile('Incripcion.txt',texto,(err)=>{
-    if(err){
-        console.log(err);
-    }else{
+    if (err) throw (err);
     console.log('se ha creado el archivo');
-  }
   });
 }
 if(!infoCurso && !argv.i){
