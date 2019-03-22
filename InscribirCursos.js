@@ -26,8 +26,11 @@ let createArchivo = () =>{
            " se a matriculado en el curso  "+ infoCurso.nombre + " que tiene una duracion de "+infoCurso.duracion+
            " horas y un valor de "+infoCurso.valor + " pesos";
   fs.appendFile('Incripcion.txt',texto,(err)=>{
-    if (err) throw (err);
+    if(err){
+        console.log(err);
+    }else{
     console.log('se ha creado el archivo');
+  }
   });
 }
 if(!infoCurso && !argv.i){
