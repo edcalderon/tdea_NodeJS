@@ -1,6 +1,6 @@
 # tdea_NodeJS
 
-This is the repository for the course NodeJs whit an agile proyect.
+This is the repository for the course NodeJs with an agile proyect.
 
 ## Getting Started
 
