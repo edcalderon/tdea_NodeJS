@@ -23,7 +23,6 @@ let showCourses = (callback) => {
 };
 
 let show = () =>{
-console.log('Hello world');
 showCourses(function(result){
   console.log(result)
 });

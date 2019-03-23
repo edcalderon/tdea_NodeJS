@@ -1,5 +1,6 @@
 const exportedcourses = require ('./Cursos');
-const fs = require('fs');
+const express = require('express');
+const app = express();
 
 const options = {
    id:{
@@ -15,28 +16,28 @@ const options = {
      alias: 'c'
    }
 }
+
 const argv = require('yargs')
             .command('inscribir','inscribirse ',options)
             .argv
 
 var infoCurso = exportedcourses.cursos.find(curso => curso.id  == argv.i );
 
-let createArchivo = () =>{
-  texto = "El estudiante "+argv.n+" con celuda  "+argv.c+ "\n" +
-           " se a matriculado en el curso  "+ infoCurso.nombre + " que tiene una duracion de "+infoCurso.duracion+
-           " horas y un valor de "+infoCurso.valor + " pesos";
-  fs.appendFile('Incripcion.txt',texto,(err)=>{
-    if (err) throw (err);
-    console.log('se ha creado el archivo');
-  });
+if (!infoCurso && !argv.i){
+  console.log(exportedcourses.show())
 }
-if(!infoCurso && !argv.i){
-    exportedcourses.show();
+
+if (!infoCurso && argv.i){
+  app.get('/', function (req, res) {
+    res.send('Mensaje de Alerta: no se encontro el id')
+  })
+  app.listen(3000, ()=>console.log(exportedcourses.show()));
 }
-if (!infoCurso && argv.i ){
-  console.log("Mensaje de Alerta no se encontro el id");
-  exportedcourses.show();
-}
+
 if (infoCurso){
-  createArchivo();
+  texto = "El estudiante "+argv.n+" con celuda  "+argv.c+ "\n" +" se a matriculado en el curso  "+ infoCurso.nombre + " que tiene una duracion de "+infoCurso.duracion+" horas y un valor de "+infoCurso.valor + " pesos";
+  app.get('/', function (req, res) {
+    res.send(texto)
+  })
+  app.listen(3000)
 }
