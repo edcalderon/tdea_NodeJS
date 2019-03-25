@@ -1,0 +1,50 @@
+{{>header}}
+	<p>
+		Los cursos disponibles son: 
+	</p>
+	<form action="/cursos" method="get">
+		<table class="egt">
+			<tr>
+				<td>Nombre</td>
+				<td>Descripcion</td>
+				<td>valor</td>
+			</tr>
+			<tr>
+				<td><a id="1" href="/masInfoCurso">{{cursoDispobible1}}</a></td>
+				<td>{{descripcion1}}</td>
+				<td>{{valor1}}</td>
+			</tr>
+		   </table>
+		</form>
+		<form action = "/masInfoCurso" method="get">
+			<table class="egt">
+				<tr>
+					<td><a href="/masInfoCurso">{{cursoDispobible2}}</a></td>
+					<td>{{descripcion2}}</td>
+					<td>{{valor2}}</td>
+					<td id="demo"><button onclick="myFunction()">Click me</button></td>
+					<script type="text/javascript" src="listado.json"> 
+						function myFunction() {
+							var datos = JSON.parse(listado); 
+							let curso2 = datos.find(buscar => buscar.curso == 'Ciencias S');
+  							document.getElementById("demo").innerHTML = curso2.descripcion+curso2.modalidad+curso2.intensidad;
+						}
+					</script>
+
+				</tr>
+			</table>
+
+			<form action="/masInfoCurso" method="POST">
+			  Click aca para mas informacion 
+			  <input type="submit" value="Click">
+			</form>	
+
+{{>footer}}
+{{!-- 				<td id="demo">dklsdjflskdf<button onclick="myFunction()">Click me</button>
+					{{!-- <tr><p id="demo"></p></tr> --}}
+					<script>
+						function myFunction() {
+  							document.getElementById("demo").innerHTML = "Hello World";
+						}
+					</script>
+				</td> --}}
