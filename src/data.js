@@ -19,7 +19,7 @@ let listadecursos = [];
 listadecursos.push(c1);
 listadecursos.push(c2);
 
-const guardar = () => {
+const guardarCursos = () => {
 
 	let datos = JSON.stringify(listadecursos);
 	fs.writeFile('dbcursos.json', datos, (err) => {
@@ -29,11 +29,53 @@ const guardar = () => {
 
 };
 
+class Usuario {
+  constructor(email, username, password ){
+    this.email= email;
+    this.username = username;
+    this.password = password;
+  }
+};
+
+const u1 = new  Usuario('edwardca12@gmail.com','ed','123');
+const u2 = new  Usuario('sabrosongal@hot.sexy','valentina','abc');
+
+let listadeusuarios = [];
+listadeusuarios.push(u1);
+listadeusuarios.push(u2);
+
+const guardarUsuarios = () => {
+
+	let datos = JSON.stringify(listadeusuarios);
+	fs.writeFile('dbusuarios.json', datos, (err) => {
+		if (err) throw (err);
+		console.log('Archivo creado con éxito');
+	})
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 module.exports = {
   Curso,
   listadecursos,
-  guardar
+  guardarCursos,
+  Usuario,
+  listadeusuarios,
+  guardarUsuarios
 };

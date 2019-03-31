@@ -22,14 +22,40 @@ app.set('views',directorio_views);
 app.set('view engine', 'hbs');//Le configuramos el motor de templates o de vistas
 
 
-//Guarda datos
-data.guardar();
+//Guarda data de cursos
+data.guardarCursos();
+
+//Guarda data de usuarios
+data.guardarUsuarios();
 
 //rutas
 app.get('/', (req, res) =>{
 	res.render('index', {
-		estudiante: 'Edward',
-		titulo: 'Inicio'
+		inicio: "req.body.seccion",
+    seccion: req.body.seccion
+	});
+});
+
+app.get('/indexUsuarios', (req, res) =>{
+	res.render('indexUsuario', {
+    seccion: req.body.seccion
+	});
+});
+
+app.get('/login', (req, res) =>{
+	res.render('login', {
+		inicio: "req.body.seccion"
+	});
+});
+
+app.post('/login', (req, res) =>{
+	res.render('login', {
+		inicio: "req.body.seccion",
+		registro: req.body.registro,
+		login: req.body.login,
+		email: req.body.email,
+		username: req.body.username,
+		password: req.body.password
 	});
 });
 
