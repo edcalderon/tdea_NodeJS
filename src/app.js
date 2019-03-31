@@ -2,71 +2,78 @@ const express = require('express')
 const app = express();
 const path = require('path');
 const hbs = require('hbs');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
+const data = require('./data.js');
 require('./helpers');
 
-//Acceso a los directorios
-const directoriopublico = path.join(__dirname, '../public');
-const directoriopartials = path.join(__dirname, '../partials');
 
-app.use(express.static(directoriopublico));
-hbs.registerPartials(directoriopartials);
-
-//Middleware
-app.use(express.static(directoriopublico));
+// app.use(express.static(__dirname + '/public'))
+//Lo que se quiere con este bloque de código es ir a la carpeta donde se tienen todos lo html o lo que se quiere mostrar
+//_____________________________________________________________________________________________________
+//Se debe utilizar path (que es para rutas), debido a que hay que salirse de /src para ir /public
+const directorio_publico = path.join(__dirname, '../public');
+const directorio_partials = path.join(__dirname, '../templates/partials');
+const directorio_views = path.join(__dirname, '../templates/views');
+const directorio_templates = path.join(__dirname, '../templates');   //Trae la carpeta donde esta el footer y el header
+app.use(express.static(directorio_publico));
+hbs.registerPartials(directorio_partials);
 app.use(bodyParser.urlencoded({extended: false}));
+app.set('views',directorio_views);
+app.set('view engine', 'hbs');//Le configuramos el motor de templates o de vistas
 
 
-//Settings
-app.set('view engine', 'hbs') 
+//Guarda datos
+data.guardar();
 
 //rutas
-app.get('/', (req, res)=>{
-	res.render('index')
-})
-
-app.get('/cursos', (req, res,)=>{
-	  	res.render('cursos', {
-  		cursoDispobible1: 'Matemáticas',
-  		descripcion1: 'Ciclo de fundamentación',
-  		valor1: '$1000',
-
-  		cursoDispobible2: 'Ciencias S',
-  		descripcion2: 'Ciclo de fundamentación',
-  		valor2: '$2000',
-  	});
-
-	// console.log(req.query.hasOwnProperty("butt1"));
-	// if(req.query.hasOwnProperty("butt1")){
-	// 	return res.redirect(path.join(__dirname, '../views', 'masInfoCurso.hbs'));
-	// }else{
-	// 	return res.redirect(path.join(__dirname, '../views', 'masInfoCurso.hbs'));
-	// }
+app.get('/', (req, res) =>{
+	res.render('index', {
+		estudiante: 'Edward',
+		titulo: 'Inicio'
+	});
 });
 
-app.get('/cursos',(req, res) =>{
-	console.log(req.query.hasOwnProperty("butt1"));
-	if(req.query.hasOwnProperty("butt1")){
-		return res.redirect(path.join(__dirname, '../views', 'masInfoCurso.hbs'));
-	}else{
-	return res.redirect(path.join(__dirname, '../views', 'masInfoCurso.hbs'));
-	}
+app.post('/calculos', (req,res)=>{
+	res.render('calculos',{
+		estudiante: req.body.nombre,
+		nota1: parseInt(req.body.nota1),
+    nota2: parseInt(req.body.nota2),
+    nota3: parseInt(req.body.nota3)
+
+	});
 });
 
-app.get('/masInfoCurso' ,(req, res, next) =>{
-	res.render('masInfoCurso',{
-		descripcion1: 'Ciclo fundamental',
-		modalidad1: 'Virtual',
-		horas1: '20 horas semanales',
-		
-		descripcion2: 'Ciclo fundamental',
-		modalidad2: 'Presecial',
-		horas2: '10 horas semanales',
-	})
-})
+app.get('/crearcursos', (req,res)=>{
+	res.render('crearcursos',{
+		titulo: 'Creacion de cursos',
+		persona: "pepe"
+	});
+});
+
+app.post('/crearcursos', (req,res)=>{
+	res.render('crearcursos',{
+		titulo: 'Creacion de cursos',
+		persona: "aqui va seccion de administrador",
+		nombre: req.body.nombre,
+		descripcion: req.body.descripcion,
+		id: req.body.id,
+		valor: req.body.valor,
+		intensidadhoraria: req.body.intensidadhoraria,
+		modalidad: req.body.modalidad,
+		estado: req.body.estado,
+		boton:req.body.boton
+	});
+});
 
 
-//Servidor montado
-app.listen(3000,()=>{
-	console.log('Servidor funcionando en puerto 3000')
-})
+app.get('*',(req, res)=>{
+	res.render('error', {
+		estudiante: 'error'
+	});
+});
+
+
+var puerto = 3001
+app.listen(puerto,() =>{
+	console.log('Escuchando en el puerto ' + puerto)
+});

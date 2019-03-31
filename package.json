@@ -1,25 +1,21 @@
 {
-  "name": "tdea_nodejs",
+  "name": "public",
   "version": "1.0.1",
-  "description": "Primer sprint",
-  "main": "InscribirCursos.js",
+  "description": "Ejemplo",
+  "main": "src/app",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/edcalderon/tdea_NodeJS.git"
-  },
-  "author": "edcalderon edcalderon@unal.edu.co",
+  "author": "Valentina",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/edcalderon/tdea_NodeJS/issues"
-  },
-  "homepage": "https://github.com/edcalderon/tdea_NodeJS#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bootstrap": "^4.3.1",
     "express": "^4.16.4",
     "hbs": "^4.0.3",
-    "yargs": "^13.2.2"
+    "jquery": "^3.3.1",
+    "nodemon": "^1.18.10",
+    "peer": "^0.2.10",
+    "popper": "^1.0.1"
   }
 }
