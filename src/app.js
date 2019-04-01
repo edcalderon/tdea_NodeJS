@@ -44,8 +44,9 @@ app.get('/indexaspirante', (req, res) =>{
 app.post('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
     session: req.body.session,
+		inscribir:req.body.inscribir,
     id:req.body.id,
-	Curso: req.body.Curso
+		Curso: req.body.Curso
 	});
 });
 
@@ -134,7 +135,7 @@ app.get('*',(req, res)=>{
 });
 
 
-var puerto = 3002
+var puerto = 3003
 app.listen(puerto,() =>{
 	console.log('Escuchando en el puerto ' + puerto)
 });

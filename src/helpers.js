@@ -164,48 +164,49 @@ hbs.registerHelper('listarofertaCursos', ()=>{
 //_________Inscribir cursos como aspirante_____________________________
 
 hbs.registerHelper('inscribirCurso', (id, Curso) => {
-
-	const listar = () =>{
-		try{
-			listaInscritos = require('../inscritos.json');
-		} catch(error){
-			listaInscritos = [];
-		}
-	}
-
-	const guardar = () => {
-			let datos = JSON.stringify(listaInscritos);
-			fs.writeFile('inscritos.json', datos, (err) => {
-				if (err) throw (err);
-				console.log('se inscribio satisfactoriamente')
-			})
-	}
-
-	const inscribir = () =>{
-		listar()
-		for(var i=0; i<listaInscritos.length; i++){
-			if(datoAspirante.id == listaInscritos[i].id){
-				listaInscritos.splice(i,1)
-			break;
+		const listar = () =>{
+			try{
+				listaInscritos = require('../inscritos.json');
+			} catch(error){
+				listaInscritos = [];
 			}
 		}
-		
-		var nuevoInscrito = {email: datoAspirante.email, username: datoAspirante.username, password: datoAspirante.password, phone: datoAspirante.phone, id: datoAspirante.id, roll: datoAspirante.roll, curso: datoAspirante.curso};
-		listaInscritos.push(nuevoInscrito)
-		guardar();
-	}
+		const guardar = () => {
+				let datos = JSON.stringify(listaInscritos);
+				fs.writeFile('inscritos.json', datos, (err) => {
+					if (err) throw (err);
+					console.log('se inscribio satisfactoriamente')
+				})
+		}
 
-	var datoAspirante = listaPersonas.find(i => i.id == id);
-	var cursosRepetidos = datoAspirante.curso.find(a => a == Curso)
+		const inscribir = () =>{
+			listar()
+			for(var i=0; i<listaInscritos.length; i++){
+				if(datoAspirante.id == listaInscritos[i].id){
+					listaInscritos.splice(i,1)
+				break;
+				}
+			}
 
-	console.log(cursosRepetidos)
-	if(!cursosRepetidos){
-		datoAspirante.curso.push(Curso)
-		inscribir();
-		let texto = "<p>La inscripción se realizo satisfactoriamente</p>";
-		return texto
-	}else{
-		let texto = "<p>No te puedes inscribir al curso</p>";
-		return texto
-	}
-})
+			var nuevoInscrito = {email: datoAspirante.email, username: datoAspirante.username, password: datoAspirante.password, phone: datoAspirante.phone, id: datoAspirante.id, roll: datoAspirante.roll, curso: datoAspirante.curso};
+			listaInscritos.push(nuevoInscrito)
+			guardar();
+		}
+
+		var datoAspirante = listaPersonas.find(i => i.id == id);
+		if(datoAspirante){
+			var cursosRepetidos = datoAspirante.curso.find(a => a == Curso)
+		}
+		if(!cursosRepetidos && datoAspirante){
+			datoAspirante.curso.push(Curso)
+			inscribir();
+			let texto = "<p>La inscripción se realizo satisfactoriamente. </p>";
+			return texto;
+		}else if(!datoAspirante){
+			let texto = "<p>No existes, por favor EXITe .</p>";
+			return texto;
+		}else{
+			let texto = "<p>No te puedes inscribir al curso por ya estas en él, baboso.</p>";
+			return texto;
+		}
+});
