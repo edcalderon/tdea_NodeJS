@@ -1,7 +1,8 @@
 const hbs = require('hbs');
 const fs = require('fs');
 const data = require('./data.js');
-
+var jsdom = require('jsdom');
+$ = require('jquery')(new jsdom.JSDOM().window);
 const listaCursos = data.listadecursos;
 
 const listaUsuarios = data.listadeusuarios;
@@ -214,6 +215,7 @@ hbs.registerHelper('inscribirCurso', (id, Curso) => {
 		}
 });
 
+<<<<<<< HEAD
 
 
 hbs.registerHelper('listarCursosDisponibles', ()=>{
@@ -244,3 +246,38 @@ let count = 1;
 	return texto;
 	console.log(texto);
 });
+=======
+//_______________________Quinta historia de usuario: aspirante eliminar curso________________________________________________
+
+hbs.registerHelper('listarcursosInscritos', (id)=>{
+
+	const listar = () =>{
+			try{
+				listaInscritos = require('../inscritos.json');
+			} catch(error){
+				listaInscritos = [];
+			}
+	}
+
+	listar();
+	var datoAspirante = listaPersonas.find(i => i.id == id);
+	console.log(datoAspirante)
+	texto ="";
+
+	if(datoAspirante){
+		for(var i=0; i<datoAspirante.length; i++){
+			texto = texto +`<option value=${datoAspirante.curso[i]}>${datoAspirante.curso[i]}</option>`
+		}
+	}else
+
+	return texto;
+});
+
+hbs.registerHelper('eliminarcursoInscrito', (id,Curso)=>{
+
+	$("#curso-seleccionado").change(function(){
+  		var valor = $(this).val(); 
+  		console.log(valor);
+	});
+})
+>>>>>>> abe5b81af89ac8f68c6f02da1a463470a892e212
