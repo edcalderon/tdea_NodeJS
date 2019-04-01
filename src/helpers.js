@@ -76,23 +76,34 @@ hbs.registerHelper( 'registrarUsuario', (email, username, password, phone, id, r
 
 hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
     console.log(username,password);
-
-		let check= listaUsuarios.find(usern => usern.username == username && usern.password== password )
+		let check = listaUsuarios.find(usern => usern.username == username && usern.password== password );
 		if(!check){
-
 			let texto = "<p> usuario o contraseña incorrectas </p>\
 									<form>\
 				  					<button class='btn btn-danger' formaction='/login'>Continuar </button>\
 									</form>";
 			return texto;
 				console.log('no existe usuario con ese email');
-		}else{
-			let texto = "<p> usuario y contraseña correctas </p>\
-										<form method='post' action='/indexaspirante'>\
-												 <input type='hidden' name='session' value='session'>\
-							  				<button type='submit'  class='btn btn-success'>Continuar </button>\
-									  </form>";
-			return  texto;
 		}
+
+		if(check && check.roll == 'coordinador'){
+
+							let texto = "<p> usuario y contraseña correctas </p>\
+														<form method='post' action='/indexcoordinador'>\
+																 <input type='hidden' name='session' value='session'>\
+											  				<button type='submit'  class='btn btn-success'>Continuar </button>\
+													  </form>";
+							return texto;
+			}
+			else{
+
+								let texto = "<p> usuario y contraseña correctas </p>\
+															<form method='post' action='/indexaspirante'>\
+																	 <input type='hidden' name='session' value='session'>\
+																	<button type='submit'  class='btn btn-success'>Continuar </button>\
+															</form>";
+								return texto;
+				}
+
 
 });
