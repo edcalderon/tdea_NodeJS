@@ -3,7 +3,7 @@ const app = express();
 const path = require('path');
 const hbs = require('hbs');
 const bodyParser = require('body-parser')
-var session = require('express-session')s
+var session = require('express-session')
 const data = require('./data.js');
 require('./helpers');
 
@@ -36,6 +36,26 @@ app.get('/', (req, res) =>{
 	});
 });
 
+app.get('/login', (req, res) =>{
+	res.render('login', {
+		inicio: "req.body.seccion"
+	});
+});
+
+app.post('/login', (req, res) =>{
+	res.render('login', {
+		inicio: "req.body.seccion",
+		registro: req.body.registro,
+		login: req.body.login,
+		email: req.body.email,
+		username: req.body.username,
+		password: req.body.password,
+		phone: req.body.phone,
+		id: req.body.id,
+		roll: req.body.roll
+	});
+});
+
 app.get('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
     session: req
@@ -54,11 +74,6 @@ app.get('/eliminarcursos', (req, res) =>{
 	res.render('eliminarcursos');
 });
 
-app.get('/', (req, res) =>{
-	res.render('index', {
-
-	});
-});
 
 app.post('/indexcoordinador', (req, res) =>{
 	res.render('indexcoordinador', {
@@ -80,25 +95,7 @@ app.get('/listadocursos', (req, res) =>{
 	});
 });
 
-app.get('/login', (req, res) =>{
-	res.render('login', {
-		inicio: "req.body.seccion"
-	});
-});
 
-app.post('/login', (req, res) =>{
-	res.render('login', {
-		inicio: "req.body.seccion",
-		registro: req.body.registro,
-		login: req.body.login,
-		email: req.body.email,
-		username: req.body.username,
-		password: req.body.password,
-		phone: req.body.phone,
-		id: req.body.id,
-		roll: req.body.roll
-	});
-});
 
 app.post('/calculos', (req,res)=>{
 	res.render('calculos',{

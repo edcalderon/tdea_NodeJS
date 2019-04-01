@@ -215,7 +215,7 @@ hbs.registerHelper('inscribirCurso', (id, Curso) => {
 		}
 });
 
-<<<<<<< HEAD
+
 
 
 hbs.registerHelper('listarCursosDisponibles', ()=>{
@@ -246,7 +246,7 @@ let count = 1;
 	return texto;
 	console.log(texto);
 });
-=======
+
 //_______________________Quinta historia de usuario: aspirante eliminar curso________________________________________________
 
 hbs.registerHelper('listarcursosInscritos', (id)=>{
@@ -276,8 +276,7 @@ hbs.registerHelper('listarcursosInscritos', (id)=>{
 hbs.registerHelper('eliminarcursoInscrito', (id,Curso)=>{
 
 	$("#curso-seleccionado").change(function(){
-  		var valor = $(this).val(); 
+  		var valor = $(this).val();
   		console.log(valor);
 	});
 })
->>>>>>> abe5b81af89ac8f68c6f02da1a463470a892e212
