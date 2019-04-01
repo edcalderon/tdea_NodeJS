@@ -9,7 +9,6 @@ const listaUsuarios = data.listadeusuarios;
 hbs.registerHelper('listarCursos', ()=>{
 
 
-
 	let texto = "<table class='table table-hover'>\
 				<thead>\
 				<th> Nombre </th>\
@@ -22,7 +21,7 @@ hbs.registerHelper('listarCursos', ()=>{
 				</thead>\
 				<tbody>";
 
-	listaCursos.forEach( curso => {
+	listaCursos.forEach ( curso => {
 		texto = texto +
 				'<tr>'+
 					'<td>'+ curso.nombre + '</td>' +
@@ -31,24 +30,23 @@ hbs.registerHelper('listarCursos', ()=>{
 					'<td>'+ curso.valor +'</td>' +
 					'<td>'+ curso.intensidadhoraria +'</td>' +
 					'<td>'+ curso.modalidad +'</td>' +
-					'<td>'+ curso.estado + '</td>'
+					'<td>'+ curso.estado + '</td>' +
 				'</tr>'
 				'</tbody>'
 				'</table>';
-	})
-	return texto
+	});
+	return texto;
 });
 
 
-hbs.registerHelper( 'registrarCurso', (nombre, descripcion, id , valor, intensidadhoraria, modalidad, estado) => {
+hbs.registerHelper( 'registrarCurso', (nombre, descripcion, id , valor, intensidadhoraria, modalidad, estado, inscritos) => {
 
 
-		let cur = new data.Curso(nombre, descripcion, id , valor, intensidadhoraria, modalidad, estado)
+		let cur = new data.Curso(nombre, descripcion, id , valor, intensidadhoraria, modalidad, estado, inscritos)
 		let duplicado = listaCursos.find(nom => nom.nombre == nombre)
 		if(!duplicado){
 			listaCursos.push(cur);
 			data.guardarCursos();
-
 		}else{
 			console.log('Ya existe un curso con ese nombre');
 		}
@@ -57,20 +55,21 @@ hbs.registerHelper( 'registrarCurso', (nombre, descripcion, id , valor, intensid
 });
 
 
-hbs.registerHelper( 'registrarUsuario', (email, username, password ) => {
+hbs.registerHelper( 'registrarUsuario', (email, username, password, phone, id, roll) => {
 
 
-		let usr = new data.Usuario(email, username ,password)
-		let duplicado = listaUsuarios.find(ema => ema.email == email)
+		let usr = new data.Usuario(email, username ,password, phone, id, roll)
+		let duplicado = listaUsuarios.find(iter => iter.id == id)
 		if(!duplicado){
 			listaUsuarios.push(usr);
 			data.guardarUsuarios();
-
+			let texto = "Usuario creado correctamente.";
+			return texto;
 		}else{
-			console.log('Ya existe un usuario con ese email');
+			return "Ya existe un usuario con ese ID.";
+
 		}
 		console.log(listaUsuarios);
-
 });
 
 
@@ -89,8 +88,9 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 				console.log('no existe usuario con ese email');
 		}else{
 			let texto = "<p> usuario y contraseña correctas </p>\
-										<form>\
-							  				<button class='btn btn-success' formaction='/indexUsuarios?seccion=seccion'>Continuar </button>\
+										<form method='post' action='/indexaspirante'>\
+												 <input type='hidden' name='session' value='session'>\
+							  				<button type='submit'  class='btn btn-success'>Continuar </button>\
 									  </form>";
 			return  texto;
 		}

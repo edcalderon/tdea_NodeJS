@@ -1,0 +1,36 @@
+{{>header}}
+
+{{#if session}}
+  <div class="collapse navbar-collapse" id="myNavbar">+
+    <ul class="nav navbar-nav">
+      <li ><a href="/indexaspirante?session=aspirante">Home</a></li>
+      <li><a href="#">listado cursos Disponibles</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</div>
+</nav>
+{{/if}}
+
+
+<body>
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-2 ">
+
+    </div>
+    <div class="col-sm-8 text-left">
+      <h1>Welcome</h1>
+      <p>los cursos disponible son</p>
+      <hr>
+      <h3>Test</h3>
+      {{{listarCursos}}}
+  </div>
+</div>
+</div>
+</body>
+
+
+{{>footer}}

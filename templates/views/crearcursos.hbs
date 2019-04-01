@@ -1,17 +1,31 @@
 {{>header}}
 
+{{#if session}}
+		  <div class="collapse navbar-collapse" id="myNavbar">
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a href="#">Home</a></li>
+		      <li><a href="/">listado cursos</a></li>
+		      <li><a href="/crearcursos">Crear cursos</a></li>
+		      <li><a href="#">Contact</a></li>
+		    </ul>
+		    <ul class="nav navbar-nav navbar-right">
+		      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+		    </ul>
+		  </div>
+		</div>
+	</nav>
+{{/if}}
+<div class="container-fluid text-center">
 	<div class="jumbotron">
 		  <h1 class="display-4">Bienvenido a la página de cursos {{persona}}</h1>
 		  <p class="lead">Aqui podra crear curso y ver su informacion</p>
 		  <hr class="my-4">
 		  <p>Para Registrar un curso llene el siguiente formulario:</p>
 			<br></br>
-
 			<div class="container">
-      <form class="form-horizontal" action="/crearcursos" method="post">
-
+      <form class="form-horizontal" action="/crearcursos?session=session" method="post">
 				<div class="form-group">
-					<label class="control-label col-sm-4" for="nombre">Nombre del curso:</label>
+					<label class="control-label col-sm-2" for="nombre">Nombre del curso:</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" id="name"  name="nombre" placeholder="Ingresa un nombre" required>
 					</div>
@@ -47,40 +61,32 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="nombre">nombre del curso:</label>
+					<label class="control-label col-sm-2" for="nombre">Estado del curso:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="estado"  name="estado" placeholder="Ingresa un estado" required>
+						<input type="text" class="form-control" id="estado"  name="estado" placeholder="Ingresa un estado" value="Disponible" required>
 					</div>
+					<br></br>
 					<div class="form-group">
 						<div class="col-sm-10">
-								<button class="btn btn-primary btn-lg" href="/crearcursos"  type="submit "role="button">Crear</button>
+								<input type="hidden"   name="inscritos"  value="[]">
+								<button class="btn btn-primary btn-lg"  type="submit "role="button">Crear</button>
 						</div>
 					</div>
 			</form>
 		</div>
 			<hr class="my-4">
 		  <p>Los cursos que hay hasta haora son:</p>
-
 			<br></br>
-
-{{#if nombre}}
-			<div>
-
-		   {{registrarCurso nombre descripcion id valor intensidadhoraria modalidad estado}}
-
-		 	</div>
-
-
-			{{{listarCursos}}}
-
-
-{{/if}}
-
-
-
-
+				{{#if nombre}}
+							<div>
+						   {{registrarCurso nombre descripcion id valor intensidadhoraria modalidad estado inscritos}}
+						 	</div>
+							{{{listarCursos}}}
+						</div>
+				{{/if}}
+	 		</div>
+		</div>
 	</div>
-
-	</body>
+</body>
 
 {{>footer}}

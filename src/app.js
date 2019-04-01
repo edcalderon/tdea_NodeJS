@@ -31,14 +31,24 @@ data.guardarUsuarios();
 //rutas
 app.get('/', (req, res) =>{
 	res.render('index', {
-		inicio: "req.body.seccion",
-    seccion: req.body.seccion
+
 	});
 });
 
-app.get('/indexUsuarios', (req, res) =>{
-	res.render('indexUsuario', {
-    seccion: req.body.seccion
+app.post('/indexaspirante', (req, res) =>{
+	res.render('indexaspirante', {
+    session: req.body.session
+	});
+});
+
+app.post('/indexcoordinador', (req, res) =>{
+	res.render('indexcoordinador', {
+    session: req.body.session
+	});
+});
+app.get('/listadocursos', (req, res) =>{
+	res.render('listadocursos', {
+    session: req
 	});
 });
 
@@ -55,7 +65,10 @@ app.post('/login', (req, res) =>{
 		login: req.body.login,
 		email: req.body.email,
 		username: req.body.username,
-		password: req.body.password
+		password: req.body.password,
+		phone: req.body.phone,
+		id: req.body.id,
+		roll: req.body.roll
 	});
 });
 
@@ -72,7 +85,8 @@ app.post('/calculos', (req,res)=>{
 app.get('/crearcursos', (req,res)=>{
 	res.render('crearcursos',{
 		titulo: 'Creacion de cursos',
-		persona: "pepe"
+		persona: "pepe",
+		session: req
 	});
 });
 
@@ -80,6 +94,7 @@ app.post('/crearcursos', (req,res)=>{
 	res.render('crearcursos',{
 		titulo: 'Creacion de cursos',
 		persona: "aqui va seccion de administrador",
+		session: req,
 		nombre: req.body.nombre,
 		descripcion: req.body.descripcion,
 		id: req.body.id,
@@ -87,6 +102,7 @@ app.post('/crearcursos', (req,res)=>{
 		intensidadhoraria: req.body.intensidadhoraria,
 		modalidad: req.body.modalidad,
 		estado: req.body.estado,
+		inscritos: req.body.inscritos,
 		boton:req.body.boton
 	});
 });
@@ -99,7 +115,7 @@ app.get('*',(req, res)=>{
 });
 
 
-var puerto = 3001
+var puerto = 3002
 app.listen(puerto,() =>{
 	console.log('Escuchando en el puerto ' + puerto)
 });

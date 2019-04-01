@@ -1,5 +1,17 @@
 
 {{>header}}
+
+<div class="collapse navbar-collapse" id="myNavbar">
+	<ul class="nav navbar-nav">
+	</ul>
+	<ul class="nav navbar-nav navbar-right">
+		<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+	</ul>
+</div>
+</div>
+</nav>
+
+
 <body>
 	<div class="container-fluid">
 		<div class="container">
@@ -16,7 +28,25 @@
 			 <p class="text-center">
 				<small id="passwordHelpInline" class="text-muted"> y resar para que esto no explote</a>.</small>
 			</p>
-          {{registrarUsuario email username password}}
+
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$("#myModal").modal('show');
+				});
+			</script>
+			<div id="myModal" class="modal fade">
+					<div class="modal-dialog">
+							<div class="modal-content">
+									<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Validacion</h4>
+									</div>
+									<div class="modal-body">
+										{{registrarUsuario email username password phone id roll}}
+									</div>
+							</div>
+					</div>
+			</div>
       {{/if}}
 
       {{#if login}}
@@ -61,6 +91,12 @@
   								<div class="form-group">
   								<input type="password" name="password2" id="password2" class="form-control input-lg" placeholder="Password2" required>
   							</div>
+								<div class="form-group">
+								  <input type="phone" name="phone" id="phone" class="form-control input-lg" placeholder="telefono" required>
+								</div>
+								<div class="form-group">
+								<input type="id" name="id" id="id" class="form-control input-lg" placeholder="id" required>
+								</div>
   							<div class="form-check">
   								<label class="form-check-label">
   								  <input type="checkbox" class="form-check-input">
@@ -68,6 +104,7 @@
   								</label>
   							  </div>
    							<div>
+									<input type="hidden" name="roll"  value="aspirante">
                   <input type="hidden" name="registro"  value="registro">
    							<input type="submit" class="btn btn-md"   value="Register">
  							</div>
