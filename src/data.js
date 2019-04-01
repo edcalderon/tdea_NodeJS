@@ -20,6 +20,8 @@ const c3 = new  Curso('FundamentosDeProcastinacion','pereza al 100',3,999999,30,
 
 let listadecursos = [];
 
+
+console.log("holavalentoina");
 if(listadecursos.length==0){
   listadecursos.push(c1);
   listadecursos.push(c2);
