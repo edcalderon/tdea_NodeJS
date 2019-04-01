@@ -54,6 +54,14 @@ app.post('/indexcoordinador', (req, res) =>{
     session: req.body.session
 	});
 });
+
+app.get('/indexcoordinador', (req, res) =>{
+	res.render('indexcoordinador', {
+    session: req
+	});
+});
+
+
 app.get('/listadocursos', (req, res) =>{
 	res.render('listadocursos', {
     session: req
