@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const hbs = require('hbs');
 const bodyParser = require('body-parser')
+var session = require('express-session')s
 const data = require('./data.js');
 require('./helpers');
 
@@ -47,6 +48,15 @@ app.post('/indexaspirante', (req, res) =>{
 		inscribir:req.body.inscribir,
     id:req.body.id,
 		Curso: req.body.Curso
+	});
+});
+app.get('/eliminarcursos', (req, res) =>{
+	res.render('eliminarcursos');
+});
+
+app.get('/', (req, res) =>{
+	res.render('index', {
+
 	});
 });
 

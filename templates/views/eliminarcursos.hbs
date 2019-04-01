@@ -1,0 +1,44 @@
+{{>header}}
+  <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="nav navbar-nav">
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</div>
+</nav>
+
+	<div class="container">
+		<div class="row">
+		  <div class="col-sm-4">
+	        <form action="/eliminarcurso" method="post">
+	          <div class="form-group">
+	            <label>Identificación (c.c)</label><br>
+	            <input type="text" class="form-control" name="id">
+	          </div>
+	          <div class="form-group">
+	            <label>Curso</label><br>
+	            <input type="text" class="form-control" name="Curso">
+	          </div>
+	          <input type="hidden"  name="session" value="session">
+	          <input type="hidden"  name="confirmar" value="confirmar">
+	          <input type="submit" value="confirmar credenciales">
+	        </form>
+	      </div>
+	      <div class="col-sm-4">
+	      	<form  action="/eliminarcurso" method="post">
+	      		<div class="form-group">
+			      <label for="sel1">Select list:</label>
+			      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  				  <select class="form-control" id="curso-selecionado">
+       			  	{{listarcursosInscritos id}}
+  				   </select>
+				</div>
+				  <input type="submit" value="Eliminar Curso">
+		 	</form>
+		  </div>
+	    </div>
+	</div>
+	{{eliminarcursoInscrito}}
+{{>footer}}
