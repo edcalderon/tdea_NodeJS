@@ -52,7 +52,8 @@ app.post('/indexaspirante', (req, res) =>{
 
 app.post('/indexcoordinador', (req, res) =>{
 	res.render('indexcoordinador', {
-    session: req.body.session
+    session: req.body.session,
+		coordinador: req.body.coordinador
 	});
 });
 
@@ -135,7 +136,7 @@ app.get('*',(req, res)=>{
 });
 
 
-var puerto = 3003
+var puerto = 3004
 app.listen(puerto,() =>{
 	console.log('Escuchando en el puerto ' + puerto)
 });

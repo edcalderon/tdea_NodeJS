@@ -89,12 +89,12 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 		}
 
 		if(check && check.roll == 'coordinador'){
-
-							let texto = "<p> usuario y contraseña correctas </p>\
-														<form method='post' action='/indexcoordinador'>\
-																 <input type='hidden' name='session' value='session'>\
-											  				<button type='submit'  class='btn btn-success'>Continuar </button>\
-													  </form>";
+							let texto = `<p> usuario y contraseña correctas </p>
+														<form method='post' action='/indexcoordinador'>
+																 <input type='hidden' name='session' value='session'>
+																 <input type='hidden' name='coordinador' value=${check.username}>
+											  				<button type='submit'  class='btn btn-success'>Continuar </button>
+													  </form>`;
 							return texto;
 			}
 			else{
@@ -115,13 +115,15 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 
 hbs.registerHelper('listarofertaCursos', ()=>{
 
-	let campos = "<div class='col-md-6'><table class='table' style='width: 400px'>\
+	let campos = "<div class='col-sm-4'>\
+	       <table class='table' style='width: 400px'>\
 				<thead class='thead-dark'>\
 				<th> Nombre </th>\
 				<th> Descripcion </th>\
 				<th> valor </th>\
 				</thead>\
-				</table></div>";
+				</table>\
+				</div>";
 
 	let texto = "<div class='accordion' id='accordionExample' >";
 
@@ -130,7 +132,7 @@ hbs.registerHelper('listarofertaCursos', ()=>{
 
 		if(curso.estado == 'disponible'){
 			texto = texto +
-				`<div class="card col-xs-12">
+				`<div class="card col-xs-4">
 				    <div class="card-header" id="heading${i}">
 				      <h5 class="mb-0">
 				        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapseOne">
@@ -153,12 +155,13 @@ hbs.registerHelper('listarofertaCursos', ()=>{
 				      	La intensidad horaria es: ${curso.intensidadhoraria}<br>
 				      	La modalidad es: ${curso.modalidad}<br>
 				      </div>
-				    </div>`
+				    </div>
+				</div>`
 				i=i+1;
 		}
 	})
-	texto = texto + '</div>';
-	return campos+texto
+
+	return campos+texto;
 });
 
 //_________Inscribir cursos como aspirante_____________________________
@@ -209,4 +212,35 @@ hbs.registerHelper('inscribirCurso', (id, Curso) => {
 			let texto = "<p>No te puedes inscribir al curso por ya estas en él, baboso.</p>";
 			return texto;
 		}
+});
+
+
+
+hbs.registerHelper('listarCursosDisponibles', ()=>{
+let texto = " ";
+let count = 1;
+	listaCursos.forEach ( curso => {
+		if(curso.estado == "disponible"){
+			console.log(curso.nombre);
+	     texto = texto + `
+			 <div class="card">
+			     <div class="card-header" id="heading${count}">
+			       <h5 class="mb-0">
+			         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${count}" aria-expanded="true" aria-controls="collapse${count}">
+			          CURSO: ${curso.nombre} VALOR: ${curso.valor} DESCRIPCION: ${curso.descripcion}
+			         </button>
+			       </h5>
+			     </div>
+			     <div id="collapse${count}" class="collapse " aria-labelledby="heading${count}" data-parent="#accordion">
+			       <div class="card-body">
+			        DESCRIPCION: ${curso.descripcion} MODALIDAD: ${curso.modalidad} INTENSIDAD HORARIA: ${curso.intensidadhoraria}
+			       </div>
+			     </div>
+			  </div>`;
+		 }
+		 console.log(count)
+		 count++;
+	});
+	return texto;
+	console.log(texto);
 });
