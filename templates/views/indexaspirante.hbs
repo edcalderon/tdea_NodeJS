@@ -7,7 +7,7 @@
       <li><a href="/listadocursos?session=aspirante">listado cursos Disponibles</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="/indexaspirante?seccion=aspirante"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      <li><a href="/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
     </ul>
   </div>
 </div>
@@ -16,16 +16,50 @@
 
 <body>
 <div class="container-fluid text-center">
-  <div class="row content">
-
-    <div class="col-sm-8 text-left">
-      <h1>Welcome</h1>
-      <p>los cursos disponible son</p>
-      <hr>
-      <h3>Test</h3>
-
+    <div class="row content abs-center">
+      <div class="col-sm-6">
+        <h1>Welcome</h1>
+        <p>los cursos disponible son</p>
+        <hr>
+        <h3>Test</h3>
+      </div>
+    <div class="col-sm-6">
+      <form id="info-inscrito" action="/indexaspirante" method="post">
+        <div class="form-group">
+          <label>Identificación (c.c)</label><br>
+          <input type="text" class="form-control" name="id">
+        </div>
+        <div class="form-group">
+          <label>Curso</label><br>
+          <input type="text" class="form-control" name="Curso">
+        </div>
+        <input type="hidden"  name="session" value="session">
+        <input type="submit" value="Inscribir">
+      </form>
+    </div>
   </div>
 </div>
-</div>
+{{inscribirCurso id Curso}}
+
+ {{#if session}}
+            <script type="text/javascript">
+              $(document).ready(function(){
+                $("#myModal").modal('show');
+              });
+            </script>
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Validacion</h4>
+                        </div>
+                        <div class="modal-body">
+                          {{{inscribirCurso id Curso}}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+      {{/if}}
 </body>
 {{>footer}}

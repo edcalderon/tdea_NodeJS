@@ -1,10 +1,12 @@
 const hbs = require('hbs');
-
+const fs = require('fs');
 const data = require('./data.js');
 
 const listaCursos = data.listadecursos;
 
 const listaUsuarios = data.listadeusuarios;
+listaPersonas = data.listadeusuarios;
+listaInscritos = [];
 
 hbs.registerHelper('listarCursos', ()=>{
 
@@ -107,3 +109,103 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 
 
 });
+
+//______________________________________________________________________________
+//TERCERA HISTORIA DE USUSARIO: Listar oferta de cursos para interesados
+
+hbs.registerHelper('listarofertaCursos', ()=>{
+
+	let campos = "<div class='col-md-6'><table class='table' style='width: 400px'>\
+				<thead class='thead-dark'>\
+				<th> Nombre </th>\
+				<th> Descripcion </th>\
+				<th> valor </th>\
+				</thead>\
+				</table></div>";
+
+	let texto = "<div class='accordion' id='accordionExample' >";
+
+	i=1;
+	listaCursos.forEach( curso => {
+
+		if(curso.estado == 'disponible'){
+			texto = texto +
+				`<div class="card col-xs-12">
+				    <div class="card-header" id="heading${i}">
+				      <h5 class="mb-0">
+				        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapseOne">
+				          <table class="table">
+				          <tbody>
+				          	<tr>
+				          		<td>${curso.nombre}</td>
+				          		<td>${curso.descripcion}</td>
+				          		<td>${curso.valor}</td>
+				          	</tr>
+				          	</tbody>
+				          </table>
+				        </button>
+				      </h5>
+				    </div>
+
+				    <div id="collapse${i}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+				      <div class="card-body">
+				      	La descripción del curso es: ${curso.descripcion}<br>
+				      	La intensidad horaria es: ${curso.intensidadhoraria}<br>
+				      	La modalidad es: ${curso.modalidad}<br>
+				      </div>
+				    </div>`
+				i=i+1;
+		}
+	})
+	texto = texto + '</div>';
+	return campos+texto
+});
+
+//_________Inscribir cursos como aspirante_____________________________
+
+hbs.registerHelper('inscribirCurso', (id, Curso) => {
+
+	const listar = () =>{
+		try{
+			listaInscritos = require('../inscritos.json');
+		} catch(error){
+			listaInscritos = [];
+		}
+	}
+
+	const guardar = () => {
+			let datos = JSON.stringify(listaInscritos);
+			fs.writeFile('inscritos.json', datos, (err) => {
+				if (err) throw (err);
+				console.log('se inscribio satisfactoriamente')
+			})
+	}
+
+	const inscribir = () =>{
+		listar()
+		for(var i=0; i<listaInscritos.length; i++){
+			if(datoAspirante.id == listaInscritos[i].id){
+				listaInscritos.splice(i,1)
+			break;
+			}
+		}
+		
+		var nuevoInscrito = {email: datoAspirante.email, username: datoAspirante.username, password: datoAspirante.password, phone: datoAspirante.phone, id: datoAspirante.id, roll: datoAspirante.roll, curso: datoAspirante.curso};
+		listaInscritos.push(nuevoInscrito)
+		guardar();
+	}
+
+	var datoAspirante = listaPersonas.find(i => i.id == id);
+	var cursosRepetidos = datoAspirante.curso.find(a => a == Curso)
+
+	console.log(cursosRepetidos)
+	if(!cursosRepetidos){
+		datoAspirante.curso.push(Curso)
+		inscribir();
+		let texto = "<p>La inscripción se realizo satisfactoriamente</p>";
+		return texto
+	}else{
+		let texto = "<p>No te puedes inscribir al curso</p>";
+		return texto
+	}
+})

@@ -35,9 +35,17 @@ app.get('/', (req, res) =>{
 	});
 });
 
+app.get('/indexaspirante', (req, res) =>{
+	res.render('indexaspirante', {
+    session: req
+	});
+});
+
 app.post('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
-    session: req.body.session
+    session: req.body.session,
+    id:req.body.id,
+	Curso: req.body.Curso
 	});
 });
 
@@ -107,6 +115,9 @@ app.post('/crearcursos', (req,res)=>{
 	});
 });
 
+app.get('/ofertacursos', (req, res) =>{
+	res.render('ofertacursos')
+});
 
 app.get('*',(req, res)=>{
 	res.render('error', {
