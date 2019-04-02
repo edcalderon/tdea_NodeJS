@@ -1,6 +1,9 @@
 {{>header}}
   <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
+    	<li><a href="#">Home</a></li>
+      	<li><a href="/listadocursos?session=aspirante">listado cursos Disponibles</a></li>
+      	<li><a href="/eliminarcursos?session=aspirante">Eliminar Incripciones</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -10,35 +13,38 @@
 </nav>
 
 	<div class="container">
-		<div class="row">
-		  <div class="col-sm-4">
-	        <form action="/eliminarcurso" method="post">
-	          <div class="form-group">
-	            <label>Identificación (c.c)</label><br>
-	            <input type="text" class="form-control" name="id">
-	          </div>
-	          <div class="form-group">
-	            <label>Curso</label><br>
-	            <input type="text" class="form-control" name="Curso">
-	          </div>
-	          <input type="hidden"  name="session" value="session">
-	          <input type="hidden"  name="confirmar" value="confirmar">
-	          <input type="submit" value="confirmar credenciales">
-	        </form>
-	      </div>
-	      <div class="col-sm-4">
-	      	<form  action="/eliminarcurso" method="post">
-	      		<div class="form-group">
-			      <label for="sel1">Select list:</label>
-			      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  				  <select class="form-control" id="curso-selecionado">
-       			  	{{listarcursosInscritos id}}
-  				   </select>
+		<div class="col">
+			<form action="/eliminarcursos" method="post">
+				<div class="form-group">
+					<input type="text" name="id" class="form-control input-lg" placeholder="id"  required>
 				</div>
-				  <input type="submit" value="Eliminar Curso">
-		 	</form>
-		  </div>
-	    </div>
+				<div class="form-group">
+					<input type="text" name="Curso"class="form-control input-lg" placeholder="Curso a desinscribir" required>
+				</div>
+				<input type="hidden"  name="session" value="session">
+				<input type="hidden"  name="deshacer" value="deshacer">
+          		<input type="submit" value="deshacer">
+			</form>
+		</div>
 	</div>
-	{{eliminarcursoInscrito}}
+	{{#if deshacer}}
+            <script type="text/javascript">
+              $(document).ready(function(){
+                $("#myModal").modal('show');
+              });
+            </script>
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Validacion</h4>
+                        </div>
+                        <div class="modal-body">
+                          {{eliminarcursosInscritos id Curso}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+      {{/if}}
 {{>footer}}

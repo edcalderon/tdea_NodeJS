@@ -19,6 +19,7 @@ const directorio_templates = path.join(__dirname, '../templates');   //Trae la c
 app.use(express.static(directorio_publico));
 hbs.registerPartials(directorio_partials);
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({secret: 'mysecret'}));
 app.set('views',directorio_views);
 app.set('view engine', 'hbs');//Le configuramos el motor de templates o de vistas
 
@@ -43,6 +44,7 @@ app.get('/login', (req, res) =>{
 });
 
 app.post('/login', (req, res) =>{
+	req.session.id = req.body.id;
 	res.render('login', {
 		inicio: "req.body.seccion",
 		registro: req.body.registro,
@@ -51,7 +53,7 @@ app.post('/login', (req, res) =>{
 		username: req.body.username,
 		password: req.body.password,
 		phone: req.body.phone,
-		id: req.body.id,
+		id: req.session.id,
 		roll: req.body.roll
 	});
 });
@@ -65,15 +67,33 @@ app.get('/indexaspirante', (req, res) =>{
 app.post('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
     session: req.body.session,
-		inscribir:req.body.inscribir,
+	inscribir:req.body.inscribir,
     id:req.body.id,
-		Curso: req.body.Curso
+	Curso: req.body.Curso
 	});
 });
 app.get('/eliminarcursos', (req, res) =>{
-	res.render('eliminarcursos');
+	res.render('eliminarcursos',{
+		session: req,
+		deshacer: req
+	});
 });
 
+app.post('/eliminarcursos', (req, res) =>{
+	res.render('eliminarcursos',{
+		session: req.body.session,
+		deshacer: req.body.deshacer,
+    	id:req.body.id,
+		Curso: req.body.Curso
+	});
+});
+
+
+app.get('/indexcoordinador', (req, res) =>{
+	res.render('indexcoordinador', {
+    session: req
+	});
+});
 
 app.post('/indexcoordinador', (req, res) =>{
 	res.render('indexcoordinador', {
@@ -82,12 +102,22 @@ app.post('/indexcoordinador', (req, res) =>{
 	});
 });
 
-app.get('/indexcoordinador', (req, res) =>{
-	res.render('indexcoordinador', {
-    session: req
-	});
+app.get('/actualizarusuarios', (req, res) =>{
+	res.render('actualizarusuarios',{
+		session: req,	
+	})
 });
 
+app.post('/actualizarusuarios', (req, res) =>{
+	res.render('actualizarusuarios',{
+		session: req.body.session,
+		username: req.body.username,
+		email: req.body.email,
+		phone: req.body.phone,
+		roll: req.body.roll,
+		id: req.body.id
+	})
+});
 
 app.get('/listadocursos', (req, res) =>{
 	res.render('listadocursos', {

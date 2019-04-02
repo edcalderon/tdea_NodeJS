@@ -8,6 +8,7 @@ const listaCursos = data.listadecursos;
 const listaUsuarios = data.listadeusuarios;
 listaPersonas = data.listadeusuarios;
 listaInscritos = [];
+listaActualizaUsuarios = [];
 
 hbs.registerHelper('listarCursos', ()=>{
 
@@ -217,7 +218,7 @@ hbs.registerHelper('inscribirCurso', (id, Curso) => {
 
 
 
-
+//________________________Funcionalidad adicional para coordinador__________________________________
 hbs.registerHelper('listarCursosDisponibles', ()=>{
 let texto = " ";
 let count = 1;
@@ -249,34 +250,134 @@ let count = 1;
 
 //_______________________Quinta historia de usuario: aspirante eliminar curso________________________________________________
 
-hbs.registerHelper('listarcursosInscritos', (id)=>{
+hbs.registerHelper('eliminarcursosInscritos', (id, Curso) =>{
 
 	const listar = () =>{
-			try{
-				listaInscritos = require('../inscritos.json');
-			} catch(error){
-				listaInscritos = [];
-			}
+		try{
+			listaInscritos = require('../inscritos.json');
+		} catch(error){
+			listaInscritos = [];
+		}
+	}
+
+	const guardar = () => {
+		let datos = JSON.stringify(listaInscritos);
+		fs.writeFile('inscritos.json', datos, (err) => {
+			if (err) throw (err);
+			console.log('Se desinscribio satisfactoriamente')
+		})
 	}
 
 	listar();
-	var datoAspirante = listaPersonas.find(i => i.id == id);
-	console.log(datoAspirante)
-	texto ="";
+	let datoInscrito = listaInscritos.find(i => i.id == id);
+	console.log(datoInscrito)
 
-	if(datoAspirante){
-		for(var i=0; i<datoAspirante.length; i++){
-			texto = texto +`<option value=${datoAspirante.curso[i]}>${datoAspirante.curso[i]}</option>`
+	const eliminarInscripcion = () => {
+		index = '';
+		if(datoInscrito){
+			for(var i=0; i<listaInscritos.length; i++){
+				if(datoInscrito.id == listaInscritos[i].id){
+					listaInscritos.splice(i,1)
+					break;
+				}
+			}
+			var index = datoInscrito.curso.indexOf(Curso);
+		}else{
+			console.log('El usuario con la id ingresada no existe');
+			let texto = "<p>El usuario con la id ingresada no existe</p>";
+			return texto;
+			index = -1;
 		}
-	}else
 
-	return texto;
-});
+		if(index > -1){
+			var cursoBorrado = datoInscrito.curso.splice(index, 1);
+			listaInscritos.push(datoInscrito);
+			guardar();
+			console.log(datoInscrito)
+			let texto = "<p>La inscripción ha sido eliminada con éxito</p>";
+			return texto;
+		}else{
+			let texto = `<p>Actualmente no tienes el curso inscrito</p>`;
+			return texto;
+		}
+	}
 
-hbs.registerHelper('eliminarcursoInscrito', (id,Curso)=>{
+	eliminarInscripcion();
 
-	$("#curso-seleccionado").change(function(){
-  		var valor = $(this).val();
-  		console.log(valor);
-	});
+	const listarcursosInscritos = () => {
+		listar();
+		let datoInscrito = listaInscritos.find(i => i.id == id);
+		if(datoInscrito){
+			let texto = "<table class='table table-hover'>\
+					<thead>\
+					<th> Nombre </th>\
+					</thead>\
+					<tbody>";
+
+			listaCursos.forEach ( curso => {
+				texto = texto +
+						'<tr>'+
+							'<td>'+ datoInscrito.curso + '</td>' +
+						'</tr>'
+						'</tbody>'
+						'</table>';
+			});
+			return texto;
+		}else{
+			console.log('paso algo' +datoInscrito)
+		}
+	}
+	listarcursosInscritos();
+
+})
+
+//___________Segunda parte quinta historia de usuario listar los cursos en el que el aspirante esta inscrito_____
+
+
+//_____________________Octava historia de usuario: Actualizar usuario_______________________________________
+hbs.registerHelper('actualizarUsuario',(id, username, email, phone, roll) =>{
+	console.log(username)
+	console.log(email)
+	console.log(phone)
+	console.log(roll)
+	console.log(id)
+
+	const listar = () =>{
+		try{
+			listaActualizaUsuarios = require('../dbusuarios.json');
+		} catch(error){
+			listaActualizaUsuarios = [];
+		}
+	}
+
+	const guardar = () => {
+		let datos = JSON.stringify(listaActualizaUsuarios);
+		fs.writeFile('dbusuarios.json', datos, (err) => {
+			if (err) throw (err);
+			console.log('Se actualizo el usuario satisfactoriamente')
+		})
+	}
+
+	const actualizar = () =>{
+		listar();
+		for(var i=0; i<listaActualizaUsuarios.length; i++){
+			if(datoUsuario.id == listaActualizaUsuarios[i].id){
+				listaActualizaUsuarios.splice(i,1)
+			break;
+			}
+		}
+		var usuarioActualizado = {email: email, username: username, password: datoUsuario.password, phone: phone, id: datoUsuario.id, roll: roll, curso: datoUsuario.curso};
+		listaActualizaUsuarios.push(usuarioActualizado)
+		guardar();	
+	}
+
+	var datoUsuario = listaPersonas.find(i => i.id == id);
+	if(datoUsuario){
+		actualizar();
+		let texto = "<p>La actualizacion se realizo satisfactoriamente</p>";
+		return texto
+	}else{
+		let texto = "<p>Ingresa correctamente la id</p>";
+		return texto
+	}
 })
