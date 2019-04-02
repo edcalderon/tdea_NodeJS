@@ -248,6 +248,38 @@ let count = 1;
 	console.log(texto);
 });
 
+
+hbs.registerHelper('listarCursosPropios', (id)=>{
+	console.log(id);
+	console.log(id);
+let texto = " ";
+let count = 1;
+	listaUsuarios.forEach ( usuario => {
+		if(usuario.id == id ){
+
+	     texto = texto + `
+			 <div class="card">
+			     <div class="card-header" id="heading${count}">
+			       <h5 class="mb-0">
+			         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${count}" aria-expanded="true" aria-controls="collapse${count}">
+			          CURSO: ${usuario.curso}
+			         </button>
+			       </h5>
+			     </div>
+			     <div id="collapse${count}" class="collapse " aria-labelledby="heading${count}" data-parent="#accordion">
+			       <div class="card-body">
+
+			       </div>
+			     </div>
+			  </div>`;
+		 }
+		 console.log(count)
+		 count++;
+	});
+	return texto;
+	console.log(texto);
+});
+
 //_______________________Quinta historia de usuario: aspirante eliminar curso________________________________________________
 
 hbs.registerHelper('eliminarcursosInscritos', (id, Curso) =>{
@@ -368,7 +400,7 @@ hbs.registerHelper('actualizarUsuario',(id, username, email, phone, roll) =>{
 		}
 		var usuarioActualizado = {email: email, username: username, password: datoUsuario.password, phone: phone, id: datoUsuario.id, roll: roll, curso: datoUsuario.curso};
 		listaActualizaUsuarios.push(usuarioActualizado)
-		guardar();	
+		guardar();
 	}
 
 	var datoUsuario = listaPersonas.find(i => i.id == id);

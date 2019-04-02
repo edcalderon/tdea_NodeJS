@@ -44,7 +44,7 @@ app.get('/login', (req, res) =>{
 });
 
 app.post('/login', (req, res) =>{
-	req.session.id = req.body.id;
+
 	res.render('login', {
 		inicio: "req.body.seccion",
 		registro: req.body.registro,
@@ -54,7 +54,8 @@ app.post('/login', (req, res) =>{
 		password: req.body.password,
 		phone: req.body.phone,
 		id: req.session.id,
-		roll: req.body.roll
+		roll: req.body.roll,
+
 	});
 });
 
@@ -67,15 +68,16 @@ app.get('/indexaspirante', (req, res) =>{
 app.post('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
     session: req.body.session,
-	inscribir:req.body.inscribir,
+		inscribir:req.body.inscribir,
     id:req.body.id,
-	Curso: req.body.Curso
+		Curso: req.body.Curso
 	});
 });
 app.get('/eliminarcursos', (req, res) =>{
 	res.render('eliminarcursos',{
 		session: req,
 		deshacer: req
+
 	});
 });
 
@@ -83,8 +85,11 @@ app.post('/eliminarcursos', (req, res) =>{
 	res.render('eliminarcursos',{
 		session: req.body.session,
 		deshacer: req.body.deshacer,
-    	id:req.body.id,
-		Curso: req.body.Curso
+    id:req.body.id,
+		Curso: req.body.Curso,
+		mostrarid: req.body.mostrarid,
+		id1: req.body.id1,
+		id2: req.body.id2
 	});
 });
 
@@ -104,7 +109,7 @@ app.post('/indexcoordinador', (req, res) =>{
 
 app.get('/actualizarusuarios', (req, res) =>{
 	res.render('actualizarusuarios',{
-		session: req,	
+		session: req,
 	})
 });
 
@@ -121,7 +126,17 @@ app.post('/actualizarusuarios', (req, res) =>{
 
 app.get('/listadocursos', (req, res) =>{
 	res.render('listadocursos', {
-    session: req
+    session: req,
+
+
+	});
+});
+
+app.get('/listadocursosaspirante', (req, res) =>{
+	res.render('listadocursosaspirante', {
+    session: req,
+
+
 	});
 });
 

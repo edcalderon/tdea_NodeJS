@@ -15,7 +15,7 @@ class Curso {
 };
 const c1 = new  Curso('NodeJS','curos NodeJS',1,0,30,' virtual','disponible',['edward','valentina']);
 const c2 = new  Curso('AlaVergaJS','curso deMIerda',2,999999,30,' virtual','disponible',['edward']);
-const c3 = new  Curso('FundamentosDeProcastinacion','pereza al 100',3,999999,30,'virtual','disponibe',[]);
+const c3 = new  Curso('FundamentosDeProcastinacion','pereza al 100',3,999999,30,'virtual','disponible',[]);
 
 let listadecursos = [];
 

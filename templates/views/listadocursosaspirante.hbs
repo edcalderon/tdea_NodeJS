@@ -1,11 +1,9 @@
 {{>header}}
 
-
-
 {{#if session}}
   <div class="collapse navbar-collapse" id="myNavbar">+
     <ul class="nav navbar-nav">
-      <li ><a href="/indexcoordinador">Volver</a></li>
+      <li ><a href="/indexaspirante">Home</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
@@ -14,6 +12,8 @@
 </div>
 </nav>
 {{/if}}
+
+
 
 
 <body>
@@ -26,17 +26,19 @@
 
 
 
-    <h1>Bienvenido {{coordinador}} </h1>
+      <h1>Bienvenido  </h1>
 
 
-    <h2>Aqui veras la lista de todos los de cursos que existen {{session2}} </h2>
 
-    <p></p>
-    <hr>
-    <h3>Lista de todos los cursos son:</h3>
+      <h1>Aqui veras el listado de cursos disponibles </h1>
 
 
-          {{{listarCursos}}}
+
+      <p></p>
+      <hr>
+      <h3>lista de cursos :</h3>
+
+          {{{listarCursosDisponibles}}}
 
 
 

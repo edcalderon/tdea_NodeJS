@@ -14,19 +14,38 @@
 
 	<div class="container">
 		<div class="col">
-			<form action="/eliminarcursos" method="post">
-				<div class="form-group">
-					<input type="text" name="id" class="form-control input-lg" placeholder="id"  required>
-				</div>
-				<div class="form-group">
-					<input type="text" name="Curso"class="form-control input-lg" placeholder="Curso a desinscribir" required>
-				</div>
-				<input type="hidden"  name="session" value="session">
-				<input type="hidden"  name="deshacer" value="deshacer">
-          		<input type="submit" value="deshacer">
-			</form>
+
+      <form action="/eliminarcursos" method="post">
+        <div class="form-group">
+        <p> primero ingresa tu id: </p>
+        <input type="text" name="id1" class="form-control input-lg" placeholder="id"  required>
+        <input type="hidden"  name="session" value="session">
+        <input type="hidden"  name="mostrarid" value="mostarid">
+        <input type="submit" value="Enviar">
+        </div>
+      </form>
+
+      {{#if mostrarid}}
+
+        <P>Estos son tus cursos</p>
+        <div id='accordion'>
+          {{{listarCursosPropios id1}}}
+        </div>
+          <form action="/eliminarcursos" method="post">
+            <div class="form-group">
+            <p> Ahora escribre el nombre del curso para eliminarlo: </p>
+            <input type="text" name="Curso" class="form-control input-lg" placeholder="nombre curso"  required>
+            <p> y otra vez tu id  </p>
+            <input type="text" name="id2" class="form-control input-lg" placeholder="tu id"  required>
+            <input type="hidden"  name="session" value="session">
+            <input type="hidden"  name="deshacer" value="deshacer">
+            <input type="submit" value="Enviar">
+            </div>
+          </form>
+      {{/if}}
 		</div>
 	</div>
+
 	{{#if deshacer}}
             <script type="text/javascript">
               $(document).ready(function(){
@@ -41,7 +60,7 @@
                             <h4 class="modal-title">Validacion</h4>
                         </div>
                         <div class="modal-body">
-                          {{eliminarcursosInscritos id Curso}}
+                          {{eliminarcursosInscritos id2 Curso}}
                         </div>
                     </div>
                 </div>
