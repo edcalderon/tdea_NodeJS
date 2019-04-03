@@ -5,7 +5,7 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser')
 var session = require('express-session')
 const data = require('./data.js');
-const port = process.env.PORT||3000;
+const port = process.env.PORT || 3000;
 require('./helpers');
 
 
@@ -190,6 +190,6 @@ app.get('*',(req, res)=>{
 
 
 var puerto = 3000
-app.listen(puerto,() =>{
+app.listen(port,() =>{
 	console.log('Escuchando en el puerto ' + port)
 });
