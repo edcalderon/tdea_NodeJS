@@ -17,11 +17,14 @@
     "hbs": "^4.0.3",
     "jquery": "^3.3.1",
     "jsdom": "^14.0.0",
+    "mongodb": "^3.2.2",
+    "mongoose": "^5.5.1",
+    "multer": "^1.4.1",
     "nodemon": "^1.18.10",
     "peer": "^0.2.10",
     "popper": "^1.0.1"
   },
   "engines": {
-    "node": "10.x"
+    "node": "^10.x"
   }
 }
