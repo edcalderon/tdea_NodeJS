@@ -1,26 +1,38 @@
+//Requires
 const express = require('express');
-const app = express()
-const path = require('path')
+const app = express();
+const path = require('path');
 const hbs = require('hbs');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const session = require('express-session');
+const jwt = require('jsonwebtoken');
 require('./../helpers/helpers');
 
 // Directory Paths
 const directorio_partials = path.join(__dirname, './../../templates/partials');
 const directorio_views = path.join(__dirname, './../../templates/views');
 
+
+// HBS
 hbs.registerPartials(directorio_partials);
 app.set('views',directorio_views);
 app.set('view engine', 'hbs');//Le configuramos el motor de templates o de vistas
 
-
 // Model user mongodb
-const User = require('./../models/user.js');
+const User = require('./../models/user');
+
+// Session
+app.use(session({
+	secret: "keyboard cat",
+	resave: false,
+	saveUninitialized: true
+}))
+
 
 // Paths
 app.get('/', (req, res) =>{
 	res.render('index', {
-
 	});
 });
 
@@ -32,44 +44,143 @@ app.get('/login', (req, res) =>{
 
 app.post('/login', (req, res) =>{
 
-/*
-	res.render('login', {
+/*	res.render('login', {
 		inicio: "req.body.seccion",
-		registro: req.body.registro,
 		login: req.body.login,
-		email: req.body.email,
-		username: req.body.username,
-		password: req.body.password,
-		phone: req.body.phone,
-		cc: req.body.cc,
-		roll: req.body.roll,
-	});
+		logeusername: req.body.logeusername,
+		logepassword: req.body.logepassword,
+		registro: req.body.registro
 */
 
-  let user = new User({
-    email: req.body.email,
-		username: req.body.username,
-		password: req.body.password,
-		phone: req.body.phone,
-		id: req.body.cc,
-		roll: req.body.roll
-  })
+		let user = new User({
+			username: req.body.username,
+			email: req.body.email,
+			password: req.body.password,
+			phone: req.body.phone,
+			cc: req.body.cc,
+			roll: "aspirante",
+			cursos: []
+		})
+		user.save((err,result)=>{
+			if(err){
+				res.render('login', {
+					show: err,
+					registro: "success"
+				})
+			}res.render('login',{
+				  show: "registro exitoso",
+					registro: "success"
+			})
 
-  user.save( (err,result) => {
-    if(err){
-      console.log("error" + err )
-      res.render('loginpost',{
-        show: err
-      })
-    }
-    console.log("result" + result)
-    console.log("pipisote")
-    res.render('loginpost', {
-        show: result
-    })
-  })
+		})
 
 });
+
+// SB admin pages
+
+app.get('/indexdashboard', (req, res) =>{
+  	res.render('indexdashboard', {
+
+		})
+});
+
+app.get('/loginregister', (req, res) =>{
+  	res.render('loginregister', {
+
+		})
+});
+
+app.post('/loginregister', (req, res) =>{
+    User.findOne({email : req.body.inputEmail}, (err,result)=>{
+			if(err){
+				console.log(err)
+				res.render('loginregister', {
+								registro: req.body.registro,
+								show: "Error"
+				})
+			}
+			if(!result){
+				res.render('loginregister', {
+								registro: req.body.registro,
+								show: "Usuario invalido"
+				})
+			}
+
+			if(result && !bcrypt.compareSync(req.body.inputPassword, result.password)){
+				res.render('loginregister', {
+								registro: req.body.registro,
+								show: "Contraseña invalida"
+				})
+			}
+			if(result && bcrypt.compareSync(req.body.inputPassword, result.password)){
+
+				//req.session.user = result._id //session var
+				// jwt jsonwebtoken creation
+						let token = jwt.sign({
+							user: result
+						}, 'word-secret',{expiresIn: '4h'});
+
+			 // Save token in localstorage
+			 			localStorage.setItem('token', token);
+
+				res.render('dashboarduser', {
+								registro: req.body.registro,
+								show: result.email
+				})
+			}
+		})
+});
+
+app.get('/register', (req, res) =>{
+  	res.render('register', {
+		})
+});
+
+app.post('/register', (req, res) =>{
+	let user = new User({
+		firstname: req.body.firstName,
+		lastname: req.body.lastName,
+		email: req.body.inputEmail,
+		password: bcrypt.hashSync(req.body.inputPassword, 10),
+		phone: req.body.phone,
+		cc: req.body.cedula,
+		roll: "aspirante",
+		cursos: []
+	})
+	user.save((err,result)=>{
+		if(err){
+			console.log(err);
+			res.render('register', {
+				registro: req.body.registro,
+				show: "Upss! Hubo un error en el registro revisa los campos he intenta de nuevo"
+
+			})
+		}res.render('register',{
+			  registro: req.body.registro,
+				show: "<a href='/loginregister' >Registro exitoso! ya puedes ingresar </a>"
+		})
+	})
+});
+
+app.get('/dashboard', (req, res) =>{
+  	res.render('dashboard', {
+
+		})
+});
+
+app.get('/dashboarduser', (req, res) =>{
+  	res.render('dashboarduser', {
+
+		})
+});
+
+app.get('/exit', (req, res) =>{
+		localStorage.setItem('token', ' ')
+  	res.render('index', {
+		})
+});
+
+//////
 
 app.get('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
@@ -85,6 +196,7 @@ app.post('/indexaspirante', (req, res) =>{
 		Curso: req.body.Curso
 	});
 });
+
 app.get('/eliminarcursos', (req, res) =>{
 	res.render('eliminarcursos',{
 		session: req,
@@ -104,7 +216,6 @@ app.post('/eliminarcursos', (req, res) =>{
 		id2: req.body.id2
 	});
 });
-
 
 app.get('/indexcoordinador', (req, res) =>{
 	res.render('indexcoordinador', {
@@ -139,16 +250,12 @@ app.post('/actualizarusuarios', (req, res) =>{
 app.get('/listadocursos', (req, res) =>{
 	res.render('listadocursos', {
     session: req,
-
-
 	});
 });
 
 app.get('/listadocursosaspirante', (req, res) =>{
 	res.render('listadocursosaspirante', {
     session: req,
-
-
 	});
 });
 
@@ -196,8 +303,5 @@ app.get('*',(req, res)=>{
 		estudiante: 'error'
 	});
 });
-
-
-
 
 module.exports = app;

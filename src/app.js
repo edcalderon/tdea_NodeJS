@@ -1,3 +1,4 @@
+//Requires
 require('./config/config');
 const express = require('express')
 const app = express();
@@ -5,14 +6,47 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const data = require('./data');
-var multer = require('multer');
+const jwt = require('jsonwebtoken');
+
+
+// Local localstorage
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+}
+
 
 // Paths
-const directorio_publico = path.join(__dirname, '../public');
-const directorio_templates = path.join(__dirname, '../templates');   //Trae la carpeta donde esta el footer y el header
+const directory_public = path.join(__dirname, '../public');
+const directory_templates = path.join(__dirname, '../templates');   //There is the folder with all the views in html and the partials footer and header
 
 // Static
-app.use(express.static(directorio_publico));
+app.use(express.static(directory_public));
+
+
+// Middleware
+app.use((req,res,next) => {
+  let token = localStorage.getItem('token')
+  // decof token
+  jwt.verify(token,'word-secret',(err,decoded) =>{
+    if(err){
+      return next()
+    }
+    res.locals.session = true
+    res.locals.name = decoded.user.firstname
+    req.user = decoded.user._id
+    next()
+  })
+  /* session
+  if(req.session.user){
+    res.locals.session = true,
+    res.locals.name = req.session.name
+  }
+  next()
+  */
+})
+
+
 
 // BodyParser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -29,35 +63,6 @@ mongoose.connect('mongodb://localhost:27017/app-db', {useNewUrlParser:true},(err
   }
   console.log("moongose conected")
 })
-
-
-
-/*
-// Conection to mongodb native
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'app-db';
-
-// Create a new MongoClient
-const client = new MongoClient(url,{useNewUrlParser: true });
-
-// Use connect method to connect to the Server
-client.connect(function(err) {
-  if (err){
-    console.log("Can't connect to server")
-  }
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-  const db = client.db(dbName);
-  const collectionUsers = db.collection("users")
-  client.close();
-});
-*/
 
 //var puerto = 3000
 app.listen(process.env.PORT, ()=>{

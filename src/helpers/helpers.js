@@ -75,8 +75,6 @@ hbs.registerHelper( 'registrarUsuario', (email, username, password, phone, id, r
 		console.log(listaUsuarios);
 });
 
-
-
 hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
     console.log(username,password);
 		let check = listaUsuarios.find(usern => usern.username == username && usern.password== password );
@@ -88,7 +86,6 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 			return texto;
 				console.log('no existe usuario con ese email');
 		}
-
 		if(check && check.roll == 'coordinador'){
 							let texto = `<p> usuario y contraseña correctas </p>
 														<form method='post' action='/indexcoordinador'>
@@ -99,7 +96,6 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 							return texto;
 			}
 			else{
-
 								let texto = "<p> usuario y contraseña correctas </p>\
 															<form method='post' action='/indexaspirante'>\
 																	 <input type='hidden' name='session' value='session'>\
@@ -107,8 +103,6 @@ hbs.registerHelper( 'checkearUsuario', ( username, password ) => {
 															</form>";
 								return texto;
 				}
-
-
 });
 
 //______________________________________________________________________________
@@ -225,7 +219,7 @@ let count = 1;
 		if(curso.estado == "disponible"){
 			console.log(curso.nombre);
 	     texto = texto + `
-			 <div class="card">
+			 <div class="card mb-2">
 			     <div class="card-header" id="heading${count}">
 			       <h5 class="mb-0">
 			         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${count}" aria-expanded="true" aria-controls="collapse${count}">
@@ -415,19 +409,27 @@ hbs.registerHelper('actualizarUsuario',(id, username, email, phone, roll) =>{
 
 // mongodb third delivery
 
-hbs.registerHelper('createUserMongo',(email, username, password, phone, id, roll) => {
-	  collectionUsers.insertOne({
-	    email: email,
-	    username: username,
-	    password: password,
-	    phone: phone,
-			id: id,
-	    roll: roll,
-	    curso: []
-	    }, (err,result)=>{
-	      if(err){
-	        return console.log("error" + err)
-	      }
-	      return console.log(result.ops)
-	  	});
+// Model user mongodb
+const User = require('./../models/user');
+
+hbs.registerHelper('createUserMongo',(email, username, password, phone, cc) => {
+var error;
+		  let user = new User({
+				 email : email,
+				 username: username,
+				 password: password,
+				 phone:phone,
+				 cc:cc,
+				 roll:"aspirante",
+				 cursos: []
+			 });
+			 try{
+				 user.save()
+			 }catch(e){
+
+			 }
+
+
+
+
 });

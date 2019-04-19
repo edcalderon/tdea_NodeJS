@@ -4,27 +4,55 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: {
     type: String,
-    require: true
+    required: true,
+    trim: true,
+    match: [/.+@.+\..+/, "Please enter a valid e-mail address"],
+    unique: true,
+    lowercase: true
   },
-  username: {
+  firstname: {
     type: String,
-    require: true
+    required: "name is Required",
+    trim: true,
+    lowercase: true
+  },
+  lastname: {
+    type: String,
+    required: "lastname is Required",
+    trim: true,
+    lowercase: true
   },
   password: {
     type: String,
-    require: true
+    required: true,
+    trim: true,
+    validate: [
+     function(input) {
+       return input.length >= 6;
+     },
+      "Password should be longer."
+    ]
   },
   phone: {
     type: Number,
-    require: true
+    required: true,
+    trim: true
   },
-  id: {
+  cc: {
     type: Number,
-    require: true
+    required: true,
+    trim: true,
+    unique: true
   },
   roll: {
     type: String,
-    require: true
+    required: true,
+    trim: true
+  },
+  cursos: {
+    type: Array,
+    required: true,
+    trim: true
   }
 });
 
