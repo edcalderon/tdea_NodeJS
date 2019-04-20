@@ -33,19 +33,25 @@ app.use(express.static(directory_public));
 
 // Middleware
 app.use((req,res,next) => {
-  // let token = localStorage.getItem('token')
-  // //  decof token
-  // jwt.verify(token,'word-secret',(err,decoded) =>{
-  //   if(err){
-  //     return next()
-  //   }
-  //   res.locals.session = true
-  //   res.locals.name = decoded.user.firstname
-  //   req.user = decoded.user._id
-  //   next()
-  // })
+
+   // let token = localStorage.getItem('token')
+   //   //  decof token
+   //   jwt.verify(token,'word-secret',(err,decoded) =>{
+   //       if(err){
+   //        return next()
+   //    }
+   //
+   //    res.locals.session = true
+   //    res.locals.name = decoded.user.firstname
+   //    next()
+   //   })
+
   if(req.session.user){
-    res.locals.session = true
+    res.locals.session = true,
+    res.locals.name = req.session.name
+    res.locals.roll = req.session.roll
+    res.locals.email = req.session.email
+    console.log(res.locals.roll)
   }
   next()
 })
