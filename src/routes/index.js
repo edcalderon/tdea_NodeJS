@@ -102,38 +102,57 @@ app.post('/loginregister', (req, res) =>{
 			}
 			if(!result){
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Usuario invalido"
+					login: req.body.login,
+					show: "Usuario o contraseña incorrectas",
+					path: "/loginregister",
+					button: "danger"
 				})
 			}
 			if(result && !bcrypt.compareSync(req.body.inputPassword, result.password)){
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Contraseña invalida"
+					login: req.body.login,
+					show: "Usuario o contraseña incorrectas",
+					path: "/loginregister",
+					button: "danger"
 				})
 			}
 			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "coordinador"){
 
-				req.session.user = result._id;
+				// session variables
+				req.session.user = result._id
+				req.session.roll = result.roll
+				req.session.name = result.fisrtname
+				req.session.email = result.email
+
+				// jwt jsonwebtoken creation
+				 let token = jwt.sign({
+						user: result
+					}, 'word-secret',{expiresIn: '4h'});
+			 	// Save token in localstorage
+				   localStorage.setItem('token', token);
 
 				res.render('loginregister', {
 					login: req.body.login,
 					show: "Bienvenido coordinador.",
 					path: "/dashboardadmin",
-					button: "success",
-					session: true
+					button: "success"
 				})
 			}
 			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "aspirante"){
+				// session variables
+				req.session.user = result._id
+				req.session.roll = result.roll
+				req.session.name = result.fisrtname
+				req.session.email = result.email
 
-				req.session.user = result._id //session var
-			// jwt jsonwebtoken creation
-			// 			let token = jwt.sign({
-			// 				user: result
-			// 			}, 'word-secret',{expiresIn: '4h'});
 
-			//  // Save token in localstorage
-			// 			 localStorage.setItem('token', token);
+						// jwt jsonwebtoken creation
+			 			let token = jwt.sign({
+			 				user: result
+			 			}, 'word-secret',{expiresIn: '4h'});
+
+			     // Save token in localstorage
+						 localStorage.setItem('token', token);
 
 						 req.session.inputEmail = req.body.inputEmail;
 						 res.render('loginregister', {
