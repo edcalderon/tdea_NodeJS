@@ -6,6 +6,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const data = require('./data');
+const session = require('express-session');
 const jwt = require('jsonwebtoken');
 
 
@@ -15,6 +16,12 @@ if (typeof localStorage === "undefined" || localStorage === null) {
   localStorage = new LocalStorage('./scratch');
 }
 
+// Session
+app.use(session({
+	secret: "keyboard cat",
+	resave: false,
+	saveUninitialized: true
+}))
 
 // Paths
 const directory_public = path.join(__dirname, '../public');
@@ -26,24 +33,21 @@ app.use(express.static(directory_public));
 
 // Middleware
 app.use((req,res,next) => {
-  let token = localStorage.getItem('token')
-  // decof token
-  jwt.verify(token,'word-secret',(err,decoded) =>{
-    if(err){
-      return next()
-    }
-    res.locals.session = true
-    res.locals.name = decoded.user.firstname
-    req.user = decoded.user._id
-    next()
-  })
-  /* session
+  // let token = localStorage.getItem('token')
+  // //  decof token
+  // jwt.verify(token,'word-secret',(err,decoded) =>{
+  //   if(err){
+  //     return next()
+  //   }
+  //   res.locals.session = true
+  //   res.locals.name = decoded.user.firstname
+  //   req.user = decoded.user._id
+  //   next()
+  // })
   if(req.session.user){
-    res.locals.session = true,
-    res.locals.name = req.session.name
+    res.locals.session = true
   }
   next()
-  */
 })
 
 

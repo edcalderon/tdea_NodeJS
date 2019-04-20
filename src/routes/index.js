@@ -33,7 +33,7 @@ app.use(session({
 
 // Paths
 app.get('/', (req, res) =>{
-	res.render('index', {
+	res.render('indexdashboard', {
 	});
 });
 
@@ -91,46 +91,58 @@ app.get('/loginregister', (req, res) =>{
 		})
 });
 
-
-
 app.post('/loginregister', (req, res) =>{
     User.findOne({email : req.body.inputEmail}, (err,result)=>{
 			if(err){
 				console.log(err)
 				res.render('loginregister', {
-						show: "Error"
+								registro: req.body.registro,
+								show: "Error"
 				})
 			}
 			if(!result){
 				res.render('loginregister', {
-					login: req.body.login,
-					show: "Usuario o Contraseña incorrectos",
-					path: "/loginregister"
+								registro: req.body.registro,
+								show: "Usuario invalido"
 				})
 			}
 			if(result && !bcrypt.compareSync(req.body.inputPassword, result.password)){
 				res.render('loginregister', {
-					login: req.body.login,
-					show: "Usuario o Contraseña incorrectos",
-					path: "/loginregister",
-					button: "danger"
+								registro: req.body.registro,
+								show: "Contraseña invalida"
 				})
 			}
-			if(result && bcrypt.compareSync(req.body.inputPassword, result.password)){
-				//req.session.user = result._id //session var
-				// jwt jsonwebtoken creation
-						let token = jwt.sign({
-							user: result
-						}, 'word-secret',{expiresIn: '4h'});
-			 // Save token in localstorage
-			 			localStorage.setItem('token', token);
-						res.render('loginregister', {
+			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "coordinador"){
+
+				req.session.user = result._id;
+
+				res.render('loginregister', {
+					login: req.body.login,
+					show: "Bienvenido coordinador.",
+					path: "/dashboardadmin",
+					button: "success",
+					session: true
+				})
+			}
+			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "aspirante"){
+
+				req.session.user = result._id //session var
+			// jwt jsonwebtoken creation
+			// 			let token = jwt.sign({
+			// 				user: result
+			// 			}, 'word-secret',{expiresIn: '4h'});
+
+			//  // Save token in localstorage
+			// 			 localStorage.setItem('token', token);
+
+						 req.session.inputEmail = req.body.inputEmail;
+						 res.render('loginregister', {
 							login: req.body.login,
 							show: "Usuario y Contraseña correctas! ya puedes continuar.",
 							path: "/dashboarduser",
-							button: "success"
+							button: "success",
+							session: true
 						})
-
 			}
 		})
 });
@@ -186,7 +198,8 @@ app.get('/dashboardadmin', (req, res) =>{
 
 app.get('/exit', (req, res) =>{
 		localStorage.setItem('token', ' ')
-  	res.render('index', {
+  	res.render('indexdashboard', {
+			session: false
 		})
 });
 
