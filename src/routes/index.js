@@ -98,33 +98,38 @@ app.post('/loginregister', (req, res) =>{
 			if(err){
 				console.log(err)
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Error"
+						show: "Error"
 				})
 			}
 			if(!result){
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Usuario invalido"
+					login: req.body.login,
+					show: "Usuario o Contraseña incorrectos",
+					path: "/loginregister"
 				})
 			}
 			if(result && !bcrypt.compareSync(req.body.inputPassword, result.password)){
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Contraseña invalida"
+					login: req.body.login,
+					show: "Usuario o Contraseña incorrectos",
+					path: "/loginregister",
+					button: "danger"
 				})
 			}
 			if(result && bcrypt.compareSync(req.body.inputPassword, result.password)){
-
 				//req.session.user = result._id //session var
 				// jwt jsonwebtoken creation
 						let token = jwt.sign({
 							user: result
 						}, 'word-secret',{expiresIn: '4h'});
-
 			 // Save token in localstorage
 			 			localStorage.setItem('token', token);
-
+						res.render('loginregister', {
+							login: req.body.login,
+							show: "Usuario y Contraseña correctas! ya puedes continuar.",
+							path: "/dashboarduser",
+							button: "success"
+						})
 
 			}
 		})

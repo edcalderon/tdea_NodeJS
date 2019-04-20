@@ -57,7 +57,7 @@ app.use(require('./routes/index'));
 
 
 //mongoose Conection
-mongoose.connect('mongodb://localhost:27017/app-db', {useNewUrlParser:true},(err, result) =>{
+mongoose.connect(process.env.URLDB, {useNewUrlParser:true},(err, result) =>{
   if(err){
     return console.log(err)
   }
