@@ -153,11 +153,6 @@ app.get('/dashboarduser', (req, res) =>{
 		})
 });
 
-
-
-
-
-
 app.get('/register', (req, res) =>{
   	res.render('register', {
 		})
@@ -194,7 +189,28 @@ app.get('/dashboardadmin', (req, res) =>{
 		})
 });
 
+app.post('/dashboardadmin', (req, res) =>{
+  	 let course = new Course ({
+			name: req.body.nombreCurso,
+      description: req.body.descripcion,
+			value: req.body.valor,
+			intensity: req.body.intensidad,
+			modality: req.body.modalidad,
+			state:  req.body.estado,
+		  students: []
+		 })
 
+		 course.save((err,result) =>{
+			 if(err){
+				 return res.render('dashboardadmin',{
+									show: err
+								})
+			 }
+			 return res.render('dashboardadmin',{
+							show: result
+						})
+		 })
+});
 
 app.get('/exit', (req, res) =>{
 		localStorage.setItem('token', ' ')

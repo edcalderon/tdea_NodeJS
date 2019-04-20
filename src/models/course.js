@@ -11,7 +11,7 @@ const courseSchema = new Schema({
   },
   description: {
     type: String,
-    required: "description is Required",
+    required: true,
     lowercase: true
   },
   value: {
@@ -32,8 +32,7 @@ const courseSchema = new Schema({
     required: true
   },
   students: {
-    type: Array,
-    required: true
+    type: Array
   }
 });
 
