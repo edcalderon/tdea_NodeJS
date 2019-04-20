@@ -26,12 +26,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    validate: [
-     function(input) {
-       return input.length >= 6;
-     },
-      "Password should be longer."
-    ]
+    minlength:6
   },
   phone: {
     type: Number,

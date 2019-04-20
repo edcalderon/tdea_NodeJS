@@ -218,7 +218,7 @@ let count = 1;
 	listaCursos.forEach ( curso => {
 		if(curso.estado == "disponible"){
 			console.log(curso.nombre);
-	     texto = texto + `
+	     texto = texto + `<div id='accordion'>
 			 <div class="card mb-2">
 			     <div class="card-header" id="heading${count}">
 			       <h5 class="mb-0">
@@ -232,7 +232,8 @@ let count = 1;
 			        DESCRIPCION: ${curso.descripcion} MODALIDAD: ${curso.modalidad} INTENSIDAD HORARIA: ${curso.intensidadhoraria}
 			       </div>
 			     </div>
-			  </div>`;
+			  </div>
+				</div>`;
 		 }
 		 console.log(count)
 		 count++;
@@ -251,6 +252,7 @@ let count = 1;
 		if(usuario.id == id ){
 
 	     texto = texto + `
+			 <div id='accordion'>
 			 <div class="card">
 			     <div class="card-header" id="heading${count}">
 			       <h5 class="mb-0">
@@ -261,10 +263,10 @@ let count = 1;
 			     </div>
 			     <div id="collapse${count}" class="collapse " aria-labelledby="heading${count}" data-parent="#accordion">
 			       <div class="card-body">
-
 			       </div>
 			     </div>
-			  </div>`;
+			  </div>
+				</div>`;
 		 }
 		 console.log(count)
 		 count++;

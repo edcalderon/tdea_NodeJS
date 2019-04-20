@@ -19,8 +19,9 @@ hbs.registerPartials(directorio_partials);
 app.set('views',directorio_views);
 app.set('view engine', 'hbs');//Le configuramos el motor de templates o de vistas
 
-// Model user mongodb
+// Models mongodb
 const User = require('./../models/user');
+const Course = require('./../models/course');
 
 // Session
 app.use(session({
@@ -90,6 +91,8 @@ app.get('/loginregister', (req, res) =>{
 		})
 });
 
+
+
 app.post('/loginregister', (req, res) =>{
     User.findOne({email : req.body.inputEmail}, (err,result)=>{
 			if(err){
@@ -105,7 +108,6 @@ app.post('/loginregister', (req, res) =>{
 								show: "Usuario invalido"
 				})
 			}
-
 			if(result && !bcrypt.compareSync(req.body.inputPassword, result.password)){
 				res.render('loginregister', {
 								registro: req.body.registro,
@@ -123,13 +125,21 @@ app.post('/loginregister', (req, res) =>{
 			 // Save token in localstorage
 			 			localStorage.setItem('token', token);
 
-				res.render('dashboarduser', {
-								registro: req.body.registro,
-								show: result.email
-				})
+
 			}
 		})
 });
+
+app.get('/dashboarduser', (req, res) =>{
+  	res.render('dashboarduser', {
+
+		})
+});
+
+
+
+
+
 
 app.get('/register', (req, res) =>{
   	res.render('register', {
@@ -150,11 +160,10 @@ app.post('/register', (req, res) =>{
 	user.save((err,result)=>{
 		if(err){
 			console.log(err);
-			res.render('register', {
-				registro: req.body.registro,
-				show: "Upss! Hubo un error en el registro revisa los campos he intenta de nuevo"
-
-			})
+						res.render('register', {
+							registro: req.body.registro,
+							show: "Upss! el usuario con ese email o cedula ya existe"
+						})
 		}res.render('register',{
 			  registro: req.body.registro,
 				show: "<a href='/loginregister' >Registro exitoso! ya puedes ingresar </a>"
@@ -162,17 +171,13 @@ app.post('/register', (req, res) =>{
 	})
 });
 
-app.get('/dashboard', (req, res) =>{
-  	res.render('dashboard', {
+app.get('/dashboardadmin', (req, res) =>{
+  	res.render('dashboardadmin', {
 
 		})
 });
 
-app.get('/dashboarduser', (req, res) =>{
-  	res.render('dashboarduser', {
 
-		})
-});
 
 app.get('/exit', (req, res) =>{
 		localStorage.setItem('token', ' ')
