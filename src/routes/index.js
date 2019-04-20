@@ -102,14 +102,18 @@ app.post('/loginregister', (req, res) =>{
 			}
 			if(!result){
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Usuario invalido"
+					login: req.body.login,
+					show: "Usuario o contraseña incorrectas",
+					path: "/loginregister",
+					button: "danger"
 				})
 			}
 			if(result && !bcrypt.compareSync(req.body.inputPassword, result.password)){
 				res.render('loginregister', {
-								registro: req.body.registro,
-								show: "Contraseña invalida"
+					login: req.body.login,
+					show: "Usuario o contraseña incorrectas",
+					path: "/loginregister",
+					button: "danger"
 				})
 			}
 			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "coordinador"){
