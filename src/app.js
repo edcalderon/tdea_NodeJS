@@ -51,7 +51,10 @@ app.use((req,res,next) => {
     res.locals.name = req.session.name
     res.locals.roll = req.session.roll
     res.locals.email = req.session.email
+<<<<<<< HEAD
     res.locals.cc = req.session.cc
+=======
+>>>>>>> 9063af6a50d4b6b5d36a3951466cf14303bdd4d6
   }
   next()
 })
