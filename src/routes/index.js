@@ -122,7 +122,8 @@ app.post('/loginregister', (req, res) =>{
 				req.session.user = result._id
 				req.session.roll = result.roll
 				req.session.name = result.fisrtname
-				req.session.email = result.email
+				req.session.email = result.email,
+				req.session.cc = result.cc
 
 				// jwt jsonwebtoken creation
 				 let token = jwt.sign({
@@ -167,9 +168,31 @@ app.post('/loginregister', (req, res) =>{
 });
 
 app.get('/dashboarduser', (req, res) =>{
-  	res.render('dashboarduser', {
+	Course.find({state: "Disponible"},(err,result)=>{
+		if (err){
+			return console.log(err)
+		}
 
+		res.render ('dashboarduser',{
+			listado : result,
+			session: true
 		})
+	})
+});
+
+app.post('/dashboarduser', (req, res) =>{
+	Course.find({name: req.body.inscribir}, (err, curso) =>{
+		console.log(typeof curso)
+		if (err){
+			return console.log(err)
+		}
+
+		if (!curso){
+		return res.redirect('/indexdashboard')
+	}
+		res.render ('dashboarduser')
+			//students : curso2.students.push(req.session.user)
+	});
 });
 
 app.get('/register', (req, res) =>{

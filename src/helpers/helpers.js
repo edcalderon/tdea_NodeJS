@@ -159,6 +159,42 @@ hbs.registerHelper('listarofertaCursos', ()=>{
 	return campos+texto;
 });
 
+//_________Incribir cursos con mongodb y listarlos_____________________________
+
+hbs.registerHelper('inscription', (listado) => {
+	let texto = `	<form action="/dashboarduser" method="post">
+			<table class='table table-striped table-hover'> 
+					<thead class='thead-dark'>
+					<th>Nombre</th>
+					<th>Valor</th>
+					<th>Intensidad</th>
+					<th>Modalidad</th>
+					<th></th>
+					<th></th>
+					</thead>
+					<tbody>`;
+		listado.forEach(materia =>{
+			texto = texto + 
+					`<tr>
+					<td> ${materia.name} </td>
+					<td> ${materia.value} </td>
+					<td> ${materia.intensity}</td>
+					<td> ${materia.modality} </td>
+					<td><button class="btn btn-danger" name="ver" id="informacion">Ver</button></td>
+					<td><button class="btn btn-danger" name="inscribir" value="${materia.name}">Inscribir</button></td>
+					</tr> `;
+		})
+		texto = texto + '</tbody> </table></form>';	
+		return texto;
+
+
+	
+	});
+	
+
+
+
+
 //_________Inscribir cursos como aspirante_____________________________
 
 hbs.registerHelper('inscribirCurso', (id, Curso) => {
