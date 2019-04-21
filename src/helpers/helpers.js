@@ -163,7 +163,7 @@ hbs.registerHelper('listarofertaCursos', ()=>{
 
 hbs.registerHelper('inscription', (listado) => {
 	let texto = `	<form action="/dashboarduser" method="post">
-			<table class='table table-striped table-hover'> 
+			<table class='table table-striped table-hover'>
 					<thead class='thead-dark'>
 					<th>Nombre</th>
 					<th>Valor</th>
@@ -174,23 +174,23 @@ hbs.registerHelper('inscription', (listado) => {
 					</thead>
 					<tbody>`;
 		listado.forEach(materia =>{
-			texto = texto + 
+			texto = texto +
 					`<tr>
 					<td> ${materia.name} </td>
 					<td> ${materia.value} </td>
 					<td> ${materia.intensity}</td>
 					<td> ${materia.modality} </td>
-					<td><button class="btn btn-danger" name="ver" id="informacion">Ver</button></td>
+					<td><button class="btn btn-danger" name="ver" id="informacion">Ver</button><button class="hidden" name="listado" id="listado" value="hola"></button></td>
 					<td><button class="btn btn-danger" name="inscribir" value="${materia.name}">Inscribir</button></td>
 					</tr> `;
 		})
-		texto = texto + '</tbody> </table></form>';	
+		texto = texto + '</tbody> </table></form>';
 		return texto;
 
 
-	
+
 	});
-	
+
 
 
 

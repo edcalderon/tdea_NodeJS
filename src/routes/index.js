@@ -171,8 +171,7 @@ app.get('/dashboarduser', (req, res) =>{
 	Course.find({state: "Disponible"},(err,result)=>{
 		if (err){
 			return console.log(err)
-		}
-
+		}console.log(result)
 		res.render ('dashboarduser',{
 			listado : result,
 			session: true
@@ -186,7 +185,6 @@ app.post('/dashboarduser', (req, res) =>{
 		if (err){
 			return console.log(err)
 		}
-
 		if (!curso){
 		return res.redirect('/indexdashboard')
 	}
