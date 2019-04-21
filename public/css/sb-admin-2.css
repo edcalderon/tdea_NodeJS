@@ -12005,12 +12005,12 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 
+
 footer.sticky-footer  {
   padding: 2rem 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  background-color: #26272b;
-  /*padding: 15px 0 15px;*/
+  background: #4e73df;
   font-size: 15px;
   line-height: 20px;
   color: #737373; }
@@ -12231,10 +12231,10 @@ footer.sticky-footer  {
 	margin: 0px 0px 10px 0px;
 	border: 1px solid rgb(144, 111, 223);
 	padding: 20px;
-	background: rgb(118, 135, 228);
-	box-shadow: inset 0px 0px 15px rgb(179, 175, 175);
-	-moz-box-shadow: inset 0px 0px 15px rgb(212, 209, 209);
-	-webkit-box-shadow: inset 0px 0px 15px rgb(175, 165, 165);
+	background: #4e73df;
+	box-shadow: inset 0px 0px 15px #4e73df;
+	-moz-box-shadow: inset 0px 0px 15px #4e73df;
+	-webkit-box-shadow: inset 0px 0px 15px #4e73df;
 }
 .form-style-3 fieldset legend{
 	color: rgb(25, 25, 27);
@@ -12273,9 +12273,9 @@ footer.sticky-footer  {
 	outline: none;
 	color: rgb(68, 68, 68);
 	padding: 5px 8px 5px 8px;
-	box-shadow: inset 1px 1px 4px #FFD5E7;
-	-moz-box-shadow: inset 1px 1px 4px #FFD5E7;
-	-webkit-box-shadow: inset 1px 1px 4px #FFD5E7;
+	box-shadow: inset 1px 1px 4px #4e73df;
+	-moz-box-shadow: inset 1px 1px 4px #4e73df;
+	-webkit-box-shadow: inset 1px 1px 4px #4e73df;
 	background: rgb(241, 241, 241);
 	width:50%;
 }
@@ -12285,9 +12285,9 @@ footer.sticky-footer  {
 	border: 1px solid rgb(74, 82, 201);
 	padding: 5px 15px 5px 15px;
 	color: #FFCBE2;
-	box-shadow: inset -1px -1px 3px rgb(148, 98, 255);
-	-moz-box-shadow: inset -1px -1px 3px rgb(127, 98, 255);
-	-webkit-box-shadow: inset -1px -1px 3px rgb(140, 98, 255);
+	box-shadow: inset -1px -1px 3px #4e73df;
+	-moz-box-shadow: inset -1px -1px 3px #4e73df;
+	-webkit-box-shadow: inset -1px -1px 3px #4e73df;
 	border-radius: 3px;
 	border-radius: 3px;
 	-webkit-border-radius: 3px;

@@ -51,7 +51,6 @@ app.use((req,res,next) => {
     res.locals.name = req.session.name
     res.locals.roll = req.session.roll
     res.locals.email = req.session.email
-    console.log(res.locals.roll)
   }
   next()
 })
