@@ -245,11 +245,15 @@ app.post('/dashboardadmin', (req, res) =>{
 		 course.save((err,result) =>{
 			 if(err){
 				 return res.render('dashboardadmin',{
-									show: err
+					 				result: "Error!",
+									resultshow: "Hubo un error: " + err,
+									cardcolor: "danger"
 								})
 			 }
 			 return res.render('dashboardadmin',{
-							show: result
+				 			result: "Hecho!",
+							resultshow: "Curso creado correctamente",
+							cardcolor: "success"
 						})
 		 })
 });

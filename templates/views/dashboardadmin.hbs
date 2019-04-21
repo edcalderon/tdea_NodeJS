@@ -102,11 +102,9 @@
           </div>
 
           <!-- Content Row -->
-
           <div class="row">
-
             <!-- Area Chart -->
-            <div class="col-xl-3 col-lg-7">
+            <div class="col-xl-4 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -116,7 +114,7 @@
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
+                      <div class="dropdown-header">Acciones:</div>
                       <a class="dropdown-item" href="#">Action</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <div class="dropdown-divider"></div>
@@ -125,36 +123,47 @@
                   </div>
                 </div>
                 <!-- Card Body -->
-                <div class="card-body">
-                    <div class="form-style-3">
-                          <form action="/dashboardadmin" method="post">
-                            <div class="row ">
-                              <div class="col-xl-12">
-                                  <fieldset><legend>Informacion general del curso</legend>
-                                    <label for="field1"><span>Nombre<span class="required">*</span></span><input type="text" class="input-field" name="nombreCurso"  required /></label>
-                                    <label for="field2"><span>Valor <span class="required">*</span></span><input type="text"  class="input-field" name="valor" required /></label>
-                                    <label for="field3"><span>Intensidad <span class="required">*</span></span><input type="text" class="input-field" name="intensidad"  required /></label>
-                                    <label for="field3"><span>Modalidad <span class="required">*</span></span><input type="text" class="input-field" name="modalidad" required  /></label>
-                                    <label for="field4"><span>Estado</span><select name="estado" class="select-field">
-                                    <option value="Disponible">Disponible</option>
-                                    <option value="En espera">En espera</option>
-                                    </select></label>
-                                  </fieldset>
-                                  <fieldset><legend>Descripcion del curso</legend>
-                                    <label for="field6"><span>Descripcion <span class="required">*</span></span><textarea name="descripcion" class="textarea-field" required ></textarea></label>
-                                    <label><span> </span><input type="submit" value="Submit" /></label>
-                                  </fieldset>
-                              </div>
-                            </div>
-                          </form>
+                <div class="card-body py-3 d-flex flex-row align-items-center">
+                  <div class="col-xl-12">
+                    <div class="row justify-content-center">
+                       <div class="form-style-3">
+                                 <form action="/dashboardadmin" method="post">
+                                    <fieldset><legend>Informacion general del curso</legend>
+                                      <label for="field1"><span>Nombre<span class="required">*</span></span><input type="text" class="input-field" name="nombreCurso"  required /></label>
+                                      <label for="field2"><span>Valor <span class="required">*</span></span><input type="text"  class="input-field" name="valor" required /></label>
+                                      <label for="field3"><span>Intensidad <span class="required">*</span></span><input type="text" class="input-field" name="intensidad"  required /></label>
+                                      <label for="field3"><span>Modalidad <span class="required">*</span></span><input type="text" class="input-field" name="modalidad" required  /></label>
+                                      <label for="field4"><span>Estado</span><select name="estado" class="select-field">
+                                      <option value="Disponible">Disponible</option>
+                                      <option value="En espera">En espera</option>
+                                      </select></label>
+                                    </fieldset>
+                                    <fieldset><legend>Descripcion del curso</legend>
+                                      <label for="field6"><span>Descripcion <span class="required">*</span></span><textarea name="descripcion" class="textarea-field" required ></textarea></label>
+                                      <label><span> </span><input type="submit" value="Submit" /></label>
+                                    </fieldset>
+                                  </form>
+                                  <div class="card text-white bg-{{cardcolor}}">
+                                      <div class="card-body">
+                                       <p class="card-text">{{resultshow}}</p>
+                                      </div>
+                                  </div>
+                          </div>
+                        </div>
+                      </div>
                   </div>
-                </div>
               <!-- Card Body -->
-              </div>
             </div>
+<<<<<<< HEAD
 
             <!-- Pie Chart -->
             <div class="col-xl-6">
+=======
+          </div>
+          <!-- Area Chart -->
+          <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+>>>>>>> d28cc2c3b431fcdfa31cecae5d4c84677ebd71ab
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -175,45 +184,29 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-pie pt-4 pb-2">
-
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-            </div>
-
-            <div class="col-lg-6 mb-4">
-            </div>
-
-          </div>
-
+          <!-- Pie Chart -->
+          <!-- Content Row final space -->
+              <div class="row">
+                <!-- Content Column -->
+                  <div class="col-lg-6 mb-4"></div>
+                  <div class="col-lg-6 mb-4"></div>
+              </div>
+          <!-- Content Row final space-->
         </div>
         <!-- /.container-fluid -->
-
       </div>
       <!-- End of Main Content -->
-
-      <!-- Footer -->
-      {{>footerdashboard}}
-
-    </div>
-    <!-- End of Content Wrapper -->
-
+    <!-- Footer -->
+    {{>footerdashboard}}
   </div>
-  <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+  <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -234,23 +227,6 @@
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
-
 </html>
