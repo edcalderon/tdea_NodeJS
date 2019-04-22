@@ -32,8 +32,7 @@ const courseSchema = new Schema({
     required: true
   },
   students: {
-    type: Array,
-    unique: true
+    type: Array
   }
 });
 

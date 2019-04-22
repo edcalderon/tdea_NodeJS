@@ -182,22 +182,25 @@ app.get('/dashboarduser', (req, res) =>{
 
 app.post('/dashboarduser', (req, res) =>{
 	//Validación
-// 	var conditions = {
-//     name: req.body.inscribir,
-//     students: { $ne: req.session.user}
-// };
-// 	Course.find( conditions,(err,result)=>{
-// 		if (err){
-// 			return console.log(err)
-// 		}
-// 		console.log('Los resultados: ')
-// 		console.log(req.session.user)
-// 		console.log(result)
-// 		console.log(typeof result)
-// });
+	var conditions = {
+    name: req.body.inscribir,
+    students: { $ne: req.session.user}
+};
+	Course.find( conditions,(err,result)=>{
+		if (err){
+			return console.log(err)
+		}
+		console.log('LOS RESULTADOS SON:')
+		console.log(req.session.user)
+		console.log(result)
+		console.log(typeof result)
+		if(result === []){
+			console.log('Te puedes inscribir')
+		}else{
+			console.log('no te puedes inscribir')
+		}
+});
 	//********************* */Actualización*****
-
-
 	Course.findOneAndUpdate({name: req.body.inscribir},{$push:{students: req.session.user}}, (err, curso) =>{
 		console.log(req.body.inscribir);
 		console.log(curso)
