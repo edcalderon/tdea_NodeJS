@@ -123,11 +123,13 @@
                       <div class="col-sm">{{{inscription listado}}} </div>
                       <div class="col-sm">
                       {{#if resultshow}}
+                      <div id="mydiv" class="card text-white bg-{{cardcolor}}">
                           <div class="card text-white bg-{{cardcolor}}">
                             <div class="card-body">
                               <p class="card-text">{{resultshow}}</p>
                             </div>
                           </div>
+                      </div><br>
                       {{/if}}
                       </div>
                 </div>
@@ -174,6 +176,13 @@
 
   <!-- Footer -->
   {{>footerdashboard}}
+
+  <!-- card hide-->
+  <script>
+    setTimeout(function() {
+        $('#mydiv').fadeOut('fast');
+    }, 6000);
+  </script>
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
