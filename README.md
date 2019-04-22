@@ -17,6 +17,15 @@ NPM, already bundle with Node.js
 ## Branches
 
 * [Deliverable #1](https://github.com/edcalderon/tdea_NodeJS/tree/Primera-entrega)
+* [Deliverable #2](https://github.com/edcalderon/tdea_NodeJS/tree/Segunda-entrega)
+* [Deliverable #3](https://github.com/edcalderon/tdea_NodeJS/tree/Cuarta-entrega)
+
+
+## Deployment
+
+* [Deliverable #1](https://segunda-entrega.herokuapp.com/)
+* [Deliverable #3](https://cuarta-entrega.herokuapp.com/)
+
 ### Installing
 
 install dependencies like:
