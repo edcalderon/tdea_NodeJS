@@ -54,6 +54,7 @@ app.use((req,res,next) => {
     res.locals.email = req.session.email
     res.locals.listado = req.session.listado
   }
+
   next()
 })
 

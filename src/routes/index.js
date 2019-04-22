@@ -122,7 +122,7 @@ app.post('/loginregister', (req, res) =>{
 				// session variables
 				req.session.user = result._id
 				req.session.roll = result.roll
-				req.session.name = result.fisrtname
+				req.session.name = result.firstname
 				req.session.email = result.email,
 				req.session.cc = result.cc
 
@@ -144,7 +144,7 @@ app.post('/loginregister', (req, res) =>{
 				// session variables
 				req.session.user = result._id
 				req.session.roll = result.roll
-				req.session.name = result.fisrtname
+				req.session.name = result.firstname
 				req.session.email = result.email
 
 
@@ -197,11 +197,7 @@ app.post('/dashboarduser', (req, res) =>{
 		})
 	});
 
-// 	db.bios.find( {
-// 		birth: { $gt: new Date('1920-01-01') },
-// 		death: { $exists: false }
-//  } )
-	//Actualización
+	//********************* */Actualización*****
 // 	Course.findOneAndUpdate({name: req.body.inscribir},{$push:{students: req.session.user}}, (err, curso) =>{
 // 		console.log(req.body.inscribir);
 // 		console.log(curso)
@@ -225,6 +221,7 @@ app.post('/dashboarduser', (req, res) =>{
 // 			cardcolor: "success"
 // 	})
 // })
+
 });
 
 app.get('/register', (req, res) =>{
