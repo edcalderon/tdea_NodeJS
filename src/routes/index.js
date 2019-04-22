@@ -182,45 +182,45 @@ app.get('/dashboarduser', (req, res) =>{
 
 app.post('/dashboarduser', (req, res) =>{
 	//Validación
-	Course.find( {name:req.body.inscribir},(err,result)=>{
-		if (err){
-			return console.log(err)
-		}
-		console.log('Los resultados: ')
-		console.log(req.session.user)
-		console.log(result)
-		console.log(typeof result)
-		let obj = result.find(e => e.students == req.session.user);
-		console.log(obj)
-		res.render ('dashboarduser',{
-			listado : req.session.listado
-		})
-	});
-
-	//********************* */Actualización*****
-// 	Course.findOneAndUpdate({name: req.body.inscribir},{$push:{students: req.session.user}}, (err, curso) =>{
-// 		console.log(req.body.inscribir);
-// 		console.log(curso)
+// 	var conditions = {
+//     name: req.body.inscribir,
+//     students: { $ne: req.session.user}
+// };
+// 	Course.find( conditions,(err,result)=>{
 // 		if (err){
-// 			return res.render('dashboarduser',{
-// 			  resultshow: "Hubo un error: " + err,
-// 			  cardcolor: "danger"
-// 		 })
+// 			return console.log(err)
 // 		}
+// 		console.log('Los resultados: ')
+// 		console.log(req.session.user)
+// 		console.log(result)
+// 		console.log(typeof result)
+// });
+	//********************* */Actualización*****
 
-// 		res.render ('dashboarduser', {
-// 			listado: req.session.listado,
-// 			name: curso.name,
-// 			description: curso.description,
-// 			value: curso.value,
-// 			intensity: curso.intensity,
-// 			modality: curso.modality,
-// 			state: curso.state,
-// 			students: req.session.user,
-// 			resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
-// 			cardcolor: "success"
-// 	})
-// })
+
+	Course.findOneAndUpdate({name: req.body.inscribir},{$push:{students: req.session.user}}, (err, curso) =>{
+		console.log(req.body.inscribir);
+		console.log(curso)
+		if (err){
+			return res.render('dashboarduser',{
+			  resultshow: "Hubo un error: " + err,
+			  cardcolor: "danger"
+		 })
+		}
+
+		res.render ('dashboarduser', {
+			listado: req.session.listado,
+			name: curso.name,
+			description: curso.description,
+			value: curso.value,
+			intensity: curso.intensity,
+			modality: curso.modality,
+			state: curso.state,
+			students: req.session.user,
+			resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
+			cardcolor: "success"
+	})
+})
 
 });
 
