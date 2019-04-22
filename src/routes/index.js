@@ -14,7 +14,6 @@ require('./../helpers/helpers');
 const directorio_partials = path.join(__dirname, './../../templates/partials');
 const directorio_views = path.join(__dirname, './../../templates/views');
 
-
 // HBS
 hbs.registerPartials(directorio_partials);
 app.set('views',directorio_views);
@@ -181,74 +180,32 @@ app.get('/dashboarduser', (req, res) =>{
 });
 
 app.post('/dashboarduser', (req, res) =>{
-	//Validación
-// 	var conditions = {
-//     name: req.body.inscribir//,
-//     //students: { $ne: req.session.user}
-// };
-// 	Course.find( conditions,(err,result)=>{
-// 		if (err){
-// 			return console.log(err)
-// 		}
- //		console.log('LOS RESULTADOS SON:')
-// 		console.log(req.session.user)
-// 		console.log(result)
-// 		let objeto = result.find(e => e.students === req.session.user);
-// 		console.log(objeto)
-// 		if(result !== []){
-// 			console.log('Te puedes inscribir')
-// 		}else{
-// 			console.log('no te puedes inscribir')
-// 		}
-// });
+	//********************* */Actualización*****
+	Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: req.session.user}}, (err, curso) =>{
+		console.log('RESULTADOS DEL POST')
+		console.log(req.body.inscribir);
+		console.log(curso)
+		if (err){
+			return res.render('dashboarduser',{
+			  resultshow: "Hubo un error: " + err,
+			  cardcolor: "danger"
+		 })
+		}
 
-var conditions = {
-	name: req.body.inscribir,
-	students: { $in: req.session.user}
-};
+		res.render ('dashboarduser', {
+			listado: req.session.listado,
+			name: curso.name,
+			description: curso.description,
+			value: curso.value,
+			intensity: curso.intensity,
+			modality: curso.modality,
+			state: curso.state,
+			students: req.session.user,
+			resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
+			cardcolor: "success"
+	})
+})
 
-Course.find(conditions,(err,result)=>{
-	if (err){
-		return console.log(err)
-	}
-	console.log('LOS RESULTADOS SON:')
-	console.log(req.session.user)
-	console.log(result)
-	console.log(result.length)
-	if(result.length == 0){
-			//********************* Actualización*****
-			console.log('Te inscribiste correctamente!!!!')
-			Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: req.session.user}}, (err, curso) =>{
-				console.log('RESULTADOS DEL POST')
-				console.log(req.body.inscribir);
-				console.log(curso)
-				if (err){
-					return res.render('dashboarduser',{
-					  resultshow: "Hubo un error: " + err,
-					  cardcolor: "danger"
-				 })
-				}
-
-				res.render ('dashboarduser', {
-					listado: req.session.listado,
-					name: curso.name,
-					description: curso.description,
-					value: curso.value,
-					intensity: curso.intensity,
-					modality: curso.modality,
-					state: curso.state,
-					students: req.session.user,
-					resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
-					cardcolor: "success"
-				})
-			})
-	}else{
-		return res.render('dashboarduser',{
-			resultshow: "Upss! Actualmente estas inscrito",
-			cardcolor: "warning"
-		})
-	}
-});
 });
 
 app.get('/register', (req, res) =>{
@@ -283,7 +240,7 @@ app.post('/register', (req, res) =>{
 
 app.get('/dashboardadmin', (req, res) =>{
   	res.render('dashboardadmin', {
-
+			verCursosDisponibles: req.query.verCursosDisponibles
 		})
 });
 
@@ -307,8 +264,6 @@ app.post('/dashboardadmin', (req, res) =>{
 								})
 			 }
 			 return res.render('dashboardadmin',{
-
-
 				 			result: "Hecho!",
 							resultshow: "Curso creado correctamente",
 							cardcolor: "success"

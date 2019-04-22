@@ -444,30 +444,3 @@ hbs.registerHelper('actualizarUsuario',(id, username, email, phone, roll) =>{
 		return texto
 	}
 })
-
-// mongodb third delivery
-
-// Model user mongodb
-const User = require('./../models/user');
-
-hbs.registerHelper('createUserMongo',(email, username, password, phone, cc) => {
-var error;
-		  let user = new User({
-				 email : email,
-				 username: username,
-				 password: password,
-				 phone:phone,
-				 cc:cc,
-				 roll:"aspirante",
-				 cursos: []
-			 });
-			 try{
-				 user.save()
-			 }catch(e){
-
-			 }
-
-
-
-
-});

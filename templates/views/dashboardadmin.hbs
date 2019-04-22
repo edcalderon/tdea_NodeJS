@@ -128,11 +128,13 @@
                        <div class="form-style-3">
                            <div class="row justify-content-center">
                              <div class="col-xl-10">
-                               <div id="mydiv" class="card text-white bg-{{cardcolor}}">
-                                   <div class="card-body">
-                                    <p class="card-text">{{resultshow}}</p>
-                                   </div>
-                               </div><br>
+                               {{#if resultshow}}
+                                <div id="mydiv" class="card text-white bg-{{cardcolor}}">
+                                    <div class="card-body">
+                                      <p class="card-text">{{resultshow}}</p>
+                                    </div>
+                                </div><br>
+                               {{/if}}
                               </div>
                              <form action="/dashboardadmin" method="post">
                                 <fieldset><legend>Informacion general del curso</legend>
@@ -175,7 +177,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href='/dashboardadmin?verCursosDisponibles=true'>Ver Cursos disponibles</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Something else here</a>
@@ -184,8 +186,9 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                  </div>
+                  {{#if verCursosDisponibles}}
+                      {{{listarCursosDisponibles}}}
+                  {{/if}}
                 </div>
               </div>
             </div>
