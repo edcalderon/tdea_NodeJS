@@ -48,6 +48,7 @@ app.use((req,res,next) => {
 
   if(req.session.user){
     res.locals.session = true,
+    res.locals.user  = req.session.user
     res.locals.name = req.session.name
     res.locals.roll = req.session.roll
     res.locals.email = req.session.email

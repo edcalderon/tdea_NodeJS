@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+var $ = require("jquery");
 require('./../helpers/helpers');
 
 // Directory Paths
@@ -174,29 +175,56 @@ app.get('/dashboarduser', (req, res) =>{
 		}
 		req.session.listado = result;
 		res.render ('dashboarduser',{
-			listado : req.session.listado,
-			session: true
+			listado : req.session.listado
 		})
 	})
 });
 
 app.post('/dashboarduser', (req, res) =>{
-	Course.findOneAndUpdate({name: req.body.inscribir}, req.body, {new : true, runValidators: true, context: 'query' }, (err, curso) =>{
+	//Validación
+	Course.find( {name:req.body.inscribir},(err,result)=>{
 		if (err){
 			return console.log(err)
 		}
+		console.log('Los resultados: ')
+		console.log(req.session.user)
+		console.log(result)
+		console.log(typeof result)
+		let obj = result.find(e => e.students == req.session.user);
+		console.log(obj)
+		res.render ('dashboarduser',{
+			listado : req.session.listado
+		})
+	});
 
-		res.render ('dashboarduser', {
-			listado: req.session.listado,
-			name: curso.name,
-			description: curso.description,
-			value: curso.value,
-			intensity: curso.intensity,
-			modality: curso.modality,
-			state: curso.state,
-			students: curso.students.push(req.session.user)
-	})
-})
+// 	db.bios.find( {
+// 		birth: { $gt: new Date('1920-01-01') },
+// 		death: { $exists: false }
+//  } )
+	//Actualización
+// 	Course.findOneAndUpdate({name: req.body.inscribir},{$push:{students: req.session.user}}, (err, curso) =>{
+// 		console.log(req.body.inscribir);
+// 		console.log(curso)
+// 		if (err){
+// 			return res.render('dashboarduser',{
+// 			  resultshow: "Hubo un error: " + err,
+// 			  cardcolor: "danger"
+// 		 })
+// 		}
+
+// 		res.render ('dashboarduser', {
+// 			listado: req.session.listado,
+// 			name: curso.name,
+// 			description: curso.description,
+// 			value: curso.value,
+// 			intensity: curso.intensity,
+// 			modality: curso.modality,
+// 			state: curso.state,
+// 			students: req.session.user,
+// 			resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
+// 			cardcolor: "success"
+// 	})
+// })
 });
 
 app.get('/register', (req, res) =>{
@@ -255,6 +283,8 @@ app.post('/dashboardadmin', (req, res) =>{
 								})
 			 }
 			 return res.render('dashboardadmin',{
+
+
 				 			result: "Hecho!",
 							resultshow: "Curso creado correctamente",
 							cardcolor: "success"
