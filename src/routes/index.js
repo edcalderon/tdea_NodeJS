@@ -121,16 +121,16 @@ app.post('/loginregister', (req, res) =>{
 				// session variables
 				req.session.user = result._id
 				req.session.roll = result.roll
-				req.session.name = result.fisrtname
+				req.session.name = result.firstname
 				req.session.email = result.email,
 				req.session.cc = result.cc
 
 				// jwt jsonwebtoken creation
-				 let token = jwt.sign({
-						user: result
-					}, 'word-secret',{expiresIn: '4h'});
-			 	// Save token in localstorage
-				   localStorage.setItem('token', token);
+				//  let token = jwt.sign({
+				// 		user: result
+				// 	}, 'word-secret',{expiresIn: '4h'});
+			 	// // Save token in localstorage
+				//    localStorage.setItem('token', token);
 
 				res.render('loginregister', {
 					login: req.body.login,
@@ -143,17 +143,17 @@ app.post('/loginregister', (req, res) =>{
 				// session variables
 				req.session.user = result._id
 				req.session.roll = result.roll
-				req.session.name = result.fisrtname
+				req.session.name = result.firstname
 				req.session.email = result.email
 
 
 						// jwt jsonwebtoken creation
-			 			let token = jwt.sign({
-			 				user: result
-			 			}, 'word-secret',{expiresIn: '4h'});
+			 		// 	let token = jwt.sign({
+			 		// 		user: result
+			 		// 	}, 'word-secret',{expiresIn: '4h'});
 
-			     // Save token in localstorage
-						 localStorage.setItem('token', token);
+			    //  // Save token in localstorage
+					// 	 localStorage.setItem('token', token);
 
 						 req.session.inputEmail = req.body.inputEmail;
 						 res.render('loginregister', {
@@ -171,26 +171,31 @@ app.get('/dashboarduser', (req, res) =>{
 	Course.find({state: "Disponible"},(err,result)=>{
 		if (err){
 			return console.log(err)
-		}console.log(result)
+		}
+		req.session.listado = result;
 		res.render ('dashboarduser',{
-			listado : result,
+			listado : req.session.listado,
 			session: true
 		})
 	})
 });
 
 app.post('/dashboarduser', (req, res) =>{
-	Course.find({name: req.body.inscribir}, (err, curso) =>{
-		console.log(typeof curso)
+	Course.findOneAndUpdate({name: req.body.inscribir}, req.body, {new : true, runValidators: true, context: 'query' }, (err, curso) =>{
 		if (err){
 			return console.log(err)
 		}
-		if (!curso){
-		return res.redirect('/indexdashboard')
-	}
-		res.render ('dashboarduser')
-			//students : curso2.students.push(req.session.user)
-	});
+		res.render ('dashboarduser', {
+			listado: req.session.listado,
+			name: curso.name,
+			description: curso.description,
+			value: curso.value,
+			intensity: curso.intensity,
+			modality: curso.modality,
+			state: curso.state,
+			students: curso.students.push(req.session.user)
+	})
+})
 });
 
 app.get('/register', (req, res) =>{

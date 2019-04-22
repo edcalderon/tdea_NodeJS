@@ -125,29 +125,36 @@
                 <!-- Card Body -->
                 <div class="card-body py-3 d-flex flex-row align-items-center">
                   <div class="col-xl-12">
-                    <div class="row justify-content-center">
                        <div class="form-style-3">
-                                 <form action="/dashboardadmin" method="post">
-                                    <fieldset><legend>Informacion general del curso</legend>
-                                      <label for="field1"><span>Nombre<span class="required">*</span></span><input type="text" class="input-field" name="nombreCurso"  required /></label>
-                                      <label for="field2"><span>Valor <span class="required">*</span></span><input type="text"  class="input-field" name="valor" required /></label>
-                                      <label for="field3"><span>Intensidad <span class="required">*</span></span><input type="text" class="input-field" name="intensidad"  required /></label>
-                                      <label for="field3"><span>Modalidad <span class="required">*</span></span><input type="text" class="input-field" name="modalidad" required  /></label>
-                                      <label for="field4"><span>Estado</span><select name="estado" class="select-field">
-                                      <option value="Disponible">Disponible</option>
-                                      <option value="En espera">En espera</option>
-                                      </select></label>
-                                    </fieldset>
-                                    <fieldset><legend>Descripcion del curso</legend>
-                                      <label for="field6"><span>Descripcion <span class="required">*</span></span><textarea name="descripcion" class="textarea-field" required ></textarea></label>
-                                      <label><span> </span><input type="submit" value="Submit" /></label>
-                                    </fieldset>
-                                  </form>
-                                  <div class="card text-white bg-{{cardcolor}}">
-                                      <div class="card-body">
-                                       <p class="card-text">{{resultshow}}</p>
-                                      </div>
-                                  </div>
+                           <div class="row justify-content-center">
+                             <div class="col-xl-10">
+                               <div id="mydiv" class="card text-white bg-{{cardcolor}}">
+                                   <div class="card-body">
+                                    <p class="card-text">{{resultshow}}</p>
+                                   </div>
+                               </div><br>
+                              </div>
+                             <form action="/dashboardadmin" method="post">
+                                <fieldset><legend>Informacion general del curso</legend>
+                                  <label for="field1"><span>Nombre<span class="required">*</span></span><input type="text" class="input-field" name="nombreCurso"  required /></label>
+                                  <label for="field2"><span>Valor <span class="required">*</span></span><input type="text"  class="input-field" name="valor" required /></label>
+                                  <label for="field3"><span>Intensidad <span class="required">*</span></span><input type="text" class="input-field" name="intensidad"  required /></label>
+                                  <label for="field4"><span>Modalidad</span><select name="modalidad" class="select-field">
+                                  <option value="Presencial">Presencial</option>
+                                  <option value="Virtual">Virtual</option>
+                                  </select></label>
+                                  <label for="field4"><span>Estado</span><select name="estado" class="select-field">
+                                  <option value="Disponible">Disponible</option>
+                                  <option value="En espera">En espera</option>
+                                  </select></label>
+                                </fieldset>
+                                <fieldset><legend>Descripcion del curso</legend>
+                                  <label for="field6"><span>Descripcion <span class="required">*</span></span><textarea name="descripcion" class="textarea-field" required ></textarea></label>
+                                </fieldset>
+                                <div class="form-group">
+                                  <button class="btn btn-primary btn-block" type="submit">Guardar</button>
+                                </div>
+                              </form>
                           </div>
                         </div>
                       </div>
@@ -201,6 +208,14 @@
   <!-- End of Content Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
+
+
+  <!-- card hide-->
+  <script>
+    setTimeout(function() {
+        $('#mydiv').fadeOut('fast');
+    }, 6000);
+  </script>
 
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

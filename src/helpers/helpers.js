@@ -180,7 +180,7 @@ hbs.registerHelper('inscription', (listado) => {
 					<td> ${materia.value} </td>
 					<td> ${materia.intensity}</td>
 					<td> ${materia.modality} </td>
-					<td><button class="btn btn-danger" name="ver" id="informacion">Ver</button><button class="hidden" name="listado" id="listado" value="hola"></button></td>
+					<td><button class="btn btn-danger" name="ver" id="informacion">Ver</button></td>
 					<td><button class="btn btn-danger" name="inscribir" value="${materia.name}">Inscribir</button></td>
 					</tr> `;
 		})
