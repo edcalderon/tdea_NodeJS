@@ -348,6 +348,11 @@ app.get('/dashboardprofile', (req, res) =>{
 		})
 });
 
+app.get('/dashboardprofile', (req, res) =>{
+  	res.render('dashboardprofile', {
+		})
+});
+
 app.get('/exit', (req, res) =>{
 		localStorage.setItem('token', ' ')
   	res.render('indexdashboard', {
