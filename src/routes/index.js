@@ -45,15 +45,6 @@ app.get('/login', (req, res) =>{
 });
 
 app.post('/login', (req, res) =>{
-
-/*	res.render('login', {
-		inicio: "req.body.seccion",
-		login: req.body.login,
-		logeusername: req.body.logeusername,
-		logepassword: req.body.logepassword,
-		registro: req.body.registro
-*/
-
 		let user = new User({
 			username: req.body.username,
 			email: req.body.email,
@@ -184,26 +175,6 @@ app.get('/dashboarduser', (req, res) =>{
 
 app.post('/dashboarduser', (req, res) =>{
 	//Validación
-// 	var conditions = {
-//     name: req.body.inscribir//,
-//     //students: { $ne: req.session.user}
-// };
-// 	Course.find( conditions,(err,result)=>{
-// 		if (err){
-// 			return console.log(err)
-// 		}
- //		console.log('LOS RESULTADOS SON:')
-// 		console.log(req.session.user)
-// 		console.log(result)
-// 		let objeto = result.find(e => e.students === req.session.user);
-// 		console.log(objeto)
-// 		if(result !== []){
-// 			console.log('Te puedes inscribir')
-// 		}else{
-// 			console.log('no te puedes inscribir')
-// 		}
-// });
-
 var conditions = {
 	name: req.body.inscribir,
 	students: { $in: req.session.user}
@@ -284,25 +255,75 @@ app.post('/register', (req, res) =>{
 });
 
 app.get('/dashboardadmin', (req, res) =>{
-  	res.render('dashboardadmin', {
-			verCursosDisponibles: req.query.verCursosDisponibles
+	Course.find({},(err,result)=>{
+		console.log(result)
+		if (err){
+			return res.render('dashboardadmin',{
+				resultshow2: "Hubo un error: " + err,
+				cardcolor2: "danger"
+		 })
+		}
+		req.session.courses = result;
+		req.session.verCursosDisponibles = req.query.verCursosDisponibles;
+		res.render ('dashboardadmin',{
+			courses : req.session.courses,
+			verCursosDisponibles : req.session.verCursosDisponibles
 		})
+	})
 });
 
 app.post('/dashboardadmin', (req, res) =>{
-  	 let course = new Course ({
-			name: req.body.nombreCurso,
-      description: req.body.descripcion,
-			value: req.body.valor,
-			intensity: req.body.intensidad,
-			modality: req.body.modalidad,
-			state:  req.body.estado,
-		  students: []
-		 })
 
-		 course.save((err,result) =>{
-			 if(err){
+	//______Guardar cursos
+	if(req.body.nombreCurso){
+	  	 let course = new Course ({
+				name: req.body.nombreCurso,
+	      description: req.body.descripcion,
+				value: req.body.valor,
+				intensity: req.body.intensidad,
+				modality: req.body.modalidad,
+				state:  req.body.estado,
+			  students: []
+			 })
+			 course.save((err,result) =>{
+				 if(err){
+					 return res.render('dashboardadmin',{
+			 				result: "Error!",
+							resultshow: "Hubo un error: " + err,
+							cardcolor: "danger"
+						})
+				 }
 				 return res.render('dashboardadmin',{
+<<<<<<< HEAD
+			 			result: "Hecho!",
+						resultshow: "Curso creado correctamente",
+						cardcolor: "success"
+					})
+			 })
+		}else{
+		 //*******Actualizar estado*********
+			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}}, (err, resultado) => {
+		 		if (err){
+		 			return console.log(err)
+		 		}
+
+		 		res.render ('dashboardadmin', {
+					courses : req.session.courses,
+					verCursosDisponibles : req.session.verCursosDisponibles,
+					name: resultado.name,
+					description: resultado.description,
+					value: resultado.value,
+					intensity: resultado.intensity,
+					modality: resultado.modality,
+					state: resultado.states,
+					students: resultado.students,
+					resultshow2: "El curso "+resultado.name+" ha finalizado " ,
+					cardcolor2: "success"
+		 		})
+		 	})
+		}
+
+=======
 					 				result: "Error!",
 									resultshow: "Hubo un error: " + err,
 									cardcolor: "danger"
@@ -314,6 +335,17 @@ app.post('/dashboardadmin', (req, res) =>{
 							cardcolor: "success"
 						})
 		 })
+>>>>>>> bc56b4259324e8934348a41fcf47b72f65365879
+});
+
+app.get('/dashboardprofile', (req, res) =>{
+  	res.render('dashboardprofile', {
+		})
+});
+
+app.get('/dashboardprofile', (req, res) =>{
+  	res.render('dashboardprofile', {
+		})
 });
 
 app.get('/dashboardprofile', (req, res) =>{

@@ -184,12 +184,39 @@ hbs.registerHelper('inscription', (listado) => {
 					<td><button class="btn btn-primary" name="inscribir" value="${materia.name}">Inscribir</button></td>
 					</tr> `;
 		})
-		texto = texto + '</tbody> </table></form>';
-		return texto;
+	texto = texto + '</tbody> </table></form>';
+	return texto;
+});
 
+//______________________Cerrar cursos y listarlos mongo______________________________________
 
+hbs.registerHelper('closeCourse', (courses) => {
+	let texto = `	<form action="/dashboardadmin" method="post">
+			<table class='table table-striped table-hover'>
+					<thead class='thead-dark'>
+					<th>Nombre</th>
+					<th>Valor</th>
+					<th>Intensidad</th>
+					<th>Modalidad</th>
+					<th>Estado</th>
+					<th></th>
+					</thead>
+					<tbody>`;
+		courses.forEach(course =>{
+			texto = texto +
+					`<tr>
+					<td> ${course.name} </td>
+					<td> ${course.value} </td>
+					<td> ${course.intensity}</td>
+					<td> ${course.modality} </td>
+					<td> ${course.state}</td>
+					<td><button class="btn btn-primary" name="cerrar" value="${course.name}">Cerrar</button></td>
+					</tr> `;
+		})
+	texto = texto + '</tbody> </table></form>';
+	return texto;
+});
 
-	});
 
 
 
