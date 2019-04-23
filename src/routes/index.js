@@ -123,7 +123,8 @@ app.post('/loginregister', (req, res) =>{
 				req.session.user = result._id
 				req.session.roll = result.roll
 				req.session.name = result.firstname
-				req.session.email = result.email,
+				req.session.lastname = result.lastname
+				req.session.email = result.email
 				req.session.cc = result.cc
 
 				// jwt jsonwebtoken creation
@@ -145,6 +146,7 @@ app.post('/loginregister', (req, res) =>{
 				req.session.user = result._id
 				req.session.roll = result.roll
 				req.session.name = result.firstname
+				req.session.lastname = result.lastname
 				req.session.email = result.email
 
 
@@ -307,13 +309,16 @@ app.post('/dashboardadmin', (req, res) =>{
 								})
 			 }
 			 return res.render('dashboardadmin',{
-
-
 				 			result: "Hecho!",
 							resultshow: "Curso creado correctamente",
 							cardcolor: "success"
 						})
 		 })
+});
+
+app.get('/dashboardprofile', (req, res) =>{
+  	res.render('dashboardprofile', {
+		})
 });
 
 app.get('/exit', (req, res) =>{

@@ -2149,8 +2149,22 @@ textarea.form-control {
   height: auto;
 }
 
-.form-group {
-  margin-bottom: 1rem;
+
+.form-group label{
+  text-align: left;
+  float: left;
+  display: inline-block;
+
+}
+.form-group input {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.form-group span {
+    display: table-cell;
+    padding: 0 0 0 5px
 }
 
 .form-text {
