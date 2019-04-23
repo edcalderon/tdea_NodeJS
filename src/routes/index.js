@@ -7,12 +7,14 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+const multer = require("multer");
 var $ = require("jquery");
 require('./../helpers/helpers');
 
 // Directory Paths
 const directorio_partials = path.join(__dirname, './../../templates/partials');
 const directorio_views = path.join(__dirname, './../../templates/views');
+
 
 
 // HBS
@@ -328,12 +330,10 @@ app.get('/dashboardprofile', (req, res) =>{
 		})
 });
 
-app.get('/dashboardprofile', (req, res) =>{
-  	res.render('dashboardprofile', {
-		})
-});
+//Multer destin folder
+var upload = multer({dest: 'uploads/'})
 
-app.get('/dashboardprofile', (req, res) =>{
+app.post('/dashboardprofile', upload.single('archive'),(req, res) =>{
   	res.render('dashboardprofile', {
 		})
 });
@@ -345,117 +345,9 @@ app.get('/exit', (req, res) =>{
 		})
 });
 
-//////
-
 app.get('/indexaspirante', (req, res) =>{
 	res.render('indexaspirante', {
     session: req
-	});
-});
-
-app.post('/indexaspirante', (req, res) =>{
-	res.render('indexaspirante', {
-    session: req.body.session,
-		inscribir:req.body.inscribir,
-    id:req.body.id,
-		Curso: req.body.Curso
-	});
-});
-
-app.get('/eliminarcursos', (req, res) =>{
-	res.render('eliminarcursos',{
-		session: req,
-		deshacer: req
-
-	});
-});
-
-app.post('/eliminarcursos', (req, res) =>{
-	res.render('eliminarcursos',{
-		session: req.body.session,
-		deshacer: req.body.deshacer,
-    id:req.body.id,
-		Curso: req.body.Curso,
-		mostrarid: req.body.mostrarid,
-		id1: req.body.id1,
-		id2: req.body.id2
-	});
-});
-
-app.get('/indexcoordinador', (req, res) =>{
-	res.render('indexcoordinador', {
-    session: req
-	});
-});
-
-app.post('/indexcoordinador', (req, res) =>{
-	res.render('indexcoordinador', {
-    session: req.body.session,
-		coordinador: req.body.coordinador
-	});
-});
-
-app.get('/actualizarusuarios', (req, res) =>{
-	res.render('actualizarusuarios',{
-		session: req,
-	})
-});
-
-app.post('/actualizarusuarios', (req, res) =>{
-	res.render('actualizarusuarios',{
-		session: req.body.session,
-		username: req.body.username,
-		email: req.body.email,
-		phone: req.body.phone,
-		roll: req.body.roll,
-		id: req.body.id
-	})
-});
-
-app.get('/listadocursos', (req, res) =>{
-	res.render('listadocursos', {
-    session: req,
-	});
-});
-
-app.get('/listadocursosaspirante', (req, res) =>{
-	res.render('listadocursosaspirante', {
-    session: req,
-	});
-});
-
-app.post('/calculos', (req,res)=>{
-	res.render('calculos',{
-		estudiante: req.body.nombre,
-		nota1: parseInt(req.body.nota1),
-    nota2: parseInt(req.body.nota2),
-    nota3: parseInt(req.body.nota3)
-
-	});
-});
-
-app.get('/crearcursos', (req,res)=>{
-	res.render('crearcursos',{
-		titulo: 'Creacion de cursos',
-		persona: "pepe",
-		session: req
-	});
-});
-
-app.post('/crearcursos', (req,res)=>{
-	res.render('crearcursos',{
-		titulo: 'Creacion de cursos',
-		persona: "aqui va seccion de administrador",
-		session: req,
-		nombre: req.body.nombre,
-		descripcion: req.body.descripcion,
-		id: req.body.id,
-		valor: req.body.valor,
-		intensidadhoraria: req.body.intensidadhoraria,
-		modalidad: req.body.modalidad,
-		estado: req.body.estado,
-		inscritos: req.body.inscritos,
-		boton:req.body.boton
 	});
 });
 
