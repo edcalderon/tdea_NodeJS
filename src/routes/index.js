@@ -283,7 +283,7 @@ app.post('/register', (req, res) =>{
 
 app.get('/dashboardadmin', (req, res) =>{
   	res.render('dashboardadmin', {
-
+			verCursosDisponibles: req.query.verCursosDisponibles
 		})
 });
 
