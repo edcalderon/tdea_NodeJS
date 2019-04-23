@@ -294,7 +294,6 @@ app.post('/dashboardadmin', (req, res) =>{
 						})
 				 }
 				 return res.render('dashboardadmin',{
-<<<<<<< HEAD
 			 			result: "Hecho!",
 						resultshow: "Curso creado correctamente",
 						cardcolor: "success"
@@ -323,19 +322,7 @@ app.post('/dashboardadmin', (req, res) =>{
 		 	})
 		}
 
-=======
-					 				result: "Error!",
-									resultshow: "Hubo un error: " + err,
-									cardcolor: "danger"
-								})
-			 }
-			 return res.render('dashboardadmin',{
-				 			result: "Hecho!",
-							resultshow: "Curso creado correctamente",
-							cardcolor: "success"
-						})
-		 })
->>>>>>> bc56b4259324e8934348a41fcf47b72f65365879
+
 });
 
 app.get('/dashboardprofile', (req, res) =>{
