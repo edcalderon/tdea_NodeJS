@@ -50,6 +50,7 @@ app.use((req,res,next) => {
     res.locals.session = true,
     res.locals.user  = req.session.user
     res.locals.name = req.session.name
+    res.locals.lastname = req.session.lastname
     res.locals.roll = req.session.roll
     res.locals.email = req.session.email
     res.locals.listado = req.session.listado,
