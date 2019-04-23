@@ -2149,6 +2149,10 @@ textarea.form-control {
   height: auto;
 }
 
+.form-group {
+  margin-bottom: 1rem;
+
+}
 
 .form-group label{
   text-align: left;
