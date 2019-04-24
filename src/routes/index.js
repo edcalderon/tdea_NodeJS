@@ -94,12 +94,11 @@ app.post('/loginregister', (req, res) =>{
 				// 	}, 'word-secret',{expiresIn: '4h'});
 			 	// // Save token in localstorage
 				//    localStorage.setItem('token', token);
-
 				res.render('loginregister', {
 					login: req.body.login,
 					show: "Bienvenido coordinador.",
 					path: "/dashboardadmin",
-					button: "success"
+					button: "success",
 				})
 			}
 			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "aspirante"){
@@ -127,7 +126,6 @@ app.post('/loginregister', (req, res) =>{
 					show: "Usuario y Contraseña correctas! ya puedes continuar.",
 					path: "/dashboarduser",
 					button: "success",
-					session: true
 				})
 			}
 		})
@@ -140,7 +138,7 @@ app.get('/dashboarduser', (req, res) =>{
 		}
 		req.session.listado = result;
 		res.render ('dashboarduser',{
-			listado : req.session.listado
+			listado : req.session.listado,
 		})
 	})
 });
@@ -173,7 +171,6 @@ Course.find(conditions,(err,result)=>{
 					  cardcolor: "danger"
 				 })
 				}
-
 				res.render ('dashboarduser', {
 					listado: req.session.listado,
 					name: curso.name,
@@ -246,7 +243,6 @@ app.get('/dashboardadmin', (req, res) =>{
 
 
 app.post('/dashboardadmin', (req, res) =>{
-
 	// Guardar cursos
 	if(req.body.nombreCurso){
 	  	 let course = new Course ({
@@ -328,9 +324,9 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 });
 
 app.get('/exit', (req, res) =>{
-		localStorage.setItem('token', ' ')
+		//localStorage.setItem('token', ' ')
+		res.locals.session = false
   	res.render('indexdashboard', {
-
 		})
 });
 
