@@ -160,8 +160,20 @@
                   <div class="chart-area">
                    <!--  <canvas id="myPieChart"></canvas> -->
                    {{#if verCursosDisponibles}}
-                       <div class="col-sm">{{{cancelIncription listado}}}</div>
+                       <div class="col-sm">{{{cancelIncription miscursos}}}</div>
                    {{/if}}
+
+                   <div class="col-sm">
+                     {{#if resultshow3}}
+                       <div id="mydiv" class="card text-white bg-{{cardcolor3}}">
+                           <div class="card text-white bg-{{cardcolor3}}">
+                             <div class="card-body">
+                               <p class="card-text">{{resultshow3}}</p>
+                             </div>
+                           </div>
+                       </div><br>
+                     {{/if}}
+                   </div>
                   </div>
                 </div>
               </div>

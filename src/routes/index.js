@@ -132,6 +132,14 @@ app.post('/loginregister', (req, res) =>{
 });
 
 app.get('/dashboarduser', (req, res) =>{
+		Course.find({students: { $in: req.session.user}},(err,result)=>{
+			if (err){
+				return console.log(err)
+			}
+			console.log('mi resultado: '+result)
+			req.session.miscursos = result;
+		})
+
 	Course.find({state: "Disponible"},(err,result)=>{
 		if (err){
 			return console.log(err)
@@ -140,7 +148,8 @@ app.get('/dashboarduser', (req, res) =>{
 		req.session.verCursosDisponibles = req.query.verCursosDisponibles;
 		res.render ('dashboarduser',{
 			listado : req.session.listado,
-			verCursosDisponibles : req.session.verCursosDisponibles
+			verCursosDisponibles : req.session.verCursosDisponibles,
+			miscursos: req.session.miscursos
 		})
 	})
 });
@@ -153,60 +162,82 @@ var conditions = {
 };
 
 Course.find(conditions,(err,result)=>{
-	if (err){
-		return console.log(err)
-	}
-	console.log('LOS RESULTADOS SON:')
-	console.log(req.session.user)
-	console.log(result)
-	console.log(result.length)
-	if(result.length == 0){
-			//********************* Actualización*****
-			console.log('Te inscribiste correctamente!!!!')
-			Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: req.session.user}}, (err, curso) =>{
-				console.log('RESULTADOS DEL POST')
-				console.log(req.body.inscribir);
-				console.log(curso)
-				if (err){
-					return res.render('dashboarduser',{
-					  resultshow: "Hubo un error: " + err,
-					  cardcolor: "danger"
-				 })
-				}
-				res.render ('dashboarduser', {
-					listado: req.session.listado,
-					name: curso.name,
-					description: curso.description,
-					value: curso.value,
-					intensity: curso.intensity,
-					modality: curso.modality,
-					state: curso.state,
-					students: req.session.user,
-					resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
-					cardcolor: "success"
+		if (err){
+			return console.log(err)
+		}
+		console.log('LOS RESULTADOS SON:')
+		console.log(req.session.user)
+		console.log(result)
+		console.log(result.length)
+		if(result.length == 0 && req.body.inscribir){
+				//********************* Actualización*****
+				console.log('Te inscribiste correctamente!!!!')
+				Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: req.session.user}}, (err, curso) =>{
+					console.log('RESULTADOS DEL POST')
+					console.log(req.body.inscribir);
+					console.log(curso)
+					if (err){
+						return res.render('dashboarduser',{
+						  resultshow: "Hubo un error: " + err,
+						  cardcolor: "danger"
+					 })
+					}
+					res.render ('dashboarduser', {
+						listado: req.session.listado,
+						name: curso.name,
+						description: curso.description,
+						value: curso.value,
+						intensity: curso.intensity,
+						modality: curso.modality,
+						state: curso.state,
+						students: req.session.user,
+						resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
+						cardcolor: "success"
+					})
 				})
+		}
+		if(result.length !== 0 && req.body.inscribir){
+			return res.render('dashboarduser',{
+				resultshow: "Upss! Actualmente estas inscrito",
+				cardcolor: "warning"
 			})
-	}else{
-		return res.render('dashboarduser',{
-			resultshow: "Upss! Actualmente estas inscrito",
-			cardcolor: "warning"
-		})
-	}
+		}
+	});
 
-	if(req.session.verCursosDisponibles){
-		console.log('HOAL');
-		course.find({students: req.session.user},(err,result)=>{
+	if(req.body.eliminar){
+		console.log('Si se metio')
+		var conditions = {
+			name: req.body.eliminar,
+			students: { $in: req.session.user}
+		};
+		Course.findOneAndUpdate(conditions,{$pull:{students: req.session.user}},(err,result)=>{
 			if (err){
-				return console.log(err)
+				return res.render('dashboarduser',{
+					resultshow3: "Hubo un error: " + err,
+					cardcolor3: "danger"
+			 })
 			}
-			req.session.miscursos = result;
-			res.render ('dashboarduser',{
-				miscursos : req.session.miscursos,
-				verCursosDisponibles : res.session.verCursosDisponibles
+			console.log('resultado eliminacion: ' + result)
+			res.render ('dashboarduser', {
+				listado: req.session.listado,
+				name: result.name,
+				description: result.description,
+				value: result.value,
+				intensity: result.intensity,
+				modality: result.modality,
+				state: result.state,
+				students: req.session.user,
+				miscursos: req.session.miscursos,
+				resultshow3: "Haz cancelado la materia: " + result.name,
+				cardcolor3: "success"
 			})
+
 		})
 	}
+<<<<<<< HEAD
  });
+=======
+>>>>>>> da9d866fc5f351aa07548d4971963cc14fccdce0
 });
 
 app.get('/register', (req, res) =>{
@@ -305,29 +336,27 @@ app.post('/dashboardadmin', (req, res) =>{
 		 		})
 		 	})
 		}
-		if(req.body.inscritos){
-			res.render ('dashboardadmin', {
-				courses : req.session.courses,
-				verCursosDisponibles : req.session.verCursosDisponibles
-			})
 
-			console.log('HOLA')
-			// students = req.session.courses;
-			// console.log('los cursos ' + students)
-			// names =  [];
-			// students.forEach(student =>{
-			// 	console.log('EL id_' + student)
-			// 	User.aggregate([{$match: {_id: student}},{$project: {_id:0, firstname:1}}],(err,result)=>{
-			// 		if(err){
-			// 			return console.log('Error!: ' + err)
-			// 		}
-			// 		return console.log('Cada resultado es: ' + result)
-			// 	});
-			// })
-		}
+//Código que puede servir de ejemplo
+	// students = req.session.courses;
+	// console.log('los cursos ' + students)
+	// names =  [];
+	// students.forEach(student =>{
+	// 	console.log('EL id_' + student)
+	// 	User.aggregate([{$match: {_id: student}},{$project: {_id:0, firstname:1}}],(err,result)=>{
+	// 		if(err){
+	// 			return console.log('Error!: ' + err)
+	// 		}
+	// 		return console.log('Cada resultado es: ' + result)
+	// 	});
+	// })
+
 
 });
 
+app.get('/dashboardupdateuser', (req, res) =>{
+	res.render('dashboardupdateuser',{})
+})
 app.get('/dashboardprofile', (req, res) =>{
   	res.render('dashboardprofile', {
 		})
