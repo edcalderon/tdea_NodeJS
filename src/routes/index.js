@@ -84,6 +84,7 @@ app.post('/loginregister', (req, res) =>{
 				req.session.email = result.email
 				req.session.cc = result.cc
 				req.session.phone = result.phone
+				req.session.coordinador = true
 				if(result.avatar){
 					req.session.avatar = result.avatar.toString('base64')
 				}
@@ -329,19 +330,10 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 app.get('/exit', (req, res) =>{
 		localStorage.setItem('token', ' ')
   	res.render('indexdashboard', {
-			session: false
+
 		})
 });
 
-app.get('/indexaspirante', (req, res) =>{
-	res.render('indexaspirante', {
-    session: req
-	});
-});
-
-app.get('/ofertacursos', (req, res) =>{
-	res.render('ofertacursos')
-});
 
 app.get('*',(req, res)=>{
 	res.render('error', {
