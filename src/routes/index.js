@@ -258,7 +258,6 @@ app.post('/register', (req, res) =>{
 
 app.get('/dashboardadmin', (req, res) =>{
 	Course.find({},(err,result)=>{
-		console.log(result)
 		if (err){
 			return res.render('dashboardadmin',{
 				resultshow2: "Hubo un error: " + err,
@@ -272,19 +271,10 @@ app.get('/dashboardadmin', (req, res) =>{
 			verCursosDisponibles : req.session.verCursosDisponibles
 		})
 	})
-	console.log('Los estudiantes son:')
-	Course.find({name: req.body.inscritos}, {"students.$" : 1}, (err,estudiantes)=>{
-		if (err){
-			return console.log(err)
-		}
-		console.log(estudiantes)
-	})
-	});
-
+});
 
 app.post('/dashboardadmin', (req, res) =>{
-
-	//______Guardar cursos
+	//Guardar cursos
 	if(req.body.nombreCurso){
 	  	 let course = new Course ({
 				name: req.body.nombreCurso,
@@ -309,8 +299,9 @@ app.post('/dashboardadmin', (req, res) =>{
 						cardcolor: "success"
 					})
 			 })
-		}else{
-		 //*******Actualizar estado*********
+		}
+		if(req.body.cerrar){
+		 //Actualizar estado
 			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}}, (err, resultado) => {
 		 		if (err){
 		 			return console.log(err)
@@ -330,6 +321,10 @@ app.post('/dashboardadmin', (req, res) =>{
 					cardcolor2: "success"
 		 		})
 		 	})
+		}
+		if(req.body.inscritos){
+			console.log('HOLA')
+
 		}
 });
 

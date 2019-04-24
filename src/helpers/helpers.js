@@ -190,7 +190,7 @@ hbs.registerHelper('inscription', (listado) => {
 
 //______________________Cerrar cursos y listarlos mongo______________________________________
 
-hbs.registerHelper('closeCourse', (courses) => {
+hbs.registerHelper('closeCourse', (courses,nameUser) => {
 	let texto = `	<form action="/dashboardadmin" method="post">
 			<table class='table table-striped table-hover'>
 					<thead class='thead-dark'>
@@ -212,14 +212,12 @@ hbs.registerHelper('closeCourse', (courses) => {
 					<td> ${course.modality} </td>
 					<td> ${course.state}</td>
 					<td>
-						<p>
-						  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" name="inscritos" value="${course.name}">
+						  <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" name="inscritos" value="${course.name}">
 						    Inscritos
 						  </button>
-						</p>
 						<div class="collapse" id="collapseExample">
 						  <div class="card card-body">
-						    ${course.students} <br>
+						    ${nameUser}
 						  </div>
 						</div>
 					</td>

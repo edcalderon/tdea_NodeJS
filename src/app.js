@@ -53,8 +53,9 @@ app.use((req,res,next) => {
     res.locals.lastname = req.session.lastname
     res.locals.roll = req.session.roll
     res.locals.email = req.session.email
-    res.locals.listado = req.session.listado,
-    res.locals.courses = req.session.courses,
+    res.locals.listado = req.session.listado
+    res.locals.courses = req.session.courses
+    res.locals.cc = req.session.cc,
     res.locals.verCursosDisponibles = req.session.verCursosDisponibles
   }
 
