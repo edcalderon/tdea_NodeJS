@@ -212,12 +212,14 @@ hbs.registerHelper('closeCourse', (courses,nameUser) => {
 					<td> ${course.modality} </td>
 					<td> ${course.state}</td>
 					<td>
+						<p>
 						  <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" name="inscritos" value="${course.name}">
 						    Inscritos
 						  </button>
+						</p>
 						<div class="collapse" id="collapseExample">
 						  <div class="card card-body">
-						    ${nameUser}
+						    ${course.students}
 						  </div>
 						</div>
 					</td>
