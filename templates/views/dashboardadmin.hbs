@@ -186,22 +186,20 @@
               <!-- Card Body -->
               <div class="card-body">
                   <!-- <canvas id="myAreaChart"></canvas>-->
-                {{#if verCursosDisponibles}}
-                    <div class="col-sm">{{{closeCourse courses nameUser}}}</div>
-                {{/if}}
-
-                <div class="col-sm">
-                {{#if resultshow2}}
-                  <div id="mydiv" class="card text-white bg-{{cardcolor2}}">
-                      <div class="card text-white bg-{{cardcolor2}}">
-                        <div class="card-body">
-                          <p class="card-text">{{resultshow2}}</p>
+                  {{#if verCursosDisponibles}}
+                      {{{closeCourse courses nameUser}}}
+                  {{/if}}
+                  <div class="col-sm">
+                  {{#if resultshow2}}
+                    <div id="mydiv" class="card text-white bg-{{cardcolor2}}">
+                        <div class="card text-white bg-{{cardcolor2}}">
+                          <div class="card-body">
+                            <p class="card-text">{{resultshow2}}</p>
+                          </div>
                         </div>
-                      </div>
-                  </div><br>
-                {{/if}}
-                </div>
-
+                    </div><br>
+                  {{/if}}
+                  </div>
               </div>
             </div>
           </div>

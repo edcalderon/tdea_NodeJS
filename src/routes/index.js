@@ -234,10 +234,7 @@ Course.find(conditions,(err,result)=>{
 
 		})
 	}
-<<<<<<< HEAD
- });
-=======
->>>>>>> da9d866fc5f351aa07548d4971963cc14fccdce0
+
 });
 
 app.get('/register', (req, res) =>{
@@ -331,10 +328,32 @@ app.post('/dashboardadmin', (req, res) =>{
 					modality: resultado.modality,
 					state: resultado.states,
 					students: resultado.students,
-					resultshow2: "El curso "+resultado.name+" ha finalizado " ,
+					resultshow2: "El curso "+resultado.name+" se ha cerrado correctamente " ,
 					cardcolor2: "success"
 		 		})
 		 	})
+		}
+		if(req.body.abrir){
+		 //Actualizar estado
+			 Course.findOneAndUpdate({name: req.body.abrir}, {$set: {state: "Disponible"}}, (err, resultado) => {
+				if (err){
+					return console.log(err)
+				}
+				console.log(resultado)
+				res.render ('dashboardadmin', {
+					courses : req.session.courses,
+					verCursosDisponibles : req.session.verCursosDisponibles,
+					name: resultado.name,
+					description: resultado.description,
+					value: resultado.value,
+					intensity: resultado.intensity,
+					modality: resultado.modality,
+					state: resultado.states,
+					students: resultado.students,
+					resultshow2: "El curso "+resultado.name+" se ha abierto correctamente " ,
+					cardcolor2: "success"
+				})
+			})
 		}
 
 //Código que puede servir de ejemplo
