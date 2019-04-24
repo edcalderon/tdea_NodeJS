@@ -137,6 +137,7 @@ app.get('/dashboarduser', (req, res) =>{
 			return console.log(err)
 		}
 		req.session.listado = result;
+		req.session.verCursosDisponibles = req.query.verCursosDisponibles;
 		res.render ('dashboarduser',{
 			listado : req.session.listado,
 			verCursosDisponibles : req.session.verCursosDisponibles
@@ -193,6 +194,7 @@ Course.find(conditions,(err,result)=>{
 	}
 
 	if(req.session.verCursosDisponibles){
+		console.log('HOAL');
 		course.find({students: req.session.user},(err,result)=>{
 			if (err){
 				return console.log(err)
@@ -200,7 +202,7 @@ Course.find(conditions,(err,result)=>{
 			req.session.miscursos = result;
 			res.render ('dashboarduser',{
 				miscursos : req.session.miscursos,
-				verCursosDisponibles : req.session.verCursosDisponibles
+				verCursosDisponibles : res.session.verCursosDisponibles
 			})
 		})
 	}
