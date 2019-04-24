@@ -362,6 +362,7 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 app.get('/exit', (req, res) =>{
 		//localStorage.setItem('token', ' ')
 		res.locals.session = false
+		req.session.destroy()
   	res.render('indexdashboard', {
 		})
 });
