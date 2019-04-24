@@ -57,6 +57,7 @@ app.use((req,res,next) => {
     res.locals.phone = req.session.phone
     res.locals.listado = req.session.listado
     res.locals.courses = req.session.courses
+    res.locals.miscursos = req.session.miscursos
     res.locals.verCursosDisponibles = req.session.verCursosDisponibles
     if(req.session.avatar){
       res.locals.avatar = req.session.avatar

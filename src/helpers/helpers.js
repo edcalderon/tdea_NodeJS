@@ -232,7 +232,7 @@ hbs.registerHelper('closeCourse', (courses,nameUser) => {
 
 //Eliminar inscripcion base de dato
 
-hbs.registerHelper('cancelIncription', (listado) => {
+hbs.registerHelper('cancelIncription', (miscursos) => {
 	let texto = `	<form action="/dashboarduser" method="post">
 			<table class='table table-striped table-hover'>
 					<thead class='thead-dark'>
@@ -243,7 +243,7 @@ hbs.registerHelper('cancelIncription', (listado) => {
 					<th></th>
 					</thead>
 					<tbody>`;
-		listado.forEach(materia =>{
+		miscursos.forEach(materia =>{
 			texto = texto +
 					`<tr>
 					<td> ${materia.name} </td>
