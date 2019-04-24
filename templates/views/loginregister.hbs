@@ -41,10 +41,10 @@
                   </div>
                   <form class="user" method="Post" action="/loginregister">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" placeholder="Email" >
+                      <input type="email" class="form-control form-control-user" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" placeholder="Correo" >
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="inputPassword" id="inputPassword" placeholder="Password" >
+                      <input type="password" class="form-control form-control-user" name="inputPassword" id="inputPassword" placeholder="Contraseña" >
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -54,14 +54,14 @@
                     </div>
                       <input type="hidden" name="registro"  value="registro">
                       <input type="hidden" name="login"  value="login">
-                      <input type="submit" class="btn btn-primary btn-user btn-block"  value="Login" >
+                      <input type="submit" class="btn btn-primary btn-user btn-block"  value="Entrar" >
                   </form>
                   <hr>
                     <div class="text-center">
-                      <a class="small" href="#">Forgot Password?</a>
+                      <a class="small" href="#">Olvidaste tu contraseña?</a>
                     </div>
                     <div class="text-center">
-                      <a class="small" href="/register">Crea una cuenta!</a>
+                      <a class="small" href="/register">Aun no tienes cuenta? registrate!</a>
                     </div>
                     <div class="text-center">
                       <a class="small" href="/indexdashboard">Volver</a>
@@ -75,7 +75,6 @@
       </div>
     </div>
   </div>
-
 
 {{#if login}}
 <script>
@@ -118,8 +117,4 @@
   <script src="js/sb-admin-2.min.js"></script>
 
 </body>
-
-
-
-
 </html>

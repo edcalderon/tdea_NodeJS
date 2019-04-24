@@ -3,67 +3,72 @@
 
 	<div class="row">
       <!-- left column -->
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="text-center">
-          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          {{#if avatar}}
+            <img src="data:img/jpeg;base64,{{avatar}}" class="img-profile rounded-circle" alt="avatar" height="200" width="200">
+          {{else}}
+            <img src="https://cdn.onlinewebfonts.com/svg/thumbnails_60_462217.png" class="img-profile rounded-circle" alt="avatar">
+          {{/if}}
           <h6>Upload a different photo...</h6>
-          <form class="form-horizontal" role="form" action=/dashboardprofile method="post">
-            <input type="file" name="file" class="form-control" enctype="multipart/form-data"> <br>
-            <input type="button" class="btn btn-primary" value="Guardar foto">
-          <form>
+            <form id="uploadProfilePicForm" enctype="multipart/form-data" action="/dashboardprofile" method="post">
+                      <input type="file" class="form-control" id="userPhotoInput" name="userPhoto">
+                      <input type="submit" name="submit" value="Subir">
+            </form>
         </div>
       </div>
       <!-- edit form column -->
 
-      <div class="col-md-9 personal-info">
+      <div class="col-md-7 personal-info">
+        {{#if resultshow}}
         <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a>
           <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. Use this to show important messages to the user.
+           <strong>{{resultshow}}</strong>.
         </div>
-
+        {{/if}}
           <h3></h3>
-          <form class="form-horizontal" role="form">
+          <form class="form-horizontal" action="/dashboardprofile" method="post">
             <div class="form-group">
               <label class="col-lg-3 control-label">Nombre:</label>
               <div class="col-lg-8">
-                <span><input class="form-control" type="text" value="Jane"></span><br>
+                <span><input class="form-control" type="text" name="firstname" value={{name}}></span><br>
               </div>
             </div>
             <div class="form-group">
               <label class="col-lg-3 control-label">Apellido:</label>
               <div class="col-lg-8">
-                <span><input class="form-control" type="text" value="Bishop"></span><br>
+                <span><input class="form-control" type="text" name="lastname" value={{lastname}}></span><br>
               </div>
             </div>
             <div class="form-group">
               <label class="col-lg-3 control-label">Cedula:</label>
               <div class="col-lg-8">
-                <span><input class="form-control" type="text" value=""></span><br>
+                <span><input class="form-control" type="text" name="cc" value={{cc}}></span><br>
               </div>
             </div>
             <div class="form-group">
               <label class="col-lg-3 control-label">Email:</label>
               <div class="col-lg-8">
-                <span><input class="form-control" type="text" value="janesemail@gmail.com"></span><br>
+                <span><input class="form-control" type="text" name="email" value={{email}}></span><br>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-3 control-label">Telefono:</label>
               <div class="col-md-8">
-                  <span><input class="form-control" type="text" value="janeuser"> </span><br>
+                  <span><input class="form-control" type="text" name="phone" value={{phone}}> </span><br>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-3 control-label">Password:</label>
               <div class="col-md-8">
-                  <span><input class="form-control" type="password" value="11111122333"></span><br>
+                  <span><input class="form-control" type="password" name="inputPassword" > </span><br>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Confirm password:</label>
+              <label class="col-md-3 control-label">Repite Password:</label>
               <div class="col-md-8">
-                  <span><input class="form-control" type="password" value="11111122333"><span><br>
+                  <span><input class="form-control" type="password" name="repeatPassword"> <span><br>
               </div>
             </div>
             <div class="form-group">
@@ -80,3 +85,19 @@
   </div>
 </div>
 <hr>
+
+<!-- Custom scripts check Passwords-->
+<script>
+  var password = document.getElementById("inputPassword")
+    , confirm_password = document.getElementById("repeatPassword");
+
+  function validatePassword(){
+    if(password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+</script>

@@ -7,15 +7,13 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-const multer = require("multer");
+const multer = require('multer');
 var $ = require("jquery");
 require('./../helpers/helpers');
 
 // Directory Paths
 const directorio_partials = path.join(__dirname, './../../templates/partials');
 const directorio_views = path.join(__dirname, './../../templates/views');
-
-
 
 // HBS
 hbs.registerPartials(directorio_partials);
@@ -33,45 +31,11 @@ app.use(session({
 	saveUninitialized: true
 }))
 
-
 // Paths
 app.get('/', (req, res) =>{
 	res.render('indexdashboard', {
 	});
 });
-
-app.get('/login', (req, res) =>{
-	res.render('login', {
-		inicio: "req.body.seccion"
-	});
-});
-
-app.post('/login', (req, res) =>{
-		let user = new User({
-			username: req.body.username,
-			email: req.body.email,
-			password: req.body.password,
-			phone: req.body.phone,
-			cc: req.body.cc,
-			roll: "aspirante",
-			cursos: []
-		})
-		user.save((err,result)=>{
-			if(err){
-				res.render('login', {
-					show: err,
-					registro: "success"
-				})
-			}res.render('login',{
-				  show: "registro exitoso",
-					registro: "success"
-			})
-
-		})
-
-});
-
-// SB admin pages
 
 app.get('/indexdashboard', (req, res) =>{
   	res.render('indexdashboard', {
@@ -119,7 +83,10 @@ app.post('/loginregister', (req, res) =>{
 				req.session.lastname = result.lastname
 				req.session.email = result.email
 				req.session.cc = result.cc
-
+				req.session.phone = result.phone
+				if(result.avatar){
+					req.session.avatar = result.avatar.toString('base64')
+				}
 				// jwt jsonwebtoken creation
 				//  let token = jwt.sign({
 				// 		user: result
@@ -141,24 +108,26 @@ app.post('/loginregister', (req, res) =>{
 				req.session.name = result.firstname
 				req.session.lastname = result.lastname
 				req.session.email = result.email
+				req.session.cc = result.cc
+				req.session.phone = result.phone
+				if(result.avatar){
+					req.session.avatar = result.avatar.toString('base64')
+				}
 
-
-						// jwt jsonwebtoken creation
+					// jwt jsonwebtoken creation
 			 		// 	let token = jwt.sign({
 			 		// 		user: result
 			 		// 	}, 'word-secret',{expiresIn: '4h'});
-
 			    //  // Save token in localstorage
 					// 	 localStorage.setItem('token', token);
 
-						 req.session.inputEmail = req.body.inputEmail;
-						 res.render('loginregister', {
-							login: req.body.login,
-							show: "Usuario y Contraseña correctas! ya puedes continuar.",
-							path: "/dashboarduser",
-							button: "success",
-							session: true
-						})
+				 res.render('loginregister', {
+					login: req.body.login,
+					show: "Usuario y Contraseña correctas! ya puedes continuar.",
+					path: "/dashboarduser",
+					button: "success",
+					session: true
+				})
 			}
 		})
 });
@@ -176,7 +145,7 @@ app.get('/dashboarduser', (req, res) =>{
 });
 
 app.post('/dashboarduser', (req, res) =>{
-	//Validación
+//Validación
 var conditions = {
 	name: req.body.inscribir,
 	students: { $in: req.session.user}
@@ -272,19 +241,12 @@ app.get('/dashboardadmin', (req, res) =>{
 			verCursosDisponibles : req.session.verCursosDisponibles
 		})
 	})
-	console.log('Los estudiantes son:')
-	Course.find({name: req.body.inscritos}, {"students.$" : 1}, (err,estudiantes)=>{
-		if (err){
-			return console.log(err)
-		}
-		console.log(estudiantes)
-	})
 	});
 
 
 app.post('/dashboardadmin', (req, res) =>{
 
-	//______Guardar cursos
+	// Guardar cursos
 	if(req.body.nombreCurso){
 	  	 let course = new Course ({
 				name: req.body.nombreCurso,
@@ -310,12 +272,12 @@ app.post('/dashboardadmin', (req, res) =>{
 					})
 			 })
 		}else{
-		 //*******Actualizar estado*********
+		 // Actualizar estado
 			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}}, (err, resultado) => {
 		 		if (err){
 		 			return console.log(err)
 		 		}
-
+				console.log(resultado)
 		 		res.render ('dashboardadmin', {
 					courses : req.session.courses,
 					verCursosDisponibles : req.session.verCursosDisponibles,
@@ -338,11 +300,29 @@ app.get('/dashboardprofile', (req, res) =>{
 		})
 });
 
-//Multer destin folder
-var upload = multer({dest: 'uploads/'})
+// // Multer Storage
+// var storage = multer.diskStorage({
+// 	destination: function(req,file,cb){
+// 		cb(null, 'public/uploads')
+// 	},
+// 	filename: function(req,file,cb){
+// 		cb(null,'avatar' + req.session.name + path.extname(file.originalname))
+// 	}
+// })
+// // Multer destin folder
+// var upload = multer({storage:storage})
 
-app.post('/dashboardprofile', upload.single('archive'),(req, res) =>{
-  	res.render('dashboardprofile', {
+// Multer destin folder
+var upload = multer({})
+
+app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
+
+		User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
+			if (err){
+				 return console.log(err)
+			 }res.render('dashboardprofile', {
+				resultshow: "avatar cargado correctamente"
+			  })
 		})
 });
 
