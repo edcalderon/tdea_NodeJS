@@ -159,7 +159,7 @@ hbs.registerHelper('listarofertaCursos', ()=>{
 	return campos+texto;
 });
 
-//_________Incribir cursos con mongodb y listarlos_____________________________
+//Incribir cursos con mongodb y listarlos
 
 hbs.registerHelper('inscription', (listado) => {
 	let texto = `	<form action="/dashboarduser" method="post">
@@ -188,7 +188,7 @@ hbs.registerHelper('inscription', (listado) => {
 	return texto;
 });
 
-//______________________Cerrar cursos y listarlos mongo______________________________________
+//Cerrar cursos y listarlos mongo
 
 hbs.registerHelper('closeCourse', (courses,nameUser) => {
 	let texto = `	<form action="/dashboardadmin" method="post">
@@ -230,8 +230,32 @@ hbs.registerHelper('closeCourse', (courses,nameUser) => {
 	return texto;
 });
 
+//Eliminar inscripcion base de dato
 
-
+hbs.registerHelper('cancelIncription', (listado) => {
+	let texto = `	<form action="/dashboarduser" method="post">
+			<table class='table table-striped table-hover'>
+					<thead class='thead-dark'>
+					<th>Nombre</th>
+					<th>Valor</th>
+					<th>Intensidad</th>
+					<th>Modalidad</th>
+					<th></th>
+					</thead>
+					<tbody>`;
+		listado.forEach(materia =>{
+			texto = texto +
+					`<tr>
+					<td> ${materia.name} </td>
+					<td> ${materia.value} </td>
+					<td> ${materia.intensity}</td>
+					<td> ${materia.modality} </td>
+					<td><button class="btn btn-danger" name="eliminar" value="${materia.name}">Cancelar</button></td>
+					</tr> `;
+		})
+	texto = texto + '</tbody> </table></form>';
+	return texto;
+});
 
 
 

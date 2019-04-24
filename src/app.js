@@ -61,12 +61,9 @@ app.use((req,res,next) => {
     if(req.session.avatar){
       res.locals.avatar = req.session.avatar
     }
-<<<<<<< HEAD
-=======
     if(req.session.coordinador){
       res.locals.coordinador = true
     }
->>>>>>> 68c03a049ef0860ccccf2edf6eb443868bc6abc8
   }
   next()
 })

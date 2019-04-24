@@ -147,8 +147,8 @@
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
+                      <div class="dropdown-header">¿QUÉ QUIERES HACER?</div>
+                      <a class="dropdown-item" href="dashboarduser?verCursosDisponibles=true">Eliminar curso</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Something else here</a>
@@ -159,7 +159,9 @@
                 <div class="card-body">
                   <div class="chart-area">
                    <!--  <canvas id="myPieChart"></canvas> -->
-                     {{{listarCursosPropios }}}
+                   {{#if verCursosDisponibles}}
+                       <div class="col-sm">{{{cancelIncription listado}}}</div>
+                   {{/if}}
                   </div>
                 </div>
               </div>

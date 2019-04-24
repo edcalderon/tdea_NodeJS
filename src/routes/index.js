@@ -84,10 +84,7 @@ app.post('/loginregister', (req, res) =>{
 				req.session.email = result.email
 				req.session.cc = result.cc
 				req.session.phone = result.phone
-<<<<<<< HEAD
-=======
 				req.session.coordinador = true
->>>>>>> 68c03a049ef0860ccccf2edf6eb443868bc6abc8
 				if(result.avatar){
 					req.session.avatar = result.avatar.toString('base64')
 				}
@@ -129,10 +126,6 @@ app.post('/loginregister', (req, res) =>{
 					show: "Usuario y Contraseña correctas! ya puedes continuar.",
 					path: "/dashboarduser",
 					button: "success",
-<<<<<<< HEAD
-					session: true
-=======
->>>>>>> 68c03a049ef0860ccccf2edf6eb443868bc6abc8
 				})
 			}
 		})
@@ -146,10 +139,9 @@ app.get('/dashboarduser', (req, res) =>{
 		req.session.listado = result;
 		res.render ('dashboarduser',{
 			listado : req.session.listado,
+			verCursosDisponibles : req.session.verCursosDisponibles
 		})
 	})
-
-
 });
 
 app.post('/dashboarduser', (req, res) =>{
@@ -197,6 +189,19 @@ Course.find(conditions,(err,result)=>{
 		return res.render('dashboarduser',{
 			resultshow: "Upss! Actualmente estas inscrito",
 			cardcolor: "warning"
+		})
+	}
+
+	if(req.session.verCursosDisponibles){
+		course.find({students: req.session.user},(err,result)=>{
+			if (err){
+				return console.log(err)
+			}
+			req.session.miscursos = result;
+			res.render ('dashboarduser',{
+				miscursos : req.session.miscursos,
+				verCursosDisponibles : req.session.verCursosDisponibles
+			})
 		})
 	}
 });
@@ -247,18 +252,10 @@ app.get('/dashboardadmin', (req, res) =>{
 			verCursosDisponibles : req.session.verCursosDisponibles
 		})
 	})
-<<<<<<< HEAD
 });
 
 app.post('/dashboardadmin', (req, res) =>{
-	//Guardar cursos
-=======
-	});
-
-
-app.post('/dashboardadmin', (req, res) =>{
 	// Guardar cursos
->>>>>>> 68c03a049ef0860ccccf2edf6eb443868bc6abc8
 	if(req.body.nombreCurso){
 	  	 let course = new Course ({
 				name: req.body.nombreCurso,
@@ -283,14 +280,9 @@ app.post('/dashboardadmin', (req, res) =>{
 						cardcolor: "success"
 					})
 			 })
-<<<<<<< HEAD
 		}
 		if(req.body.cerrar){
 		 //Actualizar estado
-=======
-		}else{
-		 // Actualizar estado
->>>>>>> 68c03a049ef0860ccccf2edf6eb443868bc6abc8
 			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}}, (err, resultado) => {
 		 		if (err){
 		 			return console.log(err)
