@@ -206,7 +206,7 @@ Course.find(conditions,(err,result)=>{
 			})
 		})
 	}
-});
+ });
 });
 
 app.get('/register', (req, res) =>{
