@@ -200,6 +200,7 @@ hbs.registerHelper('closeCourse', (courses) => {
 					<th>Modalidad</th>
 					<th>Estado</th>
 					<th></th>
+					<th></th>
 					</thead>
 					<tbody>`;
 		courses.forEach(course =>{
@@ -210,6 +211,18 @@ hbs.registerHelper('closeCourse', (courses) => {
 					<td> ${course.intensity}</td>
 					<td> ${course.modality} </td>
 					<td> ${course.state}</td>
+					<td>
+						<p>
+						  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" name="inscritos" value="${course.name}">
+						    Inscritos
+						  </button>
+						</p>
+						<div class="collapse" id="collapseExample">
+						  <div class="card card-body">
+						    ${course.students} <br>
+						  </div>
+						</div>
+					</td>
 					<td><button class="btn btn-primary" name="cerrar" value="${course.name}">Cerrar</button></td>
 					</tr> `;
 		})

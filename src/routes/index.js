@@ -257,22 +257,32 @@ app.post('/register', (req, res) =>{
 });
 
 app.get('/dashboardadmin', (req, res) =>{
-	Course.find({},(err,result)=>{
-		console.log(result)
-		if (err){
-			return res.render('dashboardadmin',{
-				resultshow2: "Hubo un error: " + err,
-				cardcolor2: "danger"
-		 })
-		}
-		req.session.courses = result;
-		req.session.verCursosDisponibles = req.query.verCursosDisponibles;
-		res.render ('dashboardadmin',{
-			courses : req.session.courses,
-			verCursosDisponibles : req.session.verCursosDisponibles
+	if(req.body.cerrar){
+		Course.find({},(err,result)=>{
+			console.log(result)
+			if (err){
+				return res.render('dashboardadmin',{
+					resultshow2: "Hubo un error: " + err,
+					cardcolor2: "danger"
+			 })
+			}
+			req.session.courses = result;
+			req.session.verCursosDisponibles = req.query.verCursosDisponibles;
+			res.render ('dashboardadmin',{
+				courses : req.session.courses,
+				verCursosDisponibles : req.session.verCursosDisponibles
+			})
 		})
+	}
+	console.log('Los estudiantes son:')
+	Course.find({name: req.body.inscritos}, {"students.$" : 1}, (err, estudiantes)=>{
+		if (err){
+			return console.log(err)
+		}
+		return console.log(estudiantes)
 	})
 });
+
 
 app.post('/dashboardadmin', (req, res) =>{
 
