@@ -58,7 +58,10 @@ app.use((req,res,next) => {
     res.locals.listado = req.session.listado
     res.locals.courses = req.session.courses
     res.locals.miscursos = req.session.miscursos
+    res.locals.misusuarios = req.session.misusuarios
     res.locals.verCursosDisponibles = req.session.verCursosDisponibles
+    res.locals.verUsuarios = req.session.verUsuarios
+    res.locals.modificar = req.session.modificar
     if(req.session.avatar){
       res.locals.avatar = req.session.avatar
     }

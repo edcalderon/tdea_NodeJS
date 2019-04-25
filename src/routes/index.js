@@ -234,7 +234,6 @@ Course.find(conditions,(err,result)=>{
 
 		})
 	}
-
 });
 
 app.get('/register', (req, res) =>{
@@ -268,6 +267,15 @@ app.post('/register', (req, res) =>{
 });
 
 app.get('/dashboardadmin', (req, res) =>{
+	//listado de usuarios
+	User.find({},(err,users)=>{
+		if (err){
+			return console.log(err)
+		}
+		console.log('usuarios: ' + users)
+		req.session.misusuarios = users;
+	})
+	//Listado de cursos
 	Course.find({},(err,result)=>{
 		if (err){
 			return res.render('dashboardadmin',{
@@ -277,9 +285,12 @@ app.get('/dashboardadmin', (req, res) =>{
 		}
 		req.session.courses = result;
 		req.session.verCursosDisponibles = req.query.verCursosDisponibles;
+		req.session.verUsuarios =  req.query.verUsuarios
 		res.render ('dashboardadmin',{
 			courses : req.session.courses,
-			verCursosDisponibles : req.session.verCursosDisponibles
+			verCursosDisponibles : req.session.verCursosDisponibles,
+			misusuarios: req.session.misusuarios,
+			verUsuarios: req.session.verUsuarios
 		})
 	})
 });
@@ -311,6 +322,7 @@ app.post('/dashboardadmin', (req, res) =>{
 					})
 			 })
 		}
+		//Cerrar curso
 		if(req.body.cerrar){
 		 //Actualizar estado
 			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}}, (err, resultado) => {
@@ -328,30 +340,31 @@ app.post('/dashboardadmin', (req, res) =>{
 					modality: resultado.modality,
 					state: resultado.states,
 					students: resultado.students,
-					resultshow2: "El curso "+resultado.name+" se ha cerrado correctamente " ,
+					resultshow2: "El curso "+resultado.name+" ha finalizado " ,
 					cardcolor2: "success"
 		 		})
 		 	})
 		}
-		if(req.body.abrir){
-		 //Actualizar estado
-			 Course.findOneAndUpdate({name: req.body.abrir}, {$set: {state: "Disponible"}}, (err, resultado) => {
+
+		//Actualizar usuario
+		if(req.body.modificar){
+			console.log('HOLALALALA')
+			req.session.modificar = req.body.modificar;
+			console.log(req.session.modificar)
+			User.find({cc: req.session.modificar},(err,result)=>{
 				if (err){
-					return console.log(err)
-				}
-				console.log(resultado)
-				res.render ('dashboardadmin', {
-					courses : req.session.courses,
-					verCursosDisponibles : req.session.verCursosDisponibles,
-					name: resultado.name,
-					description: resultado.description,
-					value: resultado.value,
-					intensity: resultado.intensity,
-					modality: resultado.modality,
-					state: resultado.states,
-					students: resultado.students,
-					resultshow2: "El curso "+resultado.name+" se ha abierto correctamente " ,
-					cardcolor2: "success"
+		 			return console.log(err)
+		 		}
+				console.log('RESULTADO' + result)
+				return res.render('dashboardupdateuser',{
+					cursos: result.cursos,
+					fistname: result.firstname,
+					lastname: result.lastname,
+					email: result.email,
+					password: result.password,
+					phone: result.phone,
+					cc: result.cc,
+					roll: result.roll
 				})
 			})
 		}
@@ -374,8 +387,33 @@ app.post('/dashboardadmin', (req, res) =>{
 });
 
 app.get('/dashboardupdateuser', (req, res) =>{
-	res.render('dashboardupdateuser',{})
+	res.render('dashboardupdateuser')
 })
+
+app.post('/dashboardupdateuser', (req, res) =>{
+	console.log('sesioon: ' +req.session.modificar)
+	User.findOneAndUpdate({cc: req.session.modificar}, {$set:{firstname: req.body.firstname, lastname: req.body.lastname, phone: req.body.phone, roll: req.body.roll}},{new:true}, (err, resultado) => {
+		console.log(req.session.modificar)
+	 if (err){
+		 return console.log('erooor: ' + err)
+	 }
+	 console.log('El modfificado es: ' +resultado)
+	 res.render ('dashboardupdateuser', {
+			misusuarios: req.session.misusuarios,
+			cursos: resultado.cursos,
+			firstname: resultado.firstname,
+			lastname: resultado.lastname,
+			email: resultado.email,
+			password:resultado.password,
+			phone: resultado.phone,
+			cc: resultado.cc,
+			roll: resultado.roll,
+			resultshow4: "El curso "+resultado.name+" ha finalizado " ,
+			cardcolor4: "success"
+	 })
+ })
+})
+
 app.get('/dashboardprofile', (req, res) =>{
   	res.render('dashboardprofile', {
 		})

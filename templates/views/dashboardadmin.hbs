@@ -176,8 +176,8 @@
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                     <div class="dropdown-header">¿QUÉ QUIERES HACER?:</div>
-                    <a class="dropdown-item" href="dashboardadmin?verCursosDisponibles=true">Ver cursos</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="/dashboardadmin?verCursosDisponibles=true">Ver cursos</a>
+                    <a class="dropdown-item" href="/dashboardadmin?verUsuarios=true">Ver usuarios</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                   </div>
@@ -187,8 +187,13 @@
               <div class="card-body">
                   <!-- <canvas id="myAreaChart"></canvas>-->
                   {{#if verCursosDisponibles}}
-                      {{{closeCourse courses nameUser}}}
+                      {{{closeCourse courses}}}
                   {{/if}}
+
+                  {{#if verUsuarios}}
+                    {{{modifyUser misusuarios}}}
+                  {{/if}}
+
                   <div class="col-sm">
                   {{#if resultshow2}}
                     <div id="mydiv" class="card text-white bg-{{cardcolor2}}">

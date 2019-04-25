@@ -1,9 +1,12 @@
 {{>headdashboard}}
+
 <body id="page-top">
   <!-- Page Wrapper -->
   <div id="wrapper">
     <!-- Sidebar-->
-    {{>sidebardashboard}}
+    {{#if coordinador}}
+      {{>sidebardashboard}}
+    {{/if}}
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
@@ -13,109 +16,104 @@
         <!-- End of Topbar -->
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard - {{roll}}</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <h1 class="h3 mb-0 text-gray-800"></h1>
           </div>
 
-          <!-- Card Body -->
-          <div class="col-xl-12 col-lg-8 d-flex justify-content-center">
-            <div class="card shadow mb-4">
+          <!-- Area Chart -->
+<div class="col-xs-7 d-flex justify-content-center">
+  <div class="col-xl-5 col-lg-8">
+    <div class="card shadow mb-4 center-block">
 
-              <!-- Card Header - Dropdown -->
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Actualizar usuarios</h6>
-                <div class="dropdown no-arrow">
-                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                    <div class="dropdown-header">¿QUÉ QUIERES HACER?</div>
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
-                </div>
-              </div>
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Modificar usuario</h6>
+        <div class="dropdown no-arrow">
+          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-header">¿QUÉ QUIERES HACER?:</div>
+            <a class="dropdown-item" href="dashboardadmin?verCursosDisponibles=true">Ver cursos</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </div>
 
-              <div class="card-body">
-                <div class="chart-area">
-                 <!--  <canvas id="myPieChart"></canvas> -->
-                 <form class="user " method="Post" action="/register">
-                   <div class="form-group row">
-                     <div class="col-sm-6 mb-3 mb-sm-0">
-                       <input type="text" class="form-control form-control-user" name="firstName" id="firstName" placeholder="Nombre" required>
-                     </div>
-                     <div class="col-sm-6">
-                       <input type="text" class="form-control form-control-user" name="lastName" id="lastName" placeholder="Apellidos" required>
-                     </div>
-                   </div>
-                   <div class="form-group">
-                     <input type="email" class="form-control form-control-user" name="inputEmail" id="inputEmail" placeholder="Email" required>
-                   </div>
-                   <div class="form-group row">
-                     <div class="col-sm-6 mb-3 mb-sm-0">
-                       <input type="tel" class="form-control form-control-user" name="phone" id="phone" placeholder="Telefono" required>
-                     </div>
-                     <div class="col-sm-6">
-                       <input type="text" class="form-control form-control-user" name="cedula" id="cedula" placeholder="Cedula" required>
-                     </div>
-                   </div>
-                   <input type="hidden" name="registro"  value="registro">
-                   <input type="submit" class="btn btn-primary btn-user btn-block"  value="Registrar" data-toggle="modal" data-target="#myModal2">
-                 </form>
-                </div>
-              </div>
+        <form class="text-center border border-light p-5" action="/dashboardupdateuser" method="post">
+
+                      <p class="h4 mb-4">Modificar</p>
+
+                      <div class="form-row mb-4">
+                      <div class="col">
+                          <!-- Nombre -->
+                          <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="Nombre" name="firstname" value={{firstname}}>
+                      </div>
+                      <div class="col">
+                          <!-- Apellido -->
+                          <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Apellido" name="lastname" value={{lastname}}>
+                      </div>
+                      </div>
+
+                      <!-- E-mail -->
+                      <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail" name="email" value={{email}}>
+
+                      <div class="form-row mb-4">
+                      <div class="col">
+                          <!-- Cedula -->
+                          <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="Cédula" name="cc" value={{cc}}>
+                      </div>
+                      <div class="col">
+                          <!-- Telefono -->
+                          <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Teléfono" name="phone" value={{phone}}>
+                      </div>
+                      </div>
+
+                      <!-- Phone number -->
+                      <div class="col">
+                        <select class="browser-default custom-select" name="roll" value={{roll}}>
+                          <option selected>Perfil</option>
+                          <option value="aspirante">Aspirante</option>
+                          <option value="docente">Docente</option>
+                        </select>
+                      </div>
+                      <!-- Actualizar up button -->
+                      <button class="btn btn-primary my-4 btn-block" type="submit">Modificar</button>
+
+                </form>
             </div>
-          </div>
+        </div>
+      </div>
+
+  {{>footerdashboard}}
+
+  <script>
+    setTimeout(function() {
+        $('#mydiv').fadeOut('fast');
+    }, 6000);
+  </script>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Deseas salir ?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Selecciona "Salir" para terminar la sesion actual.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="/exit">Salir</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-
-
-
-
-          <!-- Pie Chart -->
-          <!-- Content Row final space -->
-              <div class="row">
-                <!-- Content Column -->
-                  <div class="col-lg-6 mb-4"></div>
-                  <div class="col-lg-6 mb-4"></div>
-              </div>
-          <!-- Content Row final space-->
-          </div>
-          <!-- /.container-fluid -->
-          </div>
-          <!-- End of Main Content -->
-          <!-- Footer -->
-          {{>footerdashboard}}
-          </div>
-          <!-- End of Content Wrapper -->
-          </div>
-          <!-- End of Page Wrapper -->
-
-
-          <!-- Logout Modal-->
-          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Deseas salir ?</h5>
-                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div class="modal-body">Selecciona "Salir" para terminar la sesion actual.</div>
-                <div class="modal-footer">
-                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                  <a class="btn btn-primary" href="/exit">Salir</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          </body>
-          </html>
+  </body>
+  </html>

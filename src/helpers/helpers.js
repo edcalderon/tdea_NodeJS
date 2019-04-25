@@ -123,7 +123,7 @@ hbs.registerHelper('inscription', (listado) => {
 });
 
 //Cerrar cursos y listarlos mongo
-hbs.registerHelper('closeCourse', (courses,nameUser) => {
+hbs.registerHelper('closeCourse', (courses) => {
 
 	let texto = `	<form action="/dashboardadmin" method="post">
 			<table class='table table-striped table-hover'>
@@ -181,7 +181,7 @@ hbs.registerHelper('closeCourse', (courses,nameUser) => {
 	return texto;
 });
 
-//Eliminar inscripcion base de dato
+//Eliminar inscripcion mongo
 
 hbs.registerHelper('cancelIncription', (miscursos) => {
 	let texto = `	<form action="/dashboarduser" method="post">
@@ -208,7 +208,30 @@ hbs.registerHelper('cancelIncription', (miscursos) => {
 	return texto;
 });
 
+//Modificar usuarios y listarlos mongo
 
+hbs.registerHelper('modifyUser', (misusuarios) => {
+	let texto = `	<form action="/dashboardadmin" method="post">
+			<table class='table table-striped table-hover'>
+					<thead class='thead-dark'>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Cédula</th>
+					<th></th>
+					</thead>
+					<tbody>`;
+		misusuarios.forEach(usuario =>{
+			texto = texto +
+					`<tr>
+					<td> ${usuario.firstname} </td>
+					<td> ${usuario.lastname} </td>
+					<td> ${usuario.cc}</td>
+					<td><button class="btn btn-info" name="modificar" value="${usuario.cc}">Modificar</button></td>
+					</tr> `;
+		})
+	texto = texto + '</tbody> </table></form>';
+	return texto;
+});
 
 //_________Inscribir cursos como aspirante_____________________________
 
