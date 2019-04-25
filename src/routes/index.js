@@ -172,7 +172,7 @@ Course.find(conditions,(err,result)=>{
 		if(result.length == 0 && req.body.inscribir){
 				//********************* Actualización*****
 				console.log('Te inscribiste correctamente!!!!')
-				Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: req.session.user}}, (err, curso) =>{
+				Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: {cedula:req.session.cc,nombre:req.session.name}}}, (err, curso) =>{
 					console.log('RESULTADOS DEL POST')
 					console.log(req.body.inscribir);
 					console.log(curso)
