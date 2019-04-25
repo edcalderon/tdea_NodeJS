@@ -12,8 +12,9 @@
           {{/if}}
           <h6>Sube una foto de perfil diferente...</h6>
             <form id="uploadProfilePicForm" enctype="multipart/form-data" action="/dashboardprofile" method="post">
-                      <input type="file" class="form-control" id="userPhotoInput" name="userPhoto" >
+                      <input type="file" class="form-control" id="userPhotoInput" name="userPhoto" accept="image/*" >
                       <input type="submit" name="submit" value="Subir">
+                      <input type="hidden" name="avatar" value="avatar">
             </form>
         </div>
       </div>
@@ -75,7 +76,7 @@
               <label class="col-md-3 control-label"></label>
               <div class="col-md-8">
                 <span>
-                  <input type="button" class="btn btn-primary" value="Save Changes">
+                  <input type="submit" class="btn btn-primary" value="Save Changes">
                   <input type="reset" class="btn btn-default" value="Cancel">
                 </span>
               </div>

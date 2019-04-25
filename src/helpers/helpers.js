@@ -7,91 +7,12 @@ $ = require('jquery')(new jsdom.JSDOM().window);
 const listaCursos = data.listadecursos;
 const User = require('./../models/user');
 const Course = require('./../models/course');
+const session = require('express-session');
 
 const listaUsuarios = data.listadeusuarios;
 listaPersonas = data.listadeusuarios;
 listaInscritos = [];
 listaActualizaUsuarios = [];
-
-hbs.registerHelper('listarCursos', ()=>{
-	let texto = "<table class='table table-hover'>\
-				<thead>\
-				<th> Nombre </th>\
-				<th> Descripcion </th>\
-				<th> id </th>\
-				<th> valor </th>\
-				<th> intensidadhoraria </th>\
-				<th> modalidad </th>\
-				<th> estado </th>\
-				</thead>\
-				<tbody>";
-
-	listaCursos.forEach ( curso => {
-		texto = texto +
-				'<tr>'+
-					'<td>'+ curso.nombre + '</td>' +
-					'<td>'+ curso.descripcion + '</td>' +
-					'<td>'+ curso.id +'</td>' +
-					'<td>'+ curso.valor +'</td>' +
-					'<td>'+ curso.intensidadhoraria +'</td>' +
-					'<td>'+ curso.modalidad +'</td>' +
-					'<td>'+ curso.estado + '</td>' +
-				'</tr>'
-				'</tbody>'
-				'</table>';
-	});
-	return texto;
-});
-
-hbs.registerHelper('listarofertaCursos', ()=>{
-
-	let campos = "<div class='col-sm-4'>\
-	       <table class='table' style='width: 400px'>\
-				<thead class='thead-dark'>\
-				<th> Nombre </th>\
-				<th> Descripcion </th>\
-				<th> valor </th>\
-				</thead>\
-				</table>\
-				</div>";
-
-	let texto = "<div class='accordion' id='accordionExample' >";
-	i=1;
-	listaCursos.forEach( curso => {
-
-		if(curso.estado == 'disponible'){
-			texto = texto +
-				`<div class="card col-xs-4">
-				    <div class="card-header" id="heading${i}">
-				      <h5 class="mb-0">
-				        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="true" aria-controls="collapseOne">
-				          <table class="table">
-				          <tbody>
-				          	<tr>
-				          		<td>${curso.nombre}</td>
-				          		<td>${curso.descripcion}</td>
-				          		<td>${curso.valor}</td>
-				          	</tr>
-				          	</tbody>
-				          </table>
-				        </button>
-				      </h5>
-				    </div>
-
-				    <div id="collapse${i}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-				      <div class="card-body">
-				      	La descripción del curso es: ${curso.descripcion}<br>
-				      	La intensidad horaria es: ${curso.intensidadhoraria}<br>
-				      	La modalidad es: ${curso.modalidad}<br>
-				      </div>
-				    </div>
-				</div>`
-				i=i+1;
-		}
-	})
-
-	return campos+texto;
-});
 
 //Incribir cursos con mongodb y listarlos
 
@@ -123,8 +44,12 @@ hbs.registerHelper('inscription', (listado) => {
 });
 
 //Cerrar cursos y listarlos mongo
+<<<<<<< HEAD
 hbs.registerHelper('closeCourse', (courses) => {
 
+=======
+hbs.registerHelper('closeCourse', (courses,nameUser) => {
+>>>>>>> 3decec27ea45149933a761387635cceaf8a629e2
 	let texto = `	<form action="/dashboardadmin" method="post">
 			<table class='table table-striped table-hover'>
 					<thead class='thead-dark'>
@@ -138,22 +63,14 @@ hbs.registerHelper('closeCourse', (courses) => {
 					</thead>
 					<tbody>`;
 		courses.forEach(course =>{
+
 			// switch
 			let switchVal = "cerrar"
-
-			if(course.state == "Cerrado"){
+  		if(course.state == "Cerrado"){
     			switchVal  = "abrir"
 			}
-      // mostrar nombre y cedula
-      // let students = []
-			// course.students.forEach ( id => User.find({_id: id},(err,result)=>{
-			// 	 console.log("hola")
-			// 		if (err){
-			// 		 return console.log(err)
-			// 	 }
-			// 	 students.push(result.fistname)
-			// 	})
-			// );
+      console.log(course.students);
+			var myJSON = JSON.stringify(course.students);
 
 			texto = texto +
 					`<tr>
@@ -170,7 +87,7 @@ hbs.registerHelper('closeCourse', (courses) => {
 						</p>
 						<div class="collapse" id="collapseExample${course.name}">
 						  <div class="card card-body">
-						    ${course.students}
+						     ${myJSON}
 						  </div>
 						</div>
 					</td>
@@ -233,59 +150,9 @@ hbs.registerHelper('modifyUser', (misusuarios) => {
 	return texto;
 });
 
-//_________Inscribir cursos como aspirante_____________________________
 
-hbs.registerHelper('inscribirCurso', (id, Curso) => {
-		const listar = () =>{
-			try{
-				listaInscritos = require('../inscritos.json');
-			} catch(error){
-				listaInscritos = [];
-			}
-		}
-		const guardar = () => {
-				let datos = JSON.stringify(listaInscritos);
-				fs.writeFile('inscritos.json', datos, (err) => {
-					if (err) throw (err);
-					console.log('se inscribio satisfactoriamente')
-				})
-		}
+// helpers viejos --------------------
 
-		const inscribir = () =>{
-			listar()
-			for(var i=0; i<listaInscritos.length; i++){
-				if(datoAspirante.id == listaInscritos[i].id){
-					listaInscritos.splice(i,1)
-				break;
-				}
-			}
-
-			var nuevoInscrito = {email: datoAspirante.email, username: datoAspirante.username, password: datoAspirante.password, phone: datoAspirante.phone, id: datoAspirante.id, roll: datoAspirante.roll, curso: datoAspirante.curso};
-			listaInscritos.push(nuevoInscrito)
-			guardar();
-		}
-
-		var datoAspirante = listaPersonas.find(i => i.id == id);
-		if(datoAspirante){
-			var cursosRepetidos = datoAspirante.curso.find(a => a == Curso)
-		}
-		if(!cursosRepetidos && datoAspirante){
-			datoAspirante.curso.push(Curso)
-			inscribir();
-			let texto = "<p>La inscripción se realizo satisfactoriamente. </p>";
-			return texto;
-		}else if(!datoAspirante){
-			let texto = "<p>No existes, por favor EXITe .</p>";
-			return texto;
-		}else{
-			let texto = "<p>No te puedes inscribir al curso por ya estas en él, baboso.</p>";
-			return texto;
-		}
-});
-
-
-
-//________________________Funcionalidad adicional para coordinador__________________________________
 hbs.registerHelper('listarCursosDisponibles', ()=>{
 let texto = " ";
 let count = 1;
@@ -316,169 +183,32 @@ let count = 1;
 	console.log(texto);
 });
 
+hbs.registerHelper('listarCursos', ()=>{
+	let texto = "<table class='table table-hover'>\
+				<thead>\
+				<th> Nombre </th>\
+				<th> Descripcion </th>\
+				<th> id </th>\
+				<th> valor </th>\
+				<th> intensidadhoraria </th>\
+				<th> modalidad </th>\
+				<th> estado </th>\
+				</thead>\
+				<tbody>";
 
-hbs.registerHelper('listarCursosPropios', (id)=>{
-	console.log(id);
-	console.log(id);
-let texto = " ";
-let count = 1;
-	listaUsuarios.forEach ( usuario => {
-		if(usuario.id == id ){
-
-	     texto = texto + `
-			 <div id='accordion'>
-			 <div class="card">
-			     <div class="card-header" id="heading${count}">
-			       <h5 class="mb-0">
-			         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${count}" aria-expanded="true" aria-controls="collapse${count}">
-			          CURSO: ${usuario.curso}
-			         </button>
-			       </h5>
-			     </div>
-			     <div id="collapse${count}" class="collapse " aria-labelledby="heading${count}" data-parent="#accordion">
-			       <div class="card-body">
-			       </div>
-			     </div>
-			  </div>
-				</div>`;
-		 }
-		 console.log(count)
-		 count++;
+	listaCursos.forEach ( curso => {
+		texto = texto +
+				'<tr>'+
+					'<td>'+ curso.nombre + '</td>' +
+					'<td>'+ curso.descripcion + '</td>' +
+					'<td>'+ curso.id +'</td>' +
+					'<td>'+ curso.valor +'</td>' +
+					'<td>'+ curso.intensidadhoraria +'</td>' +
+					'<td>'+ curso.modalidad +'</td>' +
+					'<td>'+ curso.estado + '</td>' +
+				'</tr>'
+				'</tbody>'
+				'</table>';
 	});
 	return texto;
-	console.log(texto);
 });
-
-//_______________________Quinta historia de usuario: aspirante eliminar curso________________________________________________
-
-hbs.registerHelper('eliminarcursosInscritos', (id, Curso) =>{
-
-	const listar = () =>{
-		try{
-			listaInscritos = require('../inscritos.json');
-		} catch(error){
-			listaInscritos = [];
-		}
-	}
-
-	const guardar = () => {
-		let datos = JSON.stringify(listaInscritos);
-		fs.writeFile('inscritos.json', datos, (err) => {
-			if (err) throw (err);
-			console.log('Se desinscribio satisfactoriamente')
-		})
-	}
-
-	listar();
-	let datoInscrito = listaInscritos.find(i => i.id == id);
-	console.log(datoInscrito)
-
-	const eliminarInscripcion = () => {
-		index = '';
-		if(datoInscrito){
-			for(var i=0; i<listaInscritos.length; i++){
-				if(datoInscrito.id == listaInscritos[i].id){
-					listaInscritos.splice(i,1)
-					break;
-				}
-			}
-			var index = datoInscrito.curso.indexOf(Curso);
-		}else{
-			console.log('El usuario con la id ingresada no existe');
-			let texto = "<p>El usuario con la id ingresada no existe</p>";
-			return texto;
-			index = -1;
-		}
-
-		if(index > -1){
-			var cursoBorrado = datoInscrito.curso.splice(index, 1);
-			listaInscritos.push(datoInscrito);
-			guardar();
-			console.log(datoInscrito)
-			let texto = "<p>La inscripción ha sido eliminada con éxito</p>";
-			return texto;
-		}else{
-			let texto = `<p>Actualmente no tienes el curso inscrito</p>`;
-			return texto;
-		}
-	}
-
-	eliminarInscripcion();
-
-	const listarcursosInscritos = () => {
-		listar();
-		let datoInscrito = listaInscritos.find(i => i.id == id);
-		if(datoInscrito){
-			let texto = "<table class='table table-hover'>\
-					<thead>\
-					<th> Nombre </th>\
-					</thead>\
-					<tbody>";
-
-			listaCursos.forEach ( curso => {
-				texto = texto +
-						'<tr>'+
-							'<td>'+ datoInscrito.curso + '</td>' +
-						'</tr>'
-						'</tbody>'
-						'</table>';
-			});
-			return texto;
-		}else{
-			console.log('paso algo' +datoInscrito)
-		}
-	}
-	listarcursosInscritos();
-
-})
-
-//___________Segunda parte quinta historia de usuario listar los cursos en el que el aspirante esta inscrito_____
-
-
-//_____________________Octava historia de usuario: Actualizar usuario_______________________________________
-hbs.registerHelper('actualizarUsuario',(id, username, email, phone, roll) =>{
-	console.log(username)
-	console.log(email)
-	console.log(phone)
-	console.log(roll)
-	console.log(id)
-
-	const listar = () =>{
-		try{
-			listaActualizaUsuarios = require('../dbusuarios.json');
-		} catch(error){
-			listaActualizaUsuarios = [];
-		}
-	}
-
-	const guardar = () => {
-		let datos = JSON.stringify(listaActualizaUsuarios);
-		fs.writeFile('dbusuarios.json', datos, (err) => {
-			if (err) throw (err);
-			console.log('Se actualizo el usuario satisfactoriamente')
-		})
-	}
-
-	const actualizar = () =>{
-		listar();
-		for(var i=0; i<listaActualizaUsuarios.length; i++){
-			if(datoUsuario.id == listaActualizaUsuarios[i].id){
-				listaActualizaUsuarios.splice(i,1)
-			break;
-			}
-		}
-		var usuarioActualizado = {email: email, username: username, password: datoUsuario.password, phone: phone, id: datoUsuario.id, roll: roll, curso: datoUsuario.curso};
-		listaActualizaUsuarios.push(usuarioActualizado)
-		guardar();
-	}
-
-	var datoUsuario = listaPersonas.find(i => i.id == id);
-	if(datoUsuario){
-		actualizar();
-		let texto = "<p>La actualizacion se realizo satisfactoriamente</p>";
-		return texto
-	}else{
-		let texto = "<p>Ingresa correctamente la id</p>";
-		return texto
-	}
-})
