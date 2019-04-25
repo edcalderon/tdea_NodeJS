@@ -15,6 +15,13 @@ const io = require('socket.io')(server);
 
 io.on('connection', client =>{
  console.log("ingreso un usuario")
+
+ client.emit("message","Bienvenido")
+
+ client.on("message", (info) => {
+   console.log(info)
+ })
+
 });
 
 // Local localstorage

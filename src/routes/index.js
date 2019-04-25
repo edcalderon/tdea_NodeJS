@@ -210,7 +210,7 @@ Course.find(conditions,(err,result)=>{
 			name: req.body.eliminar,
 			students: { $in: req.session.user}
 		};
-		Course.findOneAndUpdate(conditions,{$pull:{students: req.session.user}},(err,result)=>{
+		Course.findOneAndUpdate(conditions,{$pull:{students: {cedula: req.session.cc, nombre: req.session.name}}},(err,result)=>{
 			if (err){
 				return res.render('dashboarduser',{
 					resultshow3: "Hubo un error: " + err,
