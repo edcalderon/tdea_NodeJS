@@ -394,17 +394,55 @@ app.get('/dashboardprofile', (req, res) =>{
 // var upload = multer({storage:storage})
 
 // Multer destin folder
-var upload = multer({})
+var upload = multer({
+	limits:{
+		fileSize: 10000000
+	},
+	fileFilter(req,file,cb){
+		if(!file.originalname.match(/\.(jpg|png|jpeg)$/)){
+			cb(new Error("No es un archivo valido"))
+		}
+		cb(null,true)
+	  }
+
+})
 
 app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 
-		User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
+
+	if(req.body.avatar){
+			User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
+				if (err){
+					 return console.log(err)
+				 }res.render('dashboardprofile', {
+					resultshow: "avatar cargado correctamente"
+				  })
+			})
+	}
+
+	var conditions = {};
+
+	if(req.body.firstname){
+		Object.assign(conditions, {firstname : req.body.firstname})
+	}
+	if(req.body.lastname){
+		Object.assign(conditions, {lastname : req.body.lastname})
+	}
+	if(req.body.phone){
+		Object.assign(conditions, {phone : req.body.phone})
+	}
+	if(req.body.password){
+		Object.assign(conditions, {password : req.body.password})
+	}
+
+	User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, (err, resultado) => {
 			if (err){
 				 return console.log(err)
 			 }res.render('dashboardprofile', {
-				resultshow: "avatar cargado correctamente"
-			  })
-		})
+				resultshow: "Datos actualizados correctamente"
+			 })
+	})
+
 });
 
 app.get('/exit', (req, res) =>{

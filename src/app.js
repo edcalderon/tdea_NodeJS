@@ -8,7 +8,14 @@ const bodyParser = require('body-parser');
 const data = require('./data');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
+// Sockets connection
+
+io.on('connection', client =>{
+ console.log("ingreso un usuario")
+});
 
 // Local localstorage
 if (typeof localStorage === "undefined" || localStorage === null) {
@@ -88,7 +95,7 @@ mongoose.connect(process.env.URLDB, {useNewUrlParser:true},(err, result) =>{
 })
 
 //var puerto = 3000
-app.listen(process.env.PORT, ()=>{
+server.listen(process.env.PORT, ()=>{
 	console.log('Escuchando en el puerto ' + process.env.PORT)
 });
 
