@@ -44,12 +44,7 @@ hbs.registerHelper('inscription', (listado) => {
 });
 
 //Cerrar cursos y listarlos mongo
-<<<<<<< HEAD
 hbs.registerHelper('closeCourse', (courses) => {
-
-=======
-hbs.registerHelper('closeCourse', (courses,nameUser) => {
->>>>>>> 3decec27ea45149933a761387635cceaf8a629e2
 	let texto = `	<form action="/dashboardadmin" method="post">
 			<table class='table table-striped table-hover'>
 					<thead class='thead-dark'>
