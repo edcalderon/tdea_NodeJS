@@ -172,7 +172,7 @@ Course.find(conditions,(err,result)=>{
 		if(result.length == 0 && req.body.inscribir){
 				//********************* Actualización*****
 				console.log('Te inscribiste correctamente!!!!')
-				Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: {cedula:req.session.cc,nombre:req.session.name}}}, (err, curso) =>{
+				Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: req.session.user}}, (err, curso) =>{
 					console.log('RESULTADOS DEL POST')
 					console.log(req.body.inscribir);
 					console.log(curso)
@@ -210,7 +210,7 @@ Course.find(conditions,(err,result)=>{
 			name: req.body.eliminar,
 			students: { $in: req.session.user}
 		};
-		Course.findOneAndUpdate(conditions,{$pull:{students: {cedula: req.session.cc, nombre: req.session.name}}},(err,result)=>{
+		Course.findOneAndUpdate(conditions,{$pull:{students: req.session.user}},(err,result)=>{
 			if (err){
 				return res.render('dashboarduser',{
 					resultshow3: "Hubo un error: " + err,
@@ -432,55 +432,17 @@ app.get('/dashboardprofile', (req, res) =>{
 // var upload = multer({storage:storage})
 
 // Multer destin folder
-var upload = multer({
-	limits:{
-		fileSize: 10000000
-	},
-	fileFilter(req,file,cb){
-		if(!file.originalname.match(/\.(jpg|png|jpeg)$/)){
-			cb(new Error("No es un archivo valido"))
-		}
-		cb(null,true)
-	  }
-
-})
+var upload = multer({})
 
 app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 
-
-	if(req.body.avatar){
-			User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
-				if (err){
-					 return console.log(err)
-				 }res.render('dashboardprofile', {
-					resultshow: "avatar cargado correctamente"
-				  })
-			})
-	}
-
-	var conditions = {};
-
-	if(req.body.firstname){
-		Object.assign(conditions, {firstname : req.body.firstname})
-	}
-	if(req.body.lastname){
-		Object.assign(conditions, {lastname : req.body.lastname})
-	}
-	if(req.body.phone){
-		Object.assign(conditions, {phone : req.body.phone})
-	}
-	if(req.body.password){
-		Object.assign(conditions, {password : req.body.password})
-	}
-
-	User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, (err, resultado) => {
+		User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
 			if (err){
 				 return console.log(err)
 			 }res.render('dashboardprofile', {
-				resultshow: "Datos actualizados correctamente"
-			 })
-	})
-
+				resultshow: "avatar cargado correctamente"
+			  })
+		})
 });
 
 app.get('/exit', (req, res) =>{
