@@ -76,6 +76,18 @@ app.use((req,res,next) => {
     res.locals.verCursosDisponibles = req.session.verCursosDisponibles
     res.locals.verUsuarios = req.session.verUsuarios
     res.locals.modificar = req.session.modificar
+    //vars modify user by admin
+    if(req.session.modificar){
+      res.locals.cursosUser = req.session.cursosUser
+      res.locals.fistnameUser =  req.session.firstnameUser
+      res.locals.lastnameUser  =  req.session.lastnameUser
+      res.locals.emailUser =  req.session.emailUser
+      res.locals.passwordUser =  req.session.passwordUser
+      res.locals.phoneUser =  req.session.phoneUser
+      res.locals.ccUser = req.session.ccUser
+      res.locals.rollUser =  req.session.rollUser
+    }
+    //vars change avatar
     if(req.session.avatar){
       res.locals.avatar = req.session.avatar
     }

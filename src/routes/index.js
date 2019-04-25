@@ -340,79 +340,107 @@ app.post('/dashboardadmin', (req, res) =>{
 					modality: resultado.modality,
 					state: resultado.states,
 					students: resultado.students,
-					resultshow2: "El curso "+resultado.name+" ha finalizado " ,
+					resultshow2: "El curso "+resultado.name+" ha cerrado correctamente " ,
 					cardcolor2: "success"
 		 		})
 		 	})
 		}
-
-		//Actualizar usuario
-		if(req.body.modificar){
-			console.log('HOLALALALA')
-			req.session.modificar = req.body.modificar;
-			console.log(req.session.modificar)
-			User.find({cc: req.session.modificar},(err,result)=>{
+		if(req.body.abrir){
+		 //Actualizar estado
+			 Course.findOneAndUpdate({name: req.body.abrir}, {$set: {state: "Disponible"}}, (err, resultado) => {
 				if (err){
-		 			return console.log(err)
-		 		}
-				console.log('RESULTADO' + result)
-				return res.render('dashboardupdateuser',{
-					cursos: result.cursos,
-					fistname: result.firstname,
-					lastname: result.lastname,
-					email: result.email,
-					password: result.password,
-					phone: result.phone,
-					cc: result.cc,
-					roll: result.roll
+					return console.log(err)
+				}
+				console.log(resultado)
+				res.render ('dashboardadmin', {
+					courses : req.session.courses,
+					verCursosDisponibles : req.session.verCursosDisponibles,
+					name: resultado.name,
+					description: resultado.description,
+					value: resultado.value,
+					intensity: resultado.intensity,
+					modality: resultado.modality,
+					state: resultado.states,
+					students: resultado.students,
+					resultshow2: "El curso "+resultado.name+" ha abierto correctamente " ,
+					cardcolor2: "success"
 				})
 			})
 		}
+		//Actualizar usuario
+		if(req.body.modificar){
 
-//Código que puede servir de ejemplo
-	// students = req.session.courses;
-	// console.log('los cursos ' + students)
-	// names =  [];
-	// students.forEach(student =>{
-	// 	console.log('EL id_' + student)
-	// 	User.aggregate([{$match: {_id: student}},{$project: {_id:0, firstname:1}}],(err,result)=>{
-	// 		if(err){
-	// 			return console.log('Error!: ' + err)
-	// 		}
-	// 		return console.log('Cada resultado es: ' + result)
-	// 	});
-	// })
+			User.findOne({_id: req.body.modificar},(err,result)=>{
+				if (err){
+		 			return console.log(err)
+		 		}
+				var obj = result.toObject()
+				console.log(obj)
+
+        //set session vars
+				req.session.modificar = req.body.modificar
+				req.session.idUser = obj._id,
+				req.session.cursosUser = obj.cursos
+				req.session.firstnameUser =  obj.firstname
+				req.session.lastnameUser = obj.lastname
+				req.session.emailUser =  obj.email
+				req.session.passwordUser = obj.password
+				req.session.phoneUser = obj.phone
+				req.session.ccUser = obj.cc
+				req.session.rollUser = obj.roll
+
+
+				res.render('dashboardupdateuser',{
+					firstnameUser :  req.session.firstnameUser,
+					lastnameUser : req.session.lastnameUser,
+					emailUser :  req.session.emailUser,
+					phoneUser : req.session.phoneUser,
+					ccUser : req.session.ccUser,
+					rollUser : req.session.rollUser
+				})
+			})
+		}
 
 
 });
 
 app.get('/dashboardupdateuser', (req, res) =>{
 	res.render('dashboardupdateuser')
+
 })
 
 app.post('/dashboardupdateuser', (req, res) =>{
-	console.log('sesioon: ' +req.session.modificar)
-	User.findOneAndUpdate({cc: req.session.modificar}, {$set:{firstname: req.body.firstname, lastname: req.body.lastname, phone: req.body.phone, roll: req.body.roll}},{new:true}, (err, resultado) => {
-		console.log(req.session.modificar)
-	 if (err){
-		 return console.log('erooor: ' + err)
-	 }
-	 console.log('El modfificado es: ' +resultado)
-	 res.render ('dashboardupdateuser', {
-			misusuarios: req.session.misusuarios,
-			cursos: resultado.cursos,
-			firstname: resultado.firstname,
-			lastname: resultado.lastname,
-			email: resultado.email,
-			password:resultado.password,
-			phone: resultado.phone,
-			cc: resultado.cc,
-			roll: resultado.roll,
-			resultshow4: "El curso "+resultado.name+" ha finalizado " ,
-			cardcolor4: "success"
-	 })
- })
-})
+
+	var conditions = {};
+
+		if(req.body.firstname){
+			Object.assign(conditions, {firstname : req.body.firstname})
+		}
+		if(req.body.lastname){
+			Object.assign(conditions, {lastname : req.body.lastname})
+		}
+		if(req.body.phone){
+			Object.assign(conditions, {phone : req.body.phone})
+		}
+		if(req.body.roll){
+			Object.assign(conditions, {roll : req.body.roll})
+		}
+
+		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, (err, resultado) => {
+				if (err){
+					 return console.log(err)
+				 }res.render('dashboardupdateuser', {
+					 firstnameUser :  req.session.firstnameUser,
+					 lastnameUser : req.session.lastnameUser,
+					 emailUser :  req.session.emailUser,
+					 phoneUser : req.session.phoneUser,
+					 ccUser : req.session.ccUser,
+					 rollUser : req.session.rollUser,
+					 resultshow: "Datos actualizados correctamente"
+				 })
+		})
+
+});
 
 app.get('/dashboardprofile', (req, res) =>{
   	res.render('dashboardprofile', {
