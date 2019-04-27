@@ -22,72 +22,51 @@
           </div>
 
           <!-- Area Chart -->
-<div class="col-xs-7 d-flex justify-content-center">
-  <div class="col-xl-5 col-lg-8">
-    <div class="card shadow mb-4 center-block">
+            <div class="col-xs-7 d-flex justify-content-center">
+              <div class="col-xl-5 col-lg-8">
+                <div class="card shadow mb-4 center-block">
 
-      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Modificar usuario</h6>
-        <div class="dropdown no-arrow">
-          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-            <div class="dropdown-header">¿QUÉ QUIERES HACER?:</div>
-            <a class="dropdown-item" href="dashboardadmin?verCursosDisponibles=true">Ver cursos</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </div>
-      </div>
-
-        <form class="text-center border border-light p-5" action="/dashboardupdateuser" method="post">
-
-                      <p class="h4 mb-4">Modificar</p>
-
-                      <div class="form-row mb-4">
-                      <div class="col">
-                          <!-- Nombre -->
-                          <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="Nombre" name="firstname" value={{firstname}}>
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Modificar usuario: {{firstnameUser}}</h6>
+                    <div class="dropdown no-arrow">
+                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">¿QUÉ QUIERES HACER?:</div>
+                        <a class="dropdown-item" href="dashboardadmin?verCursosDisponibles=true">Ver cursos</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
                       </div>
-                      <div class="col">
-                          <!-- Apellido -->
-                          <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Apellido" name="lastname" value={{lastname}}>
-                      </div>
-                      </div>
-
-                      <!-- E-mail -->
-                      <input type="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail" name="email" value={{email}}>
-
-                      <div class="form-row mb-4">
-                      <div class="col">
-                          <!-- Cedula -->
-                          <input type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="Cédula" name="cc" value={{cc}}>
-                      </div>
-                      <div class="col">
-                          <!-- Telefono -->
-                          <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Teléfono" name="phone" value={{phone}}>
-                      </div>
-                      </div>
-
-                      <!-- Phone number -->
-                      <div class="col">
-                        <select class="browser-default custom-select" name="roll" value={{roll}}>
-                          <option selected>Perfil</option>
-                          <option value="aspirante">Aspirante</option>
-                          <option value="docente">Docente</option>
-                        </select>
-                      </div>
-                      <!-- Actualizar up button -->
-                      <button class="btn btn-primary my-4 btn-block" type="submit">Modificar</button>
-
-                </form>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                      {{>adminuserupdateform}}
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-      </div>
 
-  {{>footerdashboard}}
+
+          <div class="row">
+            <!-- Content Column -->
+              <div class="col-lg-6 mb-4"> </div>
+              <div class="col-lg-6 mb-4"> </div>
+          </div>
+          <!-- end Content Row -->
+      </div>
+      <!-- end container-fluid -->
+    </div>
+      <!-- End of Main Content -->
+      {{>footerdashboard}}
+  </div>
+<!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+<!-- Footer -->
+
+
 
   <script>
     setTimeout(function() {

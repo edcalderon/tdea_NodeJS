@@ -1,0 +1,51 @@
+<form action="/dashboardupdateuser" method="post" >
+  {{#if resultshow}}
+  <div class="alert alert-info alert-dismissable">
+    <a class="panel-close close" data-dismiss="alert">×</a>
+    <i class="fa fa-coffee"></i>
+     <strong>{{resultshow}}</strong>.
+  </div>
+  {{/if}}
+	<div class="form-row">
+		<div class="col form-group">
+			<label>Nombre </label>
+		  	<input type="text"  class="form-control" name="firstname" value={{firstnameUser}}>
+		</div>
+		<div class="col form-group">
+			<label>Apellidos</label>
+		  	<input type="text" class="form-control" name="lastname" value={{lastnameUser}}>
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+		  <label>Telefono</label>
+		  <input type="text" class="form-control" name="phone" value={{phoneUser}}>
+		</div>
+		<div class="form-group col-md-6">
+		  <label>Roll</label>
+		  <select id="inputState" class="form-control" name="roll" value={{rollUser}}>
+		    <option> profesor</option>
+		      <option>coordinador</option>
+		      <option>aspirante</option>
+		      <option selected="">{{rollUser}}</option>
+		  </select>
+		</div>
+	</div>
+  <div class="form-row">
+		<div class="form-group col-md-6">
+		  <label>Cedula*</label>
+		  <input type="text" class="form-control" name="cc" value={{ccUser}}>
+		</div>
+    <div class="form-group col-md-6">
+		  <label>Correo*</label>
+		  <input type="text" class="form-control" name="email" value={{emailUser}}>
+		</div>
+    <small class="text-muted"> * Cedula y Correo son identificadores únicos y sólo podran ser modificados por el administrador del sistema. </small>
+	</div>
+
+    <div class="form-group">
+        <br>
+        <button type="submit" class="btn btn-primary btn-block"> Modificar </button>
+    </div> <!-- form-group// -->
+    <i><small class="text-muted">Recuerda <br> "Un Gran poder conlleva una Gran responsabilidad" <br> Tio Ben.</small> </i>
+</form>

@@ -138,7 +138,7 @@ hbs.registerHelper('modifyUser', (misusuarios) => {
 					<td> ${usuario.firstname} </td>
 					<td> ${usuario.lastname} </td>
 					<td> ${usuario.cc}</td>
-					<td><button class="btn btn-info" name="modificar" value="${usuario.cc}">Modificar</button></td>
+					<td><button class="btn btn-info" name="modificar" value="${usuario._id}">Modificar</button></td>
 					</tr> `;
 		})
 	texto = texto + '</tbody> </table></form>';
