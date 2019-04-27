@@ -79,7 +79,7 @@ app.post('/loginregister', (req, res) =>{
 				// session variables
 				req.session.user = result._id
 				req.session.roll = result.roll
-				req.session.name = result.firstname
+				req.session.firstname = result.firstname
 				req.session.lastname = result.lastname
 				req.session.email = result.email
 				req.session.cc = result.cc
@@ -105,7 +105,7 @@ app.post('/loginregister', (req, res) =>{
 				// session variables
 				req.session.user = result._id
 				req.session.roll = result.roll
-				req.session.name = result.firstname
+				req.session.firstname = result.firstname
 				req.session.lastname = result.lastname
 				req.session.email = result.email
 				req.session.cc = result.cc
@@ -389,7 +389,6 @@ app.post('/dashboardadmin', (req, res) =>{
 				req.session.ccUser = obj.cc
 				req.session.rollUser = obj.roll
 
-
 				res.render('dashboardupdateuser',{
 					firstnameUser :  req.session.firstnameUser,
 					lastnameUser : req.session.lastnameUser,
@@ -400,13 +399,10 @@ app.post('/dashboardadmin', (req, res) =>{
 				})
 			})
 		}
-
-
 });
 
 app.get('/dashboardupdateuser', (req, res) =>{
 	res.render('dashboardupdateuser')
-
 })
 
 app.post('/dashboardupdateuser', (req, res) =>{
@@ -426,20 +422,20 @@ app.post('/dashboardupdateuser', (req, res) =>{
 			Object.assign(conditions, {roll : req.body.roll})
 		}
 
-		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, (err, resultado) => {
+		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, {new:true}, (err, resultado) => {
 				if (err){
 					 return console.log(err)
-				 }res.render('dashboardupdateuser', {
-					 firstnameUser :  req.session.firstnameUser,
-					 lastnameUser : req.session.lastnameUser,
-					 emailUser :  req.session.emailUser,
-					 phoneUser : req.session.phoneUser,
-					 ccUser : req.session.ccUser,
-					 rollUser : req.session.rollUser,
+				 }console.log("hola" + resultado.firstname)
+				 res.render('dashboardupdateuser', {
+					 firstnameUser :  resultado.firstname,
+					 lastnameUser : resultado.lastname,
+					 emailUser :  resultado.email,
+					 phoneUser : resultado.phone,
+					 ccUser : resultado.cc,
+					 rollUser : resultado.roll,
 					 resultshow: "Datos actualizados correctamente"
 				 })
 		})
-
 });
 
 app.get('/dashboardprofile', (req, res) =>{
@@ -465,16 +461,14 @@ var upload = multer({
 		fileSize: 10000000
 	},
 	fileFilter(req,file,cb){
-		if(!file.originalname.match(/\.(jpg|png|jpeg)$/)){
+		if(!file.originalname.match(/\.(jpg|png|jpeg|JPG|PNG|JPEG)$/)){
 			cb(new Error("No es un archivo valido"))
 		}
 		cb(null,true)
 	  }
-
 })
 
 app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
-
 
 	if(req.body.avatar){
 			User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
@@ -501,11 +495,17 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 		Object.assign(conditions, {password : req.body.password})
 	}
 
-	User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, (err, resultado) => {
+	User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, {new:true},(err, resultado) => {
 			if (err){
 				 return console.log(err)
 			 }res.render('dashboardprofile', {
-				resultshow: "Datos actualizados correctamente"
+				 firstname :  resultado.firstname,
+				 lastname : resultado.lastname,
+				 email :  resultado.email,
+				 phone : resultado.phone,
+				 cc : resultado.cc,
+				 roll : resultado.roll,
+				 resultshow: "Datos actualizados correctamente"
 			 })
 	})
 
@@ -519,6 +519,19 @@ app.get('/exit', (req, res) =>{
 		})
 });
 
+app.get('/sockets', (req, res) =>{
+
+  	res.render('sockets.hbs', {
+		})
+});
+app.get('/chat', (req, res) =>{
+  	res.render('chat', {
+		})
+});
+app.get('/dashboardchat', (req, res) =>{
+  	res.render('dashboardchat', {
+		})
+});
 
 app.get('*',(req, res)=>{
 	res.render('error', {
