@@ -132,7 +132,7 @@ app.post('/loginregister', (req, res) =>{
 });
 
 app.get('/dashboarduser', (req, res) =>{
-		Course.find({students: { $in: req.session.user}},(err,result)=>{
+		Course.find({students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.name}}},(err,result)=>{
 			if (err){
 				return console.log(err)
 			}
@@ -158,7 +158,7 @@ app.post('/dashboarduser', (req, res) =>{
 //Validación
 var conditions = {
 	name: req.body.inscribir,
-	students: { $in: req.session.user}
+	students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.name}}
 };
 
 Course.find(conditions,(err,result)=>{
@@ -325,7 +325,8 @@ app.post('/dashboardadmin', (req, res) =>{
 		//Cerrar curso
 		if(req.body.cerrar){
 		 //Actualizar estado
-			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}}, (err, resultado) => {
+		 console.log(req.body.cerrar)
+			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}},{new: true},(err, resultado) => {
 		 		if (err){
 		 			return console.log(err)
 		 		}
@@ -344,6 +345,17 @@ app.post('/dashboardadmin', (req, res) =>{
 					cardcolor2: "success"
 		 		})
 		 	})
+
+			// conditions ={
+			// 	roll: "docente",
+			// 	cursos: {$ne: req.body.cerrar}
+			// }
+			// User.findOneAndUpdate(conditions,{$push: {cursos: req.body.cerrar}}(err,materia)=>{
+			// 	if(err){
+			// 		return console.log('EL error: ' + err)
+			// 	}
+			// 	return console.log(materia)
+			// })
 		}
 
 		//Actualizar usuario
@@ -387,7 +399,19 @@ app.post('/dashboardadmin', (req, res) =>{
 });
 
 app.get('/dashboardupdateuser', (req, res) =>{
-	res.render('dashboardupdateuser')
+	res.render ('dashboardupdateuser', {
+		 misusuarios: req.session.misusuarios,
+		 cursos: resultado.cursos,
+		 firstname: resultado.firstname,
+		 lastname: resultado.lastname,
+		 email: resultado.email,
+		 password:resultado.password,
+		 phone: resultado.phone,
+		 cc: resultado.cc,
+		 roll: resultado.roll,
+		 resultshow4: "El curso "+resultado.name+" ha finalizado " ,
+		 cardcolor4: "success"
+	})
 })
 
 app.post('/dashboardupdateuser', (req, res) =>{
