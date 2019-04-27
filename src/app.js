@@ -12,14 +12,53 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 // Sockets connection
+//let countador = 0;
 
-io.on('connection', client =>{
- console.log("ingreso un usuario")
+const { Users } = require('./models/chatUser');
+const users = new Users();
 
- client.emit("message","Bienvenido")
+ io.on('connection', client => {
 
- client.on("message", (info) => {
-   console.log(info)
+ 	console.log("User conected")
+
+ 	// client.emit("mensaje", "Bienvenido a mi página")
+
+ 	// client.on("mensaje", (informacion) =>{
+ 	// console.log(informacion)
+ 	// })
+
+ 	// client.on("contador", () =>{
+ 	// 	contador ++
+ 	// 	console.log(contador)
+ 	// 	io.emit("contador", contador )
+ 	// })
+
+ 	client.on('newUser', (user) =>{
+ 		let list = users.addUser(client.id, user)
+ 		console.log(list)
+ 		let text = `Se ha conectado a la sala el usuario ${user}`
+ 		io.emit('newUser', text )
+ 	  })
+
+ 	client.on('disconnect',()=>{
+ 		let deletedUser = users.deleteUser(client.id)
+ 		let text = `Se ha desconectado el usuario ${deletedUser.name}`
+ 		io.emit('disconnectedUser', text)
+ 	 })
+
+ 	client.on("text", (text, callback) =>{
+ 		let user = user.getUser(client.id)
+ 		let texto = `${user.name} : ${text}`
+ 		io.emit("text", (text))
+ 		callback()
+ 	})
+
+ 	client.on("privateText", (text, callback) =>{
+ 		let user = user.getUser(client.id)
+ 		let texto = `${user.name} : ${text.privateText}`
+ 		let destin = users.getDestin(text.destin)
+ 		client.broadcast.to(destin.id).emit("privateText", (text))
+ 		callback()
  })
 
 });
@@ -45,7 +84,7 @@ const directory_templates = path.join(__dirname, '../templates');   //There is t
 app.use(express.static(directory_public));
 
 
-// Middleware
+// Middlewares
 app.use((req,res,next) => {
 
    // let token = localStorage.getItem('token')
@@ -63,7 +102,7 @@ app.use((req,res,next) => {
   if(req.session.user){
     res.locals.session = true
     res.locals.user  = req.session.user
-    res.locals.name = req.session.name
+    res.locals.firstname = req.session.firstname
     res.locals.lastname = req.session.lastname
     res.locals.roll = req.session.roll
     res.locals.email = req.session.email
@@ -97,7 +136,7 @@ app.use((req,res,next) => {
     }
   }
   next()
-})
+});
 
 
 
