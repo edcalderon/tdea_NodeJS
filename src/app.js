@@ -76,6 +76,7 @@ app.use((req,res,next) => {
     res.locals.verCursosDisponibles = req.session.verCursosDisponibles
     res.locals.verUsuarios = req.session.verUsuarios
     res.locals.modificar = req.session.modificar
+    res.locals.teachers = req.session.teachers
     //vars modify user by admin
     if(req.session.modificar){
       res.locals.cursosUser = req.session.cursosUser

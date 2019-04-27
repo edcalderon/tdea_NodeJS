@@ -324,8 +324,14 @@ app.post('/dashboardadmin', (req, res) =>{
 		}
 		//Cerrar curso
 		if(req.body.cerrar){
+			//listado de docentes
+			User.find({roll: "profesor"},(err,result)=>{
+				if (err){
+					return console.log(err)
+				}
+				req.session.teachers = result;
+			})
 		 //Actualizar estado
-		 console.log(req.body.cerrar)
 			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}},{new: true},(err, resultado) => {
 		 		if (err){
 		 			return console.log(err)
@@ -417,24 +423,7 @@ app.post('/dashboardadmin', (req, res) =>{
 });
 
 app.get('/dashboardupdateuser', (req, res) =>{
-<<<<<<< HEAD
-	res.render ('dashboardupdateuser', {
-		 misusuarios: req.session.misusuarios,
-		 cursos: resultado.cursos,
-		 firstname: resultado.firstname,
-		 lastname: resultado.lastname,
-		 email: resultado.email,
-		 password:resultado.password,
-		 phone: resultado.phone,
-		 cc: resultado.cc,
-		 roll: resultado.roll,
-		 resultshow4: "El curso "+resultado.name+" ha finalizado " ,
-		 cardcolor4: "success"
-	})
-=======
 	res.render('dashboardupdateuser')
-
->>>>>>> e0b4c64b77c6c0f0bce536967126ed4d75bb900b
 })
 
 app.post('/dashboardupdateuser', (req, res) =>{
@@ -454,7 +443,7 @@ app.post('/dashboardupdateuser', (req, res) =>{
 			Object.assign(conditions, {roll : req.body.roll})
 		}
 
-		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, (err, resultado) => {
+		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, {new: true},(err, resultado) => {
 				if (err){
 					 return console.log(err)
 				 }res.render('dashboardupdateuser', {
