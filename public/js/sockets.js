@@ -1,72 +1,75 @@
 socket = io()
 
-// socket.on("mensaje", (informacion) =>{
-// 	console.log(informacion)
-// })
 
-// socket.emit("mensaje", "Estoy conectado")
+// Counter
+socket.on("message", (info) =>{
+	console.log(info)
+})
+socket.emit("message", "I'm connected")
+socket.emit("count")
+socket.on("count", (count) =>{
+	console.log(count)
+})
 
-// socket.emit("contador")
+// -----Chat------- //
 
-// socket.on("contador", (contador) =>{
-// 	console.log(contador)
-// })
-
-const form = document.querySelector('#chatForm')
-const menssage = form.querySelector('#text')
-const chat = document.querySelector('#chat')
 var param = new URLSearchParams(window.location.search);
 
-var users = param.get('name')
+var usuario = param.get('nombre')
 
 socket.on("connect",() =>{
-	console.log(user)
-	socket.emit('newUser', user)
+	console.log(usuario)
+	socket.emit('usuarioNuevo', usuario)
+
 })
 
-socket.on('newUser', (text) =>{
-	console.log(text)
-	chat.innerHTML  = chat.innerHTML + text + '<br>'
+socket.on('nuevoUsuario', (texto) =>{
+	console.log(texto)
+	chat.innerHTML  = chat.innerHTML + texto + '<br>'
 })
 
-socket.on('desconnectedUser', (text) =>{
-	console.log(text)
-	 chat.innerHTML  = chat.innerHTML + text + '<br>'
+socket.on('usuarioDesconectado', (texto) =>{
+	console.log(texto)
+	chat.innerHTML  = chat.innerHTML + texto + '<br>'
 })
 
-form.addEventListener('submit', (data) => {
-	data.preventDefault()
-	socket.emit('text', menssage.value, () => {
-			menssage.value = ''
-			menssage.focus()
+const formulario = document.querySelector('#formulario')
+const mensaje = formulario.querySelector('#texto')
+const chat = document.querySelector('#chat')
+
+formulario.addEventListener('submit', (datos) => {
+	datos.preventDefault()
+	socket.emit('texto', mensaje.value, () => {
+			mensaje.value = ''
+			mensaje.focus()
 			}
 		)
 })
 
-socket.on("text", (text) =>{
+socket.on("texto", (text) =>{
 	console.log(text)
 	chat.innerHTML  = chat.innerHTML + text + '<br>'
 })
 
-const privateForm = document.querySelector('#privateForm')
-const privateText = privateForm.querySelector('#PrivateText')
-const destin = privateForm.querySelector('#destin')
-const privateChat = document.querySelector('#privateChat')
+const formularioPrivado = document.querySelector('#formularioPrivado')
+const mensajePrivado = formularioPrivado.querySelector('#textoPrivado')
+const destinatario = formularioPrivado.querySelector('#destinatario')
+const chatPrivado = document.querySelector('#chatPrivado')
 
-privateForm.addEventListener('submit', (data) => {
-	data.preventDefault()
-	socket.emit('privateText', {
-		destin : destin.value,
-		privateMessage : privateMessage.value
+formularioPrivado.addEventListener('submit', (datos) => {
+	datos.preventDefault()
+	socket.emit('textoPrivado', {
+		destinatario : destinatario.value,
+		mensajePrivado : mensajePrivado.value
 	}, () => {
-			privateChat.innerHTML  = privateChat.innerHTML + user + ':' + privateMessage.value  + '<br>'
-			privateMessage.value = ''
-			privateMessage.focus()
+			chatPrivado.innerHTML  = chatPrivado.innerHTML + usuario + ':' + mensajePrivado.value  + '<br>'
+			mensajePrivado.value = ''
+			mensajePrivado.focus()
 			}
 		)
 })
 
-socket.on("privateText", (text) =>{
+socket.on("textoPrivado", (text) =>{
 	console.log(text)
-	privateChat.innerHTML  = privateChat.innerHTML + text + '<br>'
+	chatPrivado.innerHTML  = chatPrivado.innerHTML + text + '<br>'
 })

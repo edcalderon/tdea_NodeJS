@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 var $ = require("jquery");
 require('./../helpers/helpers');
 
@@ -259,7 +261,18 @@ app.post('/register', (req, res) =>{
 							registro: req.body.registro,
 							show: "Upss! el usuario con ese email o cedula ya existe"
 						})
-		}res.render('register',{
+		}
+		const mailmsg = {
+		  to: req.body.inputEmail,
+		  from: 'edwardca12@gmail.com',
+		  subject: 'Bienvenida a mi app!',
+		  text: 'Hola, bienvenido a mi aplicación web, estamos en construcción.',
+		  html: '<strong>pronto mucho mas!</strong>',
+		};
+    // send mail
+		sgMail.send(mailmsg)
+
+		res.render('register',{
 			  registro: req.body.registro,
 				show: "<a href='/loginregister' >Registro exitoso! ya puedes ingresar </a>"
 		})
@@ -519,17 +532,14 @@ app.get('/exit', (req, res) =>{
 		})
 });
 
-app.get('/sockets', (req, res) =>{
-
-  	res.render('sockets.hbs', {
-		})
-});
-app.get('/chat', (req, res) =>{
-  	res.render('chat', {
-		})
-});
 app.get('/dashboardchat', (req, res) =>{
   	res.render('dashboardchat', {
+			chatusername : req.query.chatusername
+		})
+});
+app.get('/dashboardchat2', (req, res) =>{
+  	res.render('dashboardchat', {
+			chatusername : req.query.chatusername
 		})
 });
 

@@ -45,7 +45,23 @@
         </div>
         <div class="mesgs">
           <div class="msg_history">
-            <div id="chat"></div>
+
+            <h1>Sala de Chat</h1>
+                <form id="formulario">
+                    <input type="text" id="texto" >
+                  <button> enviar </button>
+                </form>
+                <div id="chat"></div>
+                <form id="formularioPrivado">
+                    <input type="text" id="destinatario" placeholder="destinatario">
+                    <input type="text" id="textoPrivado" >
+                  <button> enviar Privado </button>
+                </form>
+                <div id="chatPrivado"></div>
+
+                <script src="socket.io/socket.io.js"></script>
+                <script src="js/sockets.js"></script>
+
             <div class="incoming_msg">
               <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
               <div class="received_msg">
@@ -64,10 +80,10 @@
           </div>
           <div class="type_msg">
             <div class="input_msg_write">
-                <form id="chatForm">
-                  <input type="text" id="text" class="write_msg" placeholder="Type a message" />
-                  <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-                </form>
+                <!-- <form id="formulario" >
+                  <input type="text" id="texto" class="write_msg" placeholder="Ingresa un mensaje" />
+                  <button class="msg_send_btn" ><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                </form> -->
             </div>
           </div>
         </div>

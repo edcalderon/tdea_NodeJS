@@ -75,16 +75,7 @@
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-                    {{#if chatusername}}
                      {{>chat}}
-                    {{else}}
-                    <h1>Ingresar al Chat</h1>
-                          <form id="chatForm" action="/dashboardchat2">
-                            <input type="text" id="nombre" placeholder="Nick" name="nombre"  required>
-                            <input type="hidden"  name="chatusername" value="true" >
-                            <button> Registrar </button>
-                          </form>
-                    {{/if}}
                   </div>
                 </div>
               </div>
@@ -107,6 +98,7 @@
     <!-- End of Page Wrapper -->
   {{>footerdashboard}}
 <!-- Footer -->
+
 </body>
 <!-- Sockets -->
 
