@@ -1,5 +1,6 @@
 //Requires
-require('./config/config');
+const {PORT} = require('./config/config')
+const {URLDB} = require('./config/config');
 const express = require('express')
 const app = express();
 const path = require('path');
@@ -10,6 +11,7 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+
 
 // Sockets connection
 let counter = 0;
@@ -146,7 +148,7 @@ app.use(require('./routes/index'));
 
 
 //mongoose Conection
-mongoose.connect(process.env.URLDB, {useNewUrlParser:true},(err, result) =>{
+mongoose.connect(URLDB, {useNewUrlParser:true},(err, result) =>{
   if(err){
     return console.log(err)
   }
@@ -154,8 +156,8 @@ mongoose.connect(process.env.URLDB, {useNewUrlParser:true},(err, result) =>{
 })
 
 //var puerto = 3000
-server.listen(process.env.PORT, ()=>{
-	console.log('Escuchando en el puerto ' + process.env.PORT)
+server.listen(PORT, ()=>{
+	console.log('Escuchando en el puerto ' + PORT)
 });
 
 //Guarda data de cursos
