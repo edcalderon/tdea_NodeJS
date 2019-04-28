@@ -44,6 +44,7 @@ hbs.registerHelper('inscription', (listado) => {
 });
 
 //Cerrar cursos y listarlos mongo
+
 hbs.registerHelper('closeCourse', (courses) => {
 	let texto = `	<form action="/dashboardadmin" method="post">
 			<table class='table table-striped table-hover'>
@@ -89,7 +90,7 @@ hbs.registerHelper('closeCourse', (courses) => {
 					<td><button class="btn btn-primary" type="submit" name=${switchVal} value="${course.name}">${switchVal}</button></td>
 					</tr> `;
 		})
-	texto = texto + '</tbody> </table></form>';
+	texto = texto + "</tbody> </table><input type='hidden' name='asigna'  value='asigna'></form>";
 	return texto;
 });
 
@@ -138,10 +139,71 @@ hbs.registerHelper('modifyUser', (misusuarios) => {
 					<td> ${usuario.firstname} </td>
 					<td> ${usuario.lastname} </td>
 					<td> ${usuario.cc}</td>
-					<td><button class="btn btn-info" name="modificar" value="${usuario._id}">Modificar</button></td>
+					<td><button class="btn btn-info" name="modificar">Modificar</button></td>
 					</tr> `;
 		})
-	texto = texto + '</tbody> </table></form>';
+	texto = texto + "</tbody> </table></form>";
+	return texto;
+});
+
+//Listar y asignar docentes mongo
+
+hbs.registerHelper('assignTeacher', (teachers) => {
+	let texto = `	<form action="/dashboardadmin" method="post" name="myform">
+					<select class="form-control" name='profesor' onchange="myform.submit()">
+					<option selected="">Elija el profesor</option>`;
+		teachers.forEach(teacher =>{
+			texto = texto +
+					`<option value="${teacher.cc}">${teacher.firstname}</option>`;
+		})
+	texto = texto + '</select></form>';
+	return texto;
+});
+
+//Informacion cursos y estudiantes (profesor) mongo
+
+hbs.registerHelper('infoTeachers', (materias) => {
+	let texto = `	<form action="/dashboardadmin" method="post">
+			<table class='table table-striped table-hover'>
+					<thead class='thead-dark'>
+					<th>Nombre</th>
+					<th>Valor</th>
+					<th>Intensidad</th>
+					<th>Modalidad</th>
+					<th>Estado</th>
+					<th></th>
+					</thead>
+					<tbody>`;
+		materias.forEach(element => {
+			curso = element.cursos;
+			curso.forEach(c => {
+				console.log('estudiantes en curso ' + c.name + ': '  + c.students);
+				var students = JSON.stringify(c.students);
+				console.log(students)
+
+				texto = texto +
+						`<tr>
+						<td> ${c.name} </td>
+						<td> ${c.value} </td>
+						<td> ${c.intensity}</td>
+						<td> ${c.modality} </td>
+						<td> ${c.state}</td>
+						<td>
+							<p>
+							  <button class="btn btn-primary" type="submit" data-toggle="collapse" data-target="#collapseExample${c.name}" aria-expanded="false" aria-controls="collapseExample${c.name}" name="inscritos" value="${c.name}">
+							    estudiantes
+							  </button>
+							</p>
+							<div class="collapse" id="collapseExample${c.name}">
+							  <div class="card card-body">
+							     ${students}
+							  </div>
+							</div>
+						</td>
+						</tr> `;
+			})
+		})
+	texto = texto + "</tbody></table></form>";
 	return texto;
 });
 
