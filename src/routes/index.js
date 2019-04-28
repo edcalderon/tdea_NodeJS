@@ -35,14 +35,38 @@ app.use(session({
 
 // Paths
 app.get('/', (req, res) =>{
-	res.render('indexdashboard', {
-	});
+	//Cantidad de cursos disponibles
+	Course.countDocuments({state: "Disponible"},(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		console.log('CursosDisponibles: ' + result)
+		req.session.cursosDisponibles = result;
+	})
+
+	Course.find({state: "Disponible"},(err,result)=>{
+		if (err){
+			return console.log(err)
+		}
+		req.session.listado = result;
+		res.render ('indexdashboard',{
+			listado : req.session.listado,
+			cantidadCursosDisponibles: req.session.cursosDisponibles
+		})
+	})
 });
 
 app.get('/indexdashboard', (req, res) =>{
-  	res.render('indexdashboard', {
-
+	Course.find({state: "Disponible"},(err,result)=>{
+		if (err){
+			return console.log(err)
+		}
+		req.session.listado = result;
+		res.render ('indexdashboard',{
+			listado : req.session.listado,
+			cantidadCursosDisponibles: req.session.cursosDisponibles
 		})
+	})
 });
 
 app.get('/loginregister', (req, res) =>{
@@ -162,14 +186,40 @@ app.post('/loginregister', (req, res) =>{
 });
 
 app.get('/dashboarduser', (req, res) =>{
-		Course.find({students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.firstname}}},(err,result)=>{
-			if (err){
-				return console.log(err)
-			}
-			console.log('mi resultado: '+result)
-			req.session.miscursos = result;
+	//lista de cursos inscritos
+	Course.find({students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.firstname}}},(err,result)=>{
+		if (err){
+			return console.log(err)
+		}
+		count = 0;
+		result.forEach(curso => {
+			count = count + curso.value
 		})
+		console.log('la cuenta: ' +   count)
+		console.log('mi resultado: '+result)
+		req.session.miscursos = result;
+		req.session.valorCursosInscritos = count;
+	})
 
+	//Cantidad de cursos Inscritos
+	Course.countDocuments({students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.firstname}}}, (err,result) => {
+		if(err){
+			console.log(err)
+		}
+		console.log('cursos?: ' + result)
+		req.session.cursosInscritos = result;
+	})
+
+	//Cantidad de cursos disponibles
+	Course.countDocuments({state: "Disponible"},(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		console.log('CursosDisponibles: ' + result)
+		req.session.cursosDisponibles = result;
+	})
+
+	//listar cursos disponibles
 	Course.find({state: "Disponible"},(err,result)=>{
 		if (err){
 			return console.log(err)
@@ -179,7 +229,10 @@ app.get('/dashboarduser', (req, res) =>{
 		res.render ('dashboarduser',{
 			listado : req.session.listado,
 			verCursosDisponibles : req.session.verCursosDisponibles,
-			miscursos: req.session.miscursos
+			miscursos: req.session.miscursos,
+			cantidadCursosInscritos: req.session.cursosInscritos,
+			cantidadCursosDisponibles: req.session.cursosDisponibles,
+			valorCursosInscritos: req.session.valorCursosInscritos
 		})
 	})
 });
@@ -308,6 +361,62 @@ app.post('/register', (req, res) =>{
 });
 
 app.get('/dashboardadmin', (req, res) =>{
+	//Cantidad de cursos disponibles
+	Course.countDocuments({state: "Disponible"},(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		console.log('CursosDisponibles: ' + result)
+		req.session.cursosDisponibles = result;
+	})
+
+	//Cantidad de cursos cerrados
+	Course.countDocuments({state: "Cerrado"},(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		console.log('CursosCerrado: ' + result)
+		req.session.cursosCerrados = result;
+	})
+
+	//Cursos cerrados y valorCursosInscritos
+	Course.aggregate([{$match: { state: "Cerrado" }},{$project: {_id: 0, valAvg: {$avg: "$value" }}}],(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		console.log(result)
+	})
+
+	Course.aggregate([{$group: { _id: "$value",total: { $sum: { $size: "$students"} }}}],(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		valor =[];
+		result.forEach(curso =>{
+			valor.push(curso._id * curso.total)
+		})
+		console.log(result)
+		console.log(valor)
+		ganancia = valor.reduce((a,b)=> a+b,0);
+		console.log(ganancia)
+		req.session.ganancia = ganancia;
+	})
+
+	//Cantidad de Inscritos por curso
+	//Con lo siguiente se podria hacer una grafica
+	Course.aggregate([{$group: { _id: "$name",total: { $sum: { $size: "$students"} }}}],(err,result)=>{
+		if(err){
+			console.log(err)
+		}
+		data = [];
+		result.forEach(curso =>{
+			data.push({x: curso._id, value: curso.total})
+		})
+		console.log(data)
+		console.log(result)
+		req.session.datos = data;
+	})
+
 	//listado de usuarios
 	User.find({},(err,users)=>{
 		if (err){
@@ -323,14 +432,28 @@ app.get('/dashboardadmin', (req, res) =>{
 				cardcolor2: "danger"
 		 })
 		}
+		var json = {
+          chart: {
+              type: "bar",
+              title: 'Inscritos',
+              data: req.session.datos,
+              container: "container"
+          }
+      };
 		req.session.courses = result;
 		req.session.verCursosDisponibles = req.query.verCursosDisponibles;
 		req.session.verUsuarios =  req.query.verUsuarios
 		res.render ('dashboardadmin',{
+			tittle: 'Algo',
+			charData: JSON.stringify(json),
 			courses : req.session.courses,
 			verCursosDisponibles : req.session.verCursosDisponibles,
 			misusuarios: req.session.misusuarios,
-			verUsuarios: req.session.verUsuarios
+			verUsuarios: req.session.verUsuarios,
+			data: req.session.datos,
+			cantidadCursosDisponibles: req.session.cursosDisponibles,
+			cursosCerrados: req.session.cursosCerrados,
+			ganancia: req.session.ganancia
 		})
 	})
 });
@@ -578,7 +701,14 @@ app.get('/exit', (req, res) =>{
 		//localStorage.setItem('token', ' ')
 		res.locals.session = false
 		req.session.destroy()
-  	res.render('indexdashboard', {
+
+		Course.find({state: "Disponible"},(err,result)=>{
+			if (err){
+				return console.log(err)
+			}
+			res.render ('indexdashboard',{
+				listado : result
+			})
 		})
 });
 
