@@ -14,20 +14,40 @@ socket.on("count", (count) =>{
 var param = new URLSearchParams(window.location.search);
 
 var usuario = param.get('nombre')
+var idm = param.get('idm')
 
 socket.on("connect",() =>{
 	console.log(usuario)
-	socket.emit('usuarioNuevo', usuario)
+	socket.emit('usuarioNuevo', usuario, idm)
 })
 
 socket.on('nuevoUsuario', (texto) =>{
 	console.log(texto)
-	chat.innerHTML  = chat.innerHTML + texto + '<br>'
+	var currentTime = new Date();
+	//chat.innerHTML  = chat.innerHTML + texto + '<br>'
+	loginshow.innerHTML  = loginshow.innerHTML + `<div class="chat_list">
+	              <div class="chat_people">
+	                <div class="chat_img"> <img src="" alt=""> </div>
+	                <div class="chat_ib">
+	                  <h5><span class="chat_date">${currentTime.getMonth()} / ${currentTime.getDate()} / ${currentTime.getHours()}:${currentTime.getMinutes()}</span></h5>
+	                  <p>${texto}</p>
+	                </div>
+	              </div>
+	            </div>` + '<br>'
 })
 
 socket.on('usuarioDesconectado', (texto) =>{
 	console.log(texto)
-	chat.innerHTML  = chat.innerHTML + texto + '<br>'
+	var currentTime = new Date();
+	loginshow.innerHTML  = loginshow.innerHTML + `<div class="chat_list">
+	              <div class="chat_people">
+	                <div class="chat_img"> <img src="" alt=""> </div>
+	                <div class="chat_ib">
+	                  <h5><span class="chat_date">${currentTime.getMonth()} / ${currentTime.getDate()} / ${currentTime.getHours()}:${currentTime.getMinutes()}</span></h5>
+	                  <p>${texto}</p>
+	                </div>
+	              </div>
+	            </div>` + '<br>'
 })
 
 const formulario = document.querySelector('#formulario')
@@ -47,14 +67,10 @@ socket.on("texto", (text) =>{
 	console.log(text)
   var currentTime = new Date();
 	chat.innerHTML  = chat.innerHTML +
-	`<div class="incoming_msg">
-    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-    <div class="received_msg">
-      <div class="received_withd_msg">
-        <p>${text}</p>
+	` ${text}
         <span class="time_date">${currentTime}</span></div>
-    </div>
-  </div>` + '<br>'
+				</div>
+    </div>` + '<br>'
 })
 
 const formularioPrivado = document.querySelector('#formularioPrivado')

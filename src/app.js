@@ -12,6 +12,10 @@ const jwt = require('jsonwebtoken');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+
+// Models mongodb
+const User = require('./models/user');
+
 // Sockets connection
 let counter = 0;
 const { Usuarios } = require('./models/usuarioschat');
@@ -31,8 +35,8 @@ io.on('connection', client => {
    	})
 
   // Chat
-  client.on('usuarioNuevo', (usuario) =>{
-    let listado = usuarios.agregarUsuario(client.id, usuario)
+  client.on('usuarioNuevo', (usuario, idm) =>{
+    let listado = usuarios.agregarUsuario(client.id, usuario, idm)
     console.log(listado)
     let texto = `Se ha conectado a la sala el usuario <b>${usuario}</b>`
     io.emit('nuevoUsuario', texto )
@@ -40,17 +44,26 @@ io.on('connection', client => {
 
   client.on('disconnect',()=>{
     let usuarioBorrado = usuarios.borrarUsuario(client.id)
-    let texto = `Se ha desconectado ${usuarioBorrado.nombre}`
+    let texto = `Se ha desconectado <b>${usuarioBorrado.nombre}</b>`
     io.emit('usuarioDesconectado', texto)
       })
 
   client.on("texto", (text, callback) =>{
     let usuario = usuarios.getUsuario(client.id)
-    let texto = `${usuario.nombre} : ${text}`
-
-    io.emit("texto", (texto))
-    callback()
+    User.findOne({_id: usuario.idm}, (err,result)=>{
+     if(err){
+       console.log(err)
+     }   let texto = `<div class="incoming_msg">
+          <div class="incoming_msg_img"> <img src="data:img/jpeg;base64,${result.avatar.toString('base64')}" alt="sunil"> </div>
+          <div class="received_msg">
+           <div class="received_withd_msg">
+             <p>${usuario.nombre} : ${text} </p> </div>`
+         io.emit("texto", (texto))
+         callback()
+    })
   })
+
+
 
   client.on("textoPrivado", (text, callback) =>{
     let usuario = usuarios.getUsuario(client.id)

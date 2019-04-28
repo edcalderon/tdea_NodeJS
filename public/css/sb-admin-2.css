@@ -12320,7 +12320,9 @@ footer.sticky-footer  {
 
 /* chat room*/
 .containerChat {max-width:1170px; margin:auto;}
-img{ max-width:100%;}
+img{ max-width:100%;
+border-radius: 50%;
+ }
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
   float: left;
@@ -12364,6 +12366,7 @@ img{ max-width:100%;}
 .chat_img {
   float: left;
   width: 11%;
+  border-radius: 50%;
 }
 .chat_ib {
   float: left;
@@ -12383,6 +12386,7 @@ img{ max-width:100%;}
 
 .incoming_msg_img {
   display: inline-block;
+  border-radius: 50%  !important;
   width: 6%;
 }
 .received_msg {

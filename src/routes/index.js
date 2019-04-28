@@ -537,10 +537,11 @@ var upload = multer({
 app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 
 	if(req.body.avatar){
-			User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}}, (err, resultado) => {
+			User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}},{new:true}, (err, resultado) => {
 				if (err){
 					 return console.log(err)
 				 }res.render('dashboardprofile', {
+					avatar: resultado.avatar,
 					resultshow: "avatar cargado correctamente"
 				  })
 			})
@@ -587,12 +588,13 @@ app.get('/exit', (req, res) =>{
 
 app.get('/dashboardchat', (req, res) =>{
   	res.render('dashboardchat', {
-			chatusername : req.query.chatusername
+			chatusername : req.query.chatusername,
+			idm: req.session.user
 		})
 });
 app.get('/dashboardchat2', (req, res) =>{
   	res.render('dashboardchat2', {
-			chatusername : req.query.chatusername
+			chatusername : req.query.chatusername,
 		})
 });
 
