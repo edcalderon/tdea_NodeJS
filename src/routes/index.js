@@ -591,7 +591,7 @@ app.get('/dashboardchat', (req, res) =>{
 		})
 });
 app.get('/dashboardchat2', (req, res) =>{
-  	res.render('dashboardchat', {
+  	res.render('dashboardchat2', {
 			chatusername : req.query.chatusername
 		})
 });
