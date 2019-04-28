@@ -12,54 +12,52 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 // Sockets connection
-//let countador = 0;
+let counter = 0;
+const { Usuarios } = require('./models/usuarioschat');
+const usuarios = new Usuarios();
 
-const { Users } = require('./models/chatUser');
-const users = new Users();
-
- io.on('connection', client => {
-
- 	console.log("User conected")
-
- 	// client.emit("mensaje", "Bienvenido a mi página")
-
- 	// client.on("mensaje", (informacion) =>{
- 	// console.log(informacion)
- 	// })
-
- 	// client.on("contador", () =>{
- 	// 	contador ++
- 	// 	console.log(contador)
- 	// 	io.emit("contador", contador )
- 	// })
-
- 	client.on('newUser', (user) =>{
- 		let list = users.addUser(client.id, user)
- 		console.log(list)
- 		let text = `Se ha conectado a la sala el usuario ${user}`
- 		io.emit('newUser', text )
+io.on('connection', client => {
+// Counter
+    console.log("User conected")
+   	client.emit("message", "Welcome / Bienvenido")
+   	client.on("message", (info) =>{
+   	  console.log(info)
  	  })
-
- 	client.on('disconnect',()=>{
- 		let deletedUser = users.deleteUser(client.id)
- 		let text = `Se ha desconectado el usuario ${deletedUser.name}`
- 		io.emit('disconnectedUser', text)
- 	 })
-
- 	client.on("text", (text, callback) =>{
- 		let user = user.getUser(client.id)
- 		let texto = `${user.name} : ${text}`
- 		io.emit("text", (text))
- 		callback()
+ 	client.on("count", () =>{
+   	counter++
+   	console.log(counter)
+   	io.emit("count", "Views counter: " + counter )
  	})
 
- 	client.on("privateText", (text, callback) =>{
- 		let user = user.getUser(client.id)
- 		let texto = `${user.name} : ${text.privateText}`
- 		let destin = users.getDestin(text.destin)
- 		client.broadcast.to(destin.id).emit("privateText", (text))
- 		callback()
- })
+// Chat
+client.on('usuarioNuevo', (usuario) =>{
+  let listado = usuarios.agregarUsuario(client.id, usuario)
+  console.log(listado)
+  let texto = `Se ha conectado ${usuario}`
+  io.emit('nuevoUsuario', texto )
+})
+
+client.on('disconnect',()=>{
+  let usuarioBorrado = usuarios.borrarUsuario(client.id)
+  let texto = `Se ha desconectado ${usuarioBorrado.nombre}`
+  io.emit('usuarioDesconectado', texto)
+    })
+
+client.on("texto", (text, callback) =>{
+  let usuario = usuarios.getUsuario(client.id)
+  let texto = `${usuario.nombre} : ${text}`
+
+  io.emit("texto", (texto))
+  callback()
+})
+
+client.on("textoPrivado", (text, callback) =>{
+  let usuario = usuarios.getUsuario(client.id)
+  let texto = `${usuario.nombre} : ${text.mensajePrivado}`
+  let destinatario = usuarios.getDestinatario(text.destinatario)
+  client.broadcast.to(destinatario.id).emit("textoPrivado", (texto))
+  callback()
+})
 
 });
 
