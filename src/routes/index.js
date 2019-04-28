@@ -541,7 +541,7 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 				if (err){
 					 return console.log(err)
 				 }res.render('dashboardprofile', {
-					avatar: resultado.avatar,
+					avatar: resultado.avatar.toString('base64'),
 					resultshow: "avatar cargado correctamente"
 				  })
 			})
