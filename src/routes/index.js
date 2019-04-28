@@ -128,11 +128,39 @@ app.post('/loginregister', (req, res) =>{
 					button: "success",
 				})
 			}
+
+			if(result && bcrypt.compareSync(req.body.inputPassword, result.password) && result.roll == "profesor"){
+				// session variables
+				req.session.user = result._id
+				req.session.roll = result.roll
+				req.session.firstname = result.firstname
+				req.session.lastname = result.lastname
+				req.session.email = result.email
+				req.session.cc = result.cc
+				req.session.phone = result.phone
+				if(result.avatar){
+					req.session.avatar = result.avatar.toString('base64')
+				}
+
+					// jwt jsonwebtoken creation
+			 		// 	let token = jwt.sign({
+			 		// 		user: result
+			 		// 	}, 'word-secret',{expiresIn: '4h'});
+			    //  // Save token in localstorage
+					// 	 localStorage.setItem('token', token);
+
+				 res.render('loginregister', {
+					login: req.body.login,
+					show: "Bienvenido profesor",
+					path: "/dashboardteacher",
+					button: "success",
+				})
+			}
 		})
 });
 
 app.get('/dashboarduser', (req, res) =>{
-		Course.find({students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.name}}},(err,result)=>{
+		Course.find({students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.firstname}}},(err,result)=>{
 			if (err){
 				return console.log(err)
 			}
@@ -158,7 +186,7 @@ app.post('/dashboarduser', (req, res) =>{
 //Validación
 var conditions = {
 	name: req.body.inscribir,
-	students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.name}}
+	students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.firstname}}
 };
 
 Course.find(conditions,(err,result)=>{
@@ -172,29 +200,29 @@ Course.find(conditions,(err,result)=>{
 		if(result.length == 0 && req.body.inscribir){
 				//********************* Actualización*****
 				console.log('Te inscribiste correctamente!!!!')
-				Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: {cedula:req.session.cc,nombre:req.session.name}}}, (err, curso) =>{
-					console.log('RESULTADOS DEL POST')
-					console.log(req.body.inscribir);
-					console.log(curso)
-					if (err){
-						return res.render('dashboarduser',{
-						  resultshow: "Hubo un error: " + err,
-						  cardcolor: "danger"
-					 })
-					}
-					res.render ('dashboarduser', {
-						listado: req.session.listado,
-						name: curso.name,
-						description: curso.description,
-						value: curso.value,
-						intensity: curso.intensity,
-						modality: curso.modality,
-						state: curso.state,
-						students: req.session.user,
-						resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
-						cardcolor: "success"
-					})
-				})
+						Course.findOneAndUpdate({name: req.body.inscribir},{$addToSet:{students: {cedula:req.session.cc, nombre:req.session.firstname,apellido: req.session.lastname , email: req.session.email, phone: req.session.phone}}}, (err, curso) =>{
+							console.log('RESULTADOS DEL POST')
+							console.log(req.body.inscribir);
+							console.log(curso)
+							if (err){
+								return res.render('dashboarduser',{
+								  resultshow: "Hubo un error: " + err,
+								  cardcolor: "danger"
+							 })
+							}
+							res.render ('dashboarduser', {
+								listado: req.session.listado,
+								name: curso.name,
+								description: curso.description,
+								value: curso.value,
+								intensity: curso.intensity,
+								modality: curso.modality,
+								state: curso.state,
+								students: req.session.user,
+								resultshow: "¡Se inscribió exitosamente en el curso " + curso.name + "!",
+								cardcolor: "success"
+							})
+						})
 		}
 		if(result.length !== 0 && req.body.inscribir){
 			return res.render('dashboarduser',{
@@ -208,9 +236,9 @@ Course.find(conditions,(err,result)=>{
 		console.log('Si se metio')
 		var conditions = {
 			name: req.body.eliminar,
-			students: { $in: req.session.user}
+			students: { $elemMatch: {cedula:req.session.cc,nombre:req.session.firstname}}
 		};
-		Course.findOneAndUpdate(conditions,{$pull:{students: {cedula: req.session.cc, nombre: req.session.name}}},(err,result)=>{
+		Course.findOneAndUpdate(conditions,{$pull:{students: {cedula:req.session.cc, nombre:req.session.firstname,apellido: req.session.lastname , email: req.session.email, phone: req.session.phone}}},(err,result)=>{
 			if (err){
 				return res.render('dashboarduser',{
 					resultshow3: "Hubo un error: " + err,
@@ -272,7 +300,6 @@ app.get('/dashboardadmin', (req, res) =>{
 		if (err){
 			return console.log(err)
 		}
-		console.log('usuarios: ' + users)
 		req.session.misusuarios = users;
 	})
 	//Listado de cursos
@@ -324,48 +351,53 @@ app.post('/dashboardadmin', (req, res) =>{
 		}
 		//Cerrar curso
 		if(req.body.cerrar){
-			//listado de docentes
-			User.find({roll: "profesor"},(err,result)=>{
-				if (err){
-					return console.log(err)
-				}
-				req.session.teachers = result;
-			})
-		 //Actualizar estado
-			 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}},{new: true},(err, resultado) => {
-		 		if (err){
-		 			return console.log(err)
-		 		}
-				console.log(resultado)
-		 		res.render ('dashboardadmin', {
-					courses : req.session.courses,
-					verCursosDisponibles : req.session.verCursosDisponibles,
-					name: resultado.name,
-					description: resultado.description,
-					value: resultado.value,
-					intensity: resultado.intensity,
-					modality: resultado.modality,
-					state: resultado.states,
-					students: resultado.students,
-					resultshow2: "El curso "+resultado.name+" ha cerrado correctamente " ,
-					cardcolor2: "success"
-		 		})
-		 	})
+				//listado de docentes
+				User.find({roll: "profesor"},(err,result)=>{
+					if (err){
+						return console.log(err)
+					}
+					req.session.teachers = result;
+				})
+			 //Actualizar estado
+				 Course.findOneAndUpdate({name: req.body.cerrar}, {$set: {state: "Cerrado"}},{new: true},(err, resultado) => {
+			 		if (err){
+			 			return console.log(err)
+			 		}
+			 		res.render ('dashboardadmin', {
+						courses : req.session.courses,
+						verCursosDisponibles : req.session.verCursosDisponibles,
+						name: resultado.name,
+						description: resultado.description,
+						value: resultado.value,
+						intensity: resultado.intensity,
+						modality: resultado.modality,
+						state: resultado.state,
+						students: resultado.students,
+						teachers: req.session.teachers,
+						asigna: req.body.asigna,
+						path:'/dashboardadmin',
+						resultshow2: "El curso "+resultado.name+" ha cerrado correctamente ",
+						cardcolor2: "success"
+			 		})
+			 	})
 
-			// conditions ={
-			// 	roll: "docente",
-			// 	cursos: {$ne: req.body.cerrar}
-			// }
-			// User.findOneAndUpdate(conditions,{$push: {cursos: req.body.cerrar}}(err,materia)=>{
-			// 	if(err){
-			// 		return console.log('EL error: ' + err)
-			// 	}
-			// 	return console.log(materia)
-			// })
+				if(req.body.profesor){
+						User.findOneAndUpdate({cc: req.body.profesor},{$addToSet: {cursos: req.body.cerrar}},{new: true},(err,result)=>{
+							if (err){
+					 			return console.log(err)
+					 		}
+							console.log('select: ' + req.body.profesor)
+							console.log('si funciona: ' + result)
+						})
+					}else{
+						console.log('select: ' + req.body.profesor)
+						console.log('form: ' + req.body.myform)
+						console.log('no pasa nada')
+					}
 		}
 		if(req.body.abrir){
 		 //Actualizar estado
-			 Course.findOneAndUpdate({name: req.body.abrir}, {$set: {state: "Disponible"}}, (err, resultado) => {
+			 Course.findOneAndUpdate({name: req.body.abrir}, {$set: {state: "Disponible"}},{new: true} ,(err, resultado) => {
 				if (err){
 					return console.log(err)
 				}
@@ -378,7 +410,7 @@ app.post('/dashboardadmin', (req, res) =>{
 					value: resultado.value,
 					intensity: resultado.intensity,
 					modality: resultado.modality,
-					state: resultado.states,
+					state: resultado.state,
 					students: resultado.students,
 					resultshow2: "El curso "+resultado.name+" ha abierto correctamente " ,
 					cardcolor2: "success"
@@ -440,11 +472,7 @@ app.post('/dashboardupdateuser', (req, res) =>{
 			Object.assign(conditions, {roll : req.body.roll})
 		}
 
-<<<<<<< HEAD
 		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, {new: true},(err, resultado) => {
-=======
-		User.findOneAndUpdate({_id: req.session.idUser}, {$set: conditions}, {new:true}, (err, resultado) => {
->>>>>>> e09f0cc38cb3a332ee4c4e8ab863ec43af6dc2bd
 				if (err){
 					 return console.log(err)
 				 }console.log("hola" + resultado.firstname)
@@ -554,6 +582,55 @@ app.get('/dashboardchat', (req, res) =>{
   	res.render('dashboardchat', {
 		})
 });
+
+app.get('/dashboardteacher', (req, res)=>{
+// 	mismaterias = []
+// 	User.find({_id: req.session.user},{cursos: 1, _id: 0}, (err,result)=>{
+// 		if(err){
+// 			console.log(err)
+// 		}
+// 		result.forEach(c=>{
+// 			console.log(c.cursos)
+// 			arr = c.cursos;
+// 			arr.forEach(m=>{
+// 				console.log(m)
+// 				Course.find({name: m},(error, resultado)=>{
+// 					if(error){
+// 						console.log(error)
+// 					}
+// 					console.log(resultado) //resultado es lo que hay que enviar al helper para iterarlo
+// 					req.session.mismaterias = mismaterias;
+// 					mismaterias.push(req.session.mismaterias)
+//
+// 				})
+// 			})
+// 		})
+// 		console.log('materias: ' + mismaterias)
+// 		return res.render('dashboardteacher',{
+// 			materias: mismaterias
+// 	})
+//
+// })
+
+	// User.find({cc: req.session.user, cursos: {$ne: 'null'}},(err,result) =>{
+	// 	if(err){
+	// 		return console.log(err)
+	// 	}
+	// 	console.log(result)
+	// 	return res.render('dashboardteacher',{
+	// 		materias: result
+	// 	})
+	// })
+
+	User.find({_id: req.session.user},{cursos: 1, _id: 0},(err,result)=>{
+		if(err){
+			return console.log(err)
+		}
+		return res.render('dashboardteacher',{
+			materias: result
+		})
+	})
+})
 
 app.get('*',(req, res)=>{
 	res.render('error', {
