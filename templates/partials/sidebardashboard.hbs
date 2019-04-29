@@ -213,7 +213,7 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" href="/dashboardadmin">
+    <a class="nav-link" >
       <i class="fas fa-brush"></i>
       <label for="colorWell"></label>
       <input type="color" name="colorPicker" id="colorPicker">
@@ -233,15 +233,19 @@
   <!-- End of Sidebar -->
 
   <!-- Custom scripts for all pages-->
-
   <script src="js/sb-admin-2.min.js"></script>
   <script>
-  console.log('jolaaa')
+      let color;
       var picker = document.getElementById('colorPicker');
+      var sidebar = document.getElementById('accordionSidebar');
       var box = $('ul:first-child').next();
-      console.log(box)
+      if(color != 'indefined'){
+        sidebar.style.background = color;
+      }
       picker.addEventListener('change', function(){
-         box.style.color = this.value;
+           sidebar.style.background = this.value;
+           color = this.value;
       })
   </script>
+  
 {{/if}}

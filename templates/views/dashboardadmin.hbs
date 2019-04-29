@@ -3,7 +3,9 @@
   <!-- Page Wrapper -->
   <div id="wrapper">
     <!-- Sidebar-->
-    {{>sidebardashboard}}
+    {{#if coordinador}}
+      {{>sidebardashboard}}
+    {{/if}}
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
@@ -13,7 +15,7 @@
         <!-- End of Topbar -->
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
+          {{#if coordinador}}
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard - {{roll}}</h1>
@@ -218,6 +220,34 @@
           <!-- Content Row final space-->
         </div>
         <!-- /.container-fluid -->
+        {{else}}
+        <div class="row">
+
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-8">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Upss</h6>
+
+            </div>
+            <!-- Card Body -->
+            <div  id="container" class="card-body">
+                      <h2>Ups! no tienes acceso a esta pagina logeate</h2>
+            </div>
+          </div>
+        </div>
+        <!-- Pie Chart -->
+        <!-- Content Row final space -->
+            <div class="row">
+              <!-- Content Column -->
+                <div class="col-lg-6 mb-4"></div>
+                <div class="col-lg-6 mb-4"></div>
+            </div>
+        <!-- Content Row final space-->
+      </div>
+
+        {{/if}}
       </div>
       <!-- End of Main Content -->
     <!-- Footer -->
