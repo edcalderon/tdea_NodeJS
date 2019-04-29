@@ -1,4 +1,3 @@
-<!-- Sidebar - Brand -->
 {{#if coordinador}}
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -35,9 +34,9 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utiles:</h6>
-        <a class="collapse-item" href="#">Ver Cursos</a>
-        <a class="collapse-item" href="#">Crear Curso</a>
-        <a class="collapse-item" href="#">Ver listado de alumnos</a>
+        <a class="collapse-item" href="/dashboardadmin?verCursosDisponibles=true">Ver Cursos</a>
+        <a class="collapse-item" href="/dashboardadmin">Crear Curso</a>
+        <a class="collapse-item" href="/dashboardadmin?verUsuarios=true">Ver listado de alumnos</a>
       </div>
     </div>
   </li>
@@ -52,7 +51,7 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utiles:</h6>
         <a class="collapse-item" href="/dashboardprofile">Ver perfil</a>
-        <a class="collapse-item" href="#">Pronto mas..</a>
+        <a class="collapse-item" href="#">Personaliza la pagina</a>
       </div>
     </div>
   </li>
@@ -74,13 +73,14 @@
     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Login Screens:</h6>
-        <a class="collapse-item" href="#">Login</a>
-        <a class="collapse-item" href="#">Register</a>
-        <a class="collapse-item" href="#">Forgot Password</a>
+        <a class="collapse-item" href="/indexdashboard">Inicio</a>
+        <a class="collapse-item" href="/loginregister">Login</a>
+        <a class="collapse-item" href="/register">Register</a>
+        <a class="collapse-item" href="/dashboardadmin">Dashboard coordinador</a>
+        <a class="collapse-item" href="/dashboardchat">Sala de chat</a>
         <div class="collapse-divider"></div>
         <h6 class="collapse-header">Other Pages:</h6>
-        <a class="collapse-item" href="#">404 Page</a>
-        <a class="collapse-item" href="#">Blank Page</a>
+        <a class="collapse-item" href="/error">404 Page</a>
       </div>
     </div>
   </li>
@@ -148,9 +148,8 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utiles:</h6>
-        <a class="collapse-item" href="#">Ver Cursos</a>
-        <a class="collapse-item" href="#">Crear Curso</a>
-        <a class="collapse-item" href="#">Ver listado de alumnos</a>
+        <a class="collapse-item" href="/dashboarduser">Ver Cursos</a>
+        <a class="collapse-item" href="/dashboarduser?verCursosDisponibles=true">Cancelar curso</a>
       </div>
     </div>
   </li>
@@ -165,7 +164,7 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Utiles:</h6>
         <a class="collapse-item" href="/dashboardprofile">Ver perfil</a>
-        <a class="collapse-item" href="#">Pronto mas..</a>
+        <a class="collapse-item" href="#">Personalizar la página</a>
       </div>
     </div>
   </li>
@@ -187,13 +186,14 @@
     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Login Screens:</h6>
-        <a class="collapse-item" href="#">Login</a>
-        <a class="collapse-item" href="#">Register</a>
-        <a class="collapse-item" href="#">Forgot Password</a>
+        <a class="collapse-item" href="/indexdashboard">Inicio</a>
+        <a class="collapse-item" href="/loginregister">Login</a>
+        <a class="collapse-item" href="/register">Register</a>
+        <a class="collapse-item" href="/dashboarduser">Dashboard aspirante</a>
+        <a class="collapse-item" href="/dashboardchat">Sala de chat</a>
         <div class="collapse-divider"></div>
         <h6 class="collapse-header">Other Pages:</h6>
-        <a class="collapse-item" href="#">404 Page</a>
-        <a class="collapse-item" href="#">Blank Page</a>
+        <a class="collapse-item" href="/error">404 Page</a>
       </div>
     </div>
   </li>
@@ -208,8 +208,16 @@
   <!-- Nav Item - Tables -->
   <li class="nav-item">
     <a class="nav-link" href="/dashboardchat">
-      <i class="fas fa-fw fa-table"></i>
+      <i class="fas fa-comments"></i>
       <span>Sala de Chat</span></a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="/dashboardadmin">
+      <i class="fas fa-brush"></i>
+      <label for="colorWell"></label>
+      <input type="color" name="colorPicker" id="colorPicker">
+    </a>
   </li>
 
   <!-- Divider -->
@@ -220,9 +228,20 @@
     <button class="rounded-circle border-0" id="sidebarToggle"></button>
   </div>
 
+
   </ul>
   <!-- End of Sidebar -->
 
   <!-- Custom scripts for all pages-->
+
   <script src="js/sb-admin-2.min.js"></script>
+  <script>
+  console.log('jolaaa')
+      var picker = document.getElementById('colorPicker');
+      var box = $('ul:first-child').next();
+      console.log(box)
+      picker.addEventListener('change', function(){
+         box.style.color = this.value;
+      })
+  </script>
 {{/if}}

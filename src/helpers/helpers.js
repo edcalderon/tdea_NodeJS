@@ -14,7 +14,39 @@ listaPersonas = data.listadeusuarios;
 listaInscritos = [];
 listaActualizaUsuarios = [];
 
-//Incribir cursos con mongodb y listarlos
+//Listar cursos disponibles mongo (interesados)
+
+hbs.registerHelper('disponibleCourses', (listado) => {
+	let texto = " ";
+	let count = 1;
+		listado.forEach ( curso => {
+				console.log(curso.nombre);
+		     texto = texto + `<div id='accordion'>
+				 <div class="card mb-2">
+				     <div class="card-header" id="heading${count}">
+				       <h5 class="mb-0">
+				         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse${count}" aria-expanded="false" aria-controls="collapse${count}">
+				          CURSO: ${curso.name} VALOR: ${curso.value} DESCRIPCION: ${curso.description}
+				         </button>
+				       </h5>
+				     </div>
+				     <div id="collapse${count}" class="collapse " aria-labelledby="heading${count}" data-parent="#accordion">
+				       <div class="card-body">
+				         <p>Descripción: ${curso.description}</p>
+								 <p>MODALIDAD: ${curso.modality}</p>
+								 <p>INTENSIDAD HORARIA: ${curso.intensity}</p>
+				       </div>
+				     </div>
+				  </div>
+					</div>`;
+			 console.log(count)
+			 count++;
+		});
+		return texto;
+		console.log(texto);
+});
+
+//Incribir cursos con mongodb y listarlos mongo
 
 hbs.registerHelper('inscription', (listado) => {
 	let texto = `	<form action="/dashboarduser" method="post">
@@ -139,7 +171,7 @@ hbs.registerHelper('modifyUser', (misusuarios) => {
 					<td> ${usuario.firstname} </td>
 					<td> ${usuario.lastname} </td>
 					<td> ${usuario.cc}</td>
-					<td><button class="btn btn-info" name="modificar">Modificar</button></td>
+					<td><button class="btn btn-info" name="modificar" value="${usuario._id}">Modificar</button></td>
 					</tr> `;
 		})
 	texto = texto + "</tbody> </table></form>";
