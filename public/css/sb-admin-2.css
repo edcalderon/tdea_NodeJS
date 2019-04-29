@@ -215,6 +215,8 @@ svg {
 
 table {
   border-collapse: collapse;
+    /* table-layout:fixed; */
+
 }
 
 caption {
@@ -236,6 +238,8 @@ label {
 
 button {
   border-radius: 0;
+  position: relative;
+
 }
 
 button:focus {
