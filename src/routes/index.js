@@ -666,41 +666,41 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 				if (err){
 					 return;
 				 }res.render('dashboardprofile', {
-					//avatar: resultado.avatar.toString('base64'),
-					resultshow: "avatar cargado correctamente, se vera en el proximo login"
+					avatar: resultado.avatar.toString('base64'),
+					resultshow: "avatar cargado correctamente."
 				  })
 			})
 	}
+  if(req.body.infoprofile){
+		var conditions = {};
 
-	var conditions = {};
+		if(req.body.firstname){
+			Object.assign(conditions, {firstname : req.body.firstname})
+		}
+		if(req.body.lastname){
+			Object.assign(conditions, {lastname : req.body.lastname})
+		}
+		if(req.body.phone){
+			Object.assign(conditions, {phone : req.body.phone})
+		}
+		if(req.body.password){
+			Object.assign(conditions, {password : req.body.password})
+		}
 
-	if(req.body.firstname){
-		Object.assign(conditions, {firstname : req.body.firstname})
-	}
-	if(req.body.lastname){
-		Object.assign(conditions, {lastname : req.body.lastname})
-	}
-	if(req.body.phone){
-		Object.assign(conditions, {phone : req.body.phone})
-	}
-	if(req.body.password){
-		Object.assign(conditions, {password : req.body.password})
-	}
-
-	User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, {new:true},(err, resultado) => {
-			if (err){
-				 return console.log(err);
-			 }res.render('dashboardprofile', {
-				 firstname :  resultado.firstname,
-				 lastname : resultado.lastname,
-				 email :  resultado.email,
-				 phone : resultado.phone,
-				 cc : resultado.cc,
-				 roll : resultado.roll,
-				 resultshow: "Datos actualizados correctamente"
-			 })
-	})
-
+		User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, {new:true},(err, resultado) => {
+				if (err){
+					 return console.log(err);
+				 }res.render('dashboardprofile', {
+					 firstname :  resultado.firstname,
+					 lastname : resultado.lastname,
+					 email :  resultado.email,
+					 phone : resultado.phone,
+					 cc : resultado.cc,
+					 roll : resultado.roll,
+					 resultshow: "Datos actualizados correctamente."
+				 })
+		})
+  }
 });
 
 app.get('/exit', (req, res) =>{
