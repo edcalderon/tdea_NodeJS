@@ -1,4 +1,6 @@
 //Requires
+require('.././config/config');
+const{APIKEY} = require('.././config/config');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -9,7 +11,7 @@ const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(APIKEY);
 var $ = require("jquery");
 require('./../helpers/helpers');
 
@@ -346,9 +348,9 @@ app.post('/register', (req, res) =>{
 		const mailmsg = {
 		  to: req.body.inputEmail,
 		  from: 'edwardca12@gmail.com',
-		  subject: 'Bienvenida a mi app!',
-		  text: 'Hola, bienvenido a mi aplicación web, estamos en construcción.',
-		  html: '<strong>pronto mucho mas!</strong>',
+		  subject: 'Bienvenido a mi app!',
+		  text: 'Hola, bienvenido a mi aplicacion web, estamos en construccion.',
+		  html: `<h1> Hola ${req.body.firstName}!, bienvenido a mi aplicación web, estamos en construcción.<h1> <br> <strong>pronto mucho más! esperanos.</strong>`,
 		};
     // send mail
 		sgMail.send(mailmsg)
@@ -586,6 +588,9 @@ app.post('/dashboardadmin', (req, res) =>{
 			})
 		}
 });
+app.get('/custompage', (req, res) =>{
+	res.render('custompage')
+})
 
 app.get('/dashboardupdateuser', (req, res) =>{
 	res.render('dashboardupdateuser')
@@ -718,7 +723,7 @@ app.get('/dashboardchat', (req, res) =>{
 		})
 });
 app.get('/dashboardchat2', (req, res) =>{
-  	res.render('dashboardchat', {
+  	res.render('dashboardchat2', {
 			chatusername : req.query.chatusername
 		})
 });

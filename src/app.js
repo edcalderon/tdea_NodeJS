@@ -1,5 +1,6 @@
 //Requires
-require('./config/config');
+const {PORT} = require('./config/config')
+const {URLDB} = require('./config/config');
 const express = require('express')
 const app = express();
 const path = require('path');
@@ -17,47 +18,47 @@ const { Usuarios } = require('./models/usuarioschat');
 const usuarios = new Usuarios();
 
 io.on('connection', client => {
-// Counter
-    console.log("User conected")
-   	client.emit("message", "Welcome / Bienvenido")
-   	client.on("message", (info) =>{
-   	  console.log(info)
- 	  })
- 	client.on("count", () =>{
-   	counter++
-   	console.log(counter)
-   	io.emit("count", "Views counter: " + counter )
- 	})
+  // Counter
+      console.log("User conected")
+     	client.emit("message", "Welcome / Bienvenido")
+     	client.on("message", (info) =>{
+     	  console.log(info)
+   	  })
+   	client.on("count", () =>{
+     	counter++
+     	console.log(counter)
+     	io.emit("count", "Views counter: " + counter )
+   	})
 
-// Chat
-client.on('usuarioNuevo', (usuario) =>{
-  let listado = usuarios.agregarUsuario(client.id, usuario)
-  console.log(listado)
-  let texto = `Se ha conectado ${usuario}`
-  io.emit('nuevoUsuario', texto )
-})
+  // Chat
+  client.on('usuarioNuevo', (usuario) =>{
+    let listado = usuarios.agregarUsuario(client.id, usuario)
+    console.log(listado)
+    let texto = `Se ha conectado a la sala el usuario <b>${usuario}</b>`
+    io.emit('nuevoUsuario', texto )
+  })
 
-client.on('disconnect',()=>{
-  let usuarioBorrado = usuarios.borrarUsuario(client.id)
-  let texto = `Se ha desconectado ${usuarioBorrado.nombre}`
-  io.emit('usuarioDesconectado', texto)
-    })
+  client.on('disconnect',()=>{
+    let usuarioBorrado = usuarios.borrarUsuario(client.id)
+    let texto = `Se ha desconectado ${usuarioBorrado.nombre}`
+    io.emit('usuarioDesconectado', texto)
+      })
 
-client.on("texto", (text, callback) =>{
-  let usuario = usuarios.getUsuario(client.id)
-  let texto = `${usuario.nombre} : ${text}`
+  client.on("texto", (text, callback) =>{
+    let usuario = usuarios.getUsuario(client.id)
+    let texto = `${usuario.nombre} : ${text}`
 
-  io.emit("texto", (texto))
-  callback()
-})
+    io.emit("texto", (texto))
+    callback()
+  })
 
-client.on("textoPrivado", (text, callback) =>{
-  let usuario = usuarios.getUsuario(client.id)
-  let texto = `${usuario.nombre} : ${text.mensajePrivado}`
-  let destinatario = usuarios.getDestinatario(text.destinatario)
-  client.broadcast.to(destinatario.id).emit("textoPrivado", (texto))
-  callback()
-})
+  client.on("textoPrivado", (text, callback) =>{
+    let usuario = usuarios.getUsuario(client.id)
+    let texto = `${usuario.nombre} : ${text.mensajePrivado}`
+    let destinatario = usuarios.getDestinatario(text.destinatario)
+    client.broadcast.to(destinatario.id).emit("textoPrivado", (texto))
+    callback()
+  })
 
 });
 
@@ -81,21 +82,8 @@ const directory_templates = path.join(__dirname, '../templates');   //There is t
 // Static
 app.use(express.static(directory_public));
 
-
 // Middlewares
 app.use((req,res,next) => {
-
-   // let token = localStorage.getItem('token')
-   //   //  decof token
-   //   jwt.verify(token,'word-secret',(err,decoded) =>{
-   //       if(err){
-   //        return next()
-   //    }
-   //
-   //    res.locals.session = true
-   //    res.locals.name = decoded.user.firstname
-   //    next()
-   //   })
 
   if(req.session.user){
     res.locals.session = true
@@ -143,8 +131,6 @@ app.use((req,res,next) => {
   next()
 });
 
-
-
 // BodyParser
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -152,9 +138,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(require('./routes/index'));
 //app.use(multer({dest:'./../routes/index'}).any());
 
-
 //mongoose Conection
-mongoose.connect(process.env.URLDB, {useNewUrlParser:true},(err, result) =>{
+mongoose.connect(URLDB, {useNewUrlParser:true},(err, result) =>{
   if(err){
     return console.log(err)
   }
@@ -162,12 +147,6 @@ mongoose.connect(process.env.URLDB, {useNewUrlParser:true},(err, result) =>{
 })
 
 //var puerto = 3000
-server.listen(process.env.PORT, ()=>{
-	console.log('Escuchando en el puerto ' + process.env.PORT)
+server.listen(PORT, ()=>{
+	console.log('Escuchando en el puerto ' + PORT)
 });
-
-//Guarda data de cursos
-data.guardarCursos();
-
-//Guarda data de usuarios
-data.guardarUsuarios();

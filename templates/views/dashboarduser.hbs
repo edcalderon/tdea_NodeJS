@@ -2,7 +2,8 @@
 <body id="page-top">
   <!-- Page Wrapper -->
   <div id="wrapper">
-    <!-- User do not have Sidebar-->
+    <!-- Sidebar-->
+    {{>sidebardashboard}}
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
@@ -183,13 +184,15 @@
         <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
+      {{>footerdashboard}}
     </div>
     <!-- End of Content Wrapper -->
+
   </div>
   <!-- End of Page Wrapper -->
 
   <!-- Footer -->
-  {{>footerdashboard}}
+
 
   <!-- card hide-->
   <script>

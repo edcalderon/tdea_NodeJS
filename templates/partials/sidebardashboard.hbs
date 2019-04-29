@@ -1,114 +1,247 @@
-<!-- Sidebar - Brand -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <i class="fas fa-laugh-wink"></i>
-  </div>
-  <div class="sidebar-brand-text mx-3">coordinador {{name}}</div>
-</a>
-
-<!-- Divider -->
-<hr class="sidebar-divider my-0">
-
-<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-  <a class="nav-link" href="/dashboardadmin">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
-    <span>Dashboard</span></a>
-</li>
-
-<!-- Divider -->
-<hr class="sidebar-divider">
-
-<!-- Heading -->
-<div class="sidebar-heading">
-  Interface
-</div>
-
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-    <i class="fas fa-fw fa-cog"></i>
-    <span>Components</span>
-  </a>
-  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Custom Components:</h6>
-      <a class="collapse-item" href="#">Buttons</a>
-      <a class="collapse-item" href="#">Cards</a>
+{{#if coordinador}}
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-laugh-wink"></i>
     </div>
-  </div>
-</li>
-
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="false" aria-controls="collapseUtilities">
-    <i class="fas fa-fw fa-wrench"></i>
-    <span>Utilities</span>
+    <div class="sidebar-brand-text mx-3">{{roll}}</div>
   </a>
-  <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Custom Utilities:</h6>
-      <a class="collapse-item" href="#">Colors</a>
-      <a class="collapse-item" href="#">Borders</a>
-      <a class="collapse-item" href="#">Animations</a>
-      <a class="collapse-item" href="#">Other</a>
-    </div>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link" href="/dashboardadmin">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Web
   </div>
-</li>
 
-<!-- Divider -->
-<hr class="sidebar-divider">
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Heramientas</span>
+    </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Utiles:</h6>
+        <a class="collapse-item" href="/dashboardadmin?verCursosDisponibles=true">Ver Cursos</a>
+        <a class="collapse-item" href="/dashboardadmin">Crear Curso</a>
+        <a class="collapse-item" href="/dashboardadmin?verUsuarios=true">Ver listado de alumnos</a>
+      </div>
+    </div>
+  </li>
 
-<!-- Heading -->
-<div class="sidebar-heading">
-  Addons
-</div>
+  <!-- Nav Item - Utilities Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+      <i class="fas fa-fw fa-wrench"></i>
+      <span>Configuraciones</span>
+    </a>
+    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Utiles:</h6>
+        <a class="collapse-item" href="/dashboardprofile">Ver perfil</a>
+        <a class="collapse-item" href="#">Personaliza la pagina</a>
+      </div>
+    </div>
+  </li>
 
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-    <i class="fas fa-fw fa-folder"></i>
-    <span>Pages</span>
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Aplicaciones
+  </div>
+
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Mapa del sitio</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Login Screens:</h6>
+        <a class="collapse-item" href="/indexdashboard">Inicio</a>
+        <a class="collapse-item" href="/loginregister">Login</a>
+        <a class="collapse-item" href="/register">Register</a>
+        <a class="collapse-item" href="/dashboardadmin">Dashboard coordinador</a>
+        <a class="collapse-item" href="/dashboardchat">Sala de chat</a>
+        <div class="collapse-divider"></div>
+        <h6 class="collapse-header">Other Pages:</h6>
+        <a class="collapse-item" href="/error">404 Page</a>
+      </div>
+    </div>
+  </li>
+
+  <!-- Nav Item - Charts -->
+  <li class="nav-item">
+    <a class="nav-link" href="charts.html">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Estadisticas</span></a>
+  </li>
+
+  <!-- Nav Item - Tables -->
+  <li class="nav-item">
+    <a class="nav-link" href="/dashboardchat">
+      <i class="fas fa-fw fa-table"></i>
+      <span>Sala de Chat</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+
+  </ul>
+  <!-- End of Sidebar -->
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+{{else}}
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <i class="fas fa-laugh-wink"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">{{roll}}</div>
   </a>
-  <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Login Screens:</h6>
-      <a class="collapse-item" href="#">Login</a>
-      <a class="collapse-item" href="#">Register</a>
-      <a class="collapse-item" href="#">Forgot Password</a>
-      <div class="collapse-divider"></div>
-      <h6 class="collapse-header">Other Pages:</h6>
-      <a class="collapse-item" href="#">404 Page</a>
-      <a class="collapse-item" href="#">Blank Page</a>
-    </div>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+
+  <!-- Nav Item - Dashboard -->
+  <li class="nav-item active">
+    <a class="nav-link" href="/dashboardadmin">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider">
+
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Web
   </div>
-</li>
 
-<!-- Nav Item - Charts -->
-<li class="nav-item">
-  <a class="nav-link" href="charts.html">
-    <i class="fas fa-fw fa-chart-area"></i>
-    <span>Charts</span></a>
-</li>
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Heramientas</span>
+    </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Utiles:</h6>
+        <a class="collapse-item" href="/dashboarduser">Ver Cursos</a>
+        <a class="collapse-item" href="/dashboarduser?verCursosDisponibles=true">Cancelar curso</a>
+      </div>
+    </div>
+  </li>
 
-<!-- Nav Item - Tables -->
-<li class="nav-item">
-  <a class="nav-link" href="tables.html">
-    <i class="fas fa-fw fa-table"></i>
-    <span>Tables</span></a>
-</li>
+  <!-- Nav Item - Utilities Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+      <i class="fas fa-fw fa-wrench"></i>
+      <span>Configuraciones</span>
+    </a>
+    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Utiles:</h6>
+        <a class="collapse-item" href="/dashboardprofile">Ver perfil</a>
+        <a class="collapse-item" href="#">Personalizar la página</a>
+      </div>
+    </div>
+  </li>
 
-<!-- Divider -->
-<hr class="sidebar-divider d-none d-md-block">
+  <!-- Divider -->
+  <hr class="sidebar-divider">
 
-<!-- Sidebar Toggler (Sidebar) -->
-<div class="text-center d-none d-md-inline">
-  <button class="rounded-circle border-0" id="sidebarToggle"></button>
-</div>
+  <!-- Heading -->
+  <div class="sidebar-heading">
+    Aplicaciones
+  </div>
 
-</ul>
-<!-- End of Sidebar -->
+  <!-- Nav Item - Pages Collapse Menu -->
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+      <i class="fas fa-fw fa-folder"></i>
+      <span>Mapa del sitio</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+      <div class="bg-white py-2 collapse-inner rounded">
+        <h6 class="collapse-header">Login Screens:</h6>
+        <a class="collapse-item" href="/indexdashboard">Inicio</a>
+        <a class="collapse-item" href="/loginregister">Login</a>
+        <a class="collapse-item" href="/register">Register</a>
+        <a class="collapse-item" href="/dashboarduser">Dashboard aspirante</a>
+        <a class="collapse-item" href="/dashboardchat">Sala de chat</a>
+        <div class="collapse-divider"></div>
+        <h6 class="collapse-header">Other Pages:</h6>
+        <a class="collapse-item" href="/error">404 Page</a>
+      </div>
+    </div>
+  </li>
 
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+  <!-- Nav Item - Charts -->
+  <li class="nav-item">
+    <a class="nav-link" href="charts.html">
+      <i class="fas fa-fw fa-chart-area"></i>
+      <span>Estadisticas</span></a>
+  </li>
+
+  <!-- Nav Item - Tables -->
+  <li class="nav-item">
+    <a class="nav-link" href="/dashboardchat">
+      <i class="fas fa-comments"></i>
+      <span>Sala de Chat</span></a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="/dashboardadmin">
+      <i class="fas fa-brush"></i>
+      <label for="colorWell"></label>
+      <input type="color" name="colorPicker" id="colorPicker">
+    </a>
+  </li>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider d-none d-md-block">
+
+  <!-- Sidebar Toggler (Sidebar) -->
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+  </div>
+
+
+  </ul>
+  <!-- End of Sidebar -->
+
+  <!-- Custom scripts for all pages-->
+
+  <script src="js/sb-admin-2.min.js"></script>
+  <script>
+  console.log('jolaaa')
+      var picker = document.getElementById('colorPicker');
+      var box = $('ul:first-child').next();
+      console.log(box)
+      picker.addEventListener('change', function(){
+         box.style.color = this.value;
+      })
+  </script>
+{{/if}}

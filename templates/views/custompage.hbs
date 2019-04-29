@@ -1,0 +1,74 @@
+{{>headdashboard}}
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <!-- Sidebar-->
+    {{>sidebardashboard}}
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Topbar -->
+        {{>topbar}}
+        <!-- End of Topbar -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard - {{roll}}</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div>
+
+          <div class="container">
+      			<input type="text" value="222" name="border-color" class="pick-a-color form-control">
+      			<input type="text" value="aaa" name="font-color" class="pick-a-color form-control">
+      			<input type="text" value="a1beef" name="backgound-color" class="pick-a-color form-control">
+      			<input type="text" value="551033" name="highlight-color" class="pick-a-color form-control">
+      			<input type="text" value="eee" name="contrast-color" class="pick-a-color form-control">
+      			<input type="text" class="pick-a-color form-control" disabled>
+      			<input type="text" class="pick-a-color form-control">
+      		</div>
+
+
+
+
+          <!-- Content Row final space -->
+              <div class="row">
+                <!-- Content Column -->
+                  <div class="col-lg-6 mb-4"></div>
+                  <div class="col-lg-6 mb-4"></div>
+              </div>
+          <!-- Content Row final space-->
+          </div>
+          <!-- /.container-fluid -->
+          </div>
+          <!-- End of Main Content -->
+          <!-- Footer -->
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+          <script src="js/tinycolor-0.9.14.min.js"></script>
+          <script src="js/pick-a-color-1.1.5.js"></script>
+
+          <script type="text/javascript">
+          $(document).ready(function () {
+
+           $(".pick-a-color").pickAColor({
+             showSpectrum            : true,
+             showSavedColors         : true,
+             saveColorsPerElement    : true,
+             fadeMenuToggle          : true,
+             showAdvanced						: true,
+             showBasicColors         : true,
+             showHexInput            : true,
+             allowBlank							: true,
+             inlineDropdown					: true
+           });
+
+         });
+          </script>
+
+          {{>footerdashboard}}
+          </div>
+          <!-- End of Content Wrapper -->
+          </div>
+          <!-- End of Page Wrapper -->

@@ -1,6 +1,5 @@
 socket = io()
 
-
 // Counter
 socket.on("message", (info) =>{
 	console.log(info)
@@ -12,7 +11,6 @@ socket.on("count", (count) =>{
 })
 
 // -----Chat------- //
-
 var param = new URLSearchParams(window.location.search);
 
 var usuario = param.get('nombre')
@@ -20,7 +18,6 @@ var usuario = param.get('nombre')
 socket.on("connect",() =>{
 	console.log(usuario)
 	socket.emit('usuarioNuevo', usuario)
-
 })
 
 socket.on('nuevoUsuario', (texto) =>{
@@ -48,7 +45,16 @@ formulario.addEventListener('submit', (datos) => {
 
 socket.on("texto", (text) =>{
 	console.log(text)
-	chat.innerHTML  = chat.innerHTML + text + '<br>'
+  var currentTime = new Date();
+	chat.innerHTML  = chat.innerHTML +
+	`<div class="incoming_msg">
+    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+    <div class="received_msg">
+      <div class="received_withd_msg">
+        <p>${text}</p>
+        <span class="time_date">${currentTime}</span></div>
+    </div>
+  </div>` + '<br>'
 })
 
 const formularioPrivado = document.querySelector('#formularioPrivado')
