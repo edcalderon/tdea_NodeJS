@@ -539,10 +539,10 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 	if(req.body.avatar){
 			User.findOneAndUpdate({_id: req.session.user}, {$set: {avatar: req.file.buffer}},{new:true}, (err, resultado) => {
 				if (err){
-					 return console.log(err)
+					 return;
 				 }res.render('dashboardprofile', {
-					avatar: resultado.avatar.toString('base64'),
-					resultshow: "avatar cargado correctamente"
+					//avatar: resultado.avatar.toString('base64'),
+					resultshow: "avatar cargado correctamente, se vera en el proximo login"
 				  })
 			})
 	}
@@ -564,7 +564,7 @@ app.post('/dashboardprofile', upload.single('userPhoto') ,(req, res) =>{
 
 	User.findOneAndUpdate({_id: req.session.user}, {$set: conditions}, {new:true},(err, resultado) => {
 			if (err){
-				 return console.log(err)
+				 return console.log(err);
 			 }res.render('dashboardprofile', {
 				 firstname :  resultado.firstname,
 				 lastname : resultado.lastname,
