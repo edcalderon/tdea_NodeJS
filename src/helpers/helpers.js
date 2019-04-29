@@ -50,7 +50,7 @@ hbs.registerHelper('disponibleCourses', (listado) => {
 
 hbs.registerHelper('inscription', (listado) => {
 	let texto = `	<form action="/dashboarduser" method="post">
-			<table class='table table-striped table-hover text-nowrap'>
+			<table class='table table-striped table-hover'>
 					<thead class='thead-dark'>
 					<th>Nombre</th>
 					<th>Valor</th>
