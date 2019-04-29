@@ -18,8 +18,8 @@
             <form>
               <p>Recibe las ultimas noticias de nuestros cursos! Solo inscribe tu correo:</p>
               <div class="input-group">
-                <input class="input-group-field" type="email" placeholder="Email" required>
-                <button class="btn btn-primary">Registrate</button>
+                <input class="input-group-field" type="email" id="emailrss" placeholder="Email" required>
+                <button class="btn btn-primary" id="hit" onclick="sendmail()">Registrate</button>
             </form>
           </div>
          </div>
@@ -63,6 +63,61 @@
      </div>
 </footer>
 <!-- End of Footer -->
+
+<!-- <script>
+
+function sendmail(){
+const sgMail = require('@sendgrid/mail');
+
+      $('#hit').click(function() {
+        var email = $('#emailrss').val();
+        console.log("hola" + email)
+        const mailmsg = {
+          to: email,
+          from: 'edwardca12@gmail.com',
+          subject: 'RSS app!',
+          text: 'Hola, bienvenido a mi aplicacion web, estamos en construccion.',
+          html: `<h1> Te has suscrito a nuestro RSS!, pronto recibiras nuestras ultimas noticas.<h1> <br> <strong>Hasta pronto</strong>`,
+        };
+        sgMail.send(mailmsg)
+        alert(`Listo! has quedado registrado a nuestro rss, checkea tu email: ${email} `);
+      });
+      alert(`Listo! has quedado registrado a nuestro rss, checkea tu email: ${email} `);
+}
+
+</script> -->
+
+
+<script type="text/javascript">
+
+  $('#hit').click(function (e) {
+     let email = $('#emailrss').val();
+     alert(`Listo! has quedado registrado a nuestro rss, checkea tu email: ${email} `);
+   });
+</script>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Deseas salir ?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Selecciona "Salir" para terminar la sesion actual.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+        <a class="btn btn-primary" href="/exit">Salir</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>

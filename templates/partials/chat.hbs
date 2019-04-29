@@ -1,4 +1,4 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
@@ -10,7 +10,7 @@
         <div class="inbox_people">
           <div class="headind_srch">
             <div class="recent_heading">
-              <h4>Mensajes privados</h4>
+              <h4>Historial usuario</h4>
             </div>
             <!-- <div class="srch_bar">
               <div class="stylish-input-group">
@@ -21,32 +21,27 @@
             </div> -->
           </div>
           <div class="inbox_chat">
-            <div class="chat_list active_chat">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
             <div class="chat_list">
               <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_img"> <img src="data:img/jpeg;base64,{{avatar}}" alt="sunil"> </div>
                 <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions
-                    astrology under one roof.</p>
+                  <h5>{{firstname}}<span class="chat_date"></span></h5>
+                  <p>Te has conectado a la sala de chat aqui prodras chatear con los otros usuarios de la aplicacion en publico y en privado</p>
                 </div>
               </div>
             </div>
+            <!-- <form id="formularioPrivado">
+                <input type="text" id="destinatario" placeholder="destinatario">
+                <input type="text" id="textoPrivado" >
+              <button> enviar Privado </button>
+            </form> -->
+            <div id="loginshow"></div>
 
           </div>
         </div>
         <div class="mesgs">
           <div class="msg_history">
-            <h1>Sala de Chat publica</h1>
+            <h1>Sala de Chat pública</h1>
               <div id="chat"></div>
           </div>
           <div class="type_msg">
